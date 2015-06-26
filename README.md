@@ -50,4 +50,4 @@ Clone a copy of the SimpleCMS repository
 - .htaccess
 ```
 ## License
-This project is licensed under the Creative Commons Attribution 3.0 license.
+This project is licensed under the GNU General Public License v2.0.
