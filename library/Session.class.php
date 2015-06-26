@@ -1,0 +1,77 @@
+<?php
+/**
+* A class for handling sessions across the app.
+*
+* @author Ardalan Samimi
+*/
+class Session {
+
+	function __construct() { }
+
+    /**
+     * Set the session variable. If the
+     * '$global' param is set to false
+     * the session variable should not
+     * be accessible by any other class
+     * than the invoking one.
+     *
+     * @param string $key
+     * @param mixed $value
+     * @param bool $global (optional)
+     */
+	public function setSessionVariable($key, $value, $global = TRUE) {
+		$variableName = self::constructVariableName($key, $global);
+		$_SESSION[$variableName] = $value;
+	}
+
+    /**
+     * Retrieves the session variable.
+     *
+     * @param string $key
+     * @param bool $global (optional)
+     * @return mixed
+     */
+	public function getSessionVariable($key, $global = TRUE) {
+		$variableName = self::constructVariableName($key, $global);
+		return isset($_SESSION[$variableName]) ? $_SESSION[$variableName] : NULL;
+	}
+
+    /**
+     * Clears the session variable.
+     *
+     * @param string $key
+     * @param bool $global (optional)
+     */
+	public function clearSessionVariable($key, $global = TRUE) {
+		$variableName = self::constructVariableName($key, $global);
+		unset($_SESSION[$variableName]);
+	}
+
+    /**
+     * Checks if a session is set.
+     *
+     * @param string $key
+     * @return bool
+     */
+	public function checkSessionVariableFromExtClass($key) {
+		return isset($_SESSION[$key]) ? TRUE : FALSE;
+	}
+
+    /**
+     * Generates a name for the session variable. If the
+     * global parameter is TRUE the name should have the
+     * prefix of the apps short name, otherwise the class.
+     *
+     * @param string $key
+     * @param bool $global
+     * @return string
+     */
+	private function constructVariableName($key, $global = TRUE) {
+		if ($global)
+			return APP_NAME_SHORT . '_' . $key;
+		else
+			return get_called_class() . '_' . $key;
+	}
+}
+
+?>
