@@ -13,7 +13,7 @@ Clone a copy of the Helium repository
 * Create a MySQL database and supply the database constants in the file /library/Config.php with the appropriate values.
 
 ### Usage
-* Just start creating your controllers (application logic), models (data-access logic) and views and templates (design/design logic) as per the folder structure below.
+* Just start creating your controllers (application logic), models (data-access logic) and views and templates (design) as per the folder structure below.
 ```
 - application/
    - controllers/
