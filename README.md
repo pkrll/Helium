@@ -1,15 +1,15 @@
-# SimpleCMS
+# Helium
 ## What is it?
-SimpleCMS (Content Management System) is a web based application (written in PHP5 and JavaScript/jQuery) for authoring, editing and otherwise managing the content and data of a website.
+Helium is a web based application (written in PHP5 and JavaScript/jQuery) for authoring, editing and otherwise managing the content and data of a website, a Simple CMS.
 ## Why not done?
 It will be, eventually.
 ## How to use?
 ### Download
-Clone a copy of the SimpleCMS repository
-   > git clone git://github.com/pkrll/SimpleCMS.git
+Clone a copy of the Helium repository
+   > git clone git://github.com/pkrll/Helium.git
 
 ### Installation
-* Set up a virtual host in Apache, pointing to the SimpleCMS directory.
+* Set up a virtual host in Apache, pointing to the Helium directory.
 * Create a MySQL database and supply the database constants in the file /library/Config.php with the appropriate values.
 
 ### Usage
