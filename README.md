@@ -1,4 +1,4 @@
-# Helium
+# Helium ![Temporary logo] (https://raw.githubusercontent.com/pkrll/Helium/master/public/images/system/admin/tmp-logo-black.png)
 ## What is it?
 Helium is a web based application (written in PHP5 and JavaScript/jQuery) for authoring, editing and otherwise managing the content and data of a website, a Simple CMS.
 ## Why not done?
