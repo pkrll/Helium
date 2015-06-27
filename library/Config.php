@@ -4,10 +4,10 @@ date_default_timezone_set("Europe/Stockholm");
 // System specific constants
 define('DEFAULT_CONTROLLER', 'Main');
 define('DEFAULT_METHOD', 'main');
-define(APP_NAME, "SimpleCMS_APP");
-define(APP_NAME_SHORT, "sCMS");
-define(APP_VERSION, "0.1.1");
-define(APP_CODENAME, "Cyclops");
+define(APP_NAME, "Helium");
+define(APP_NAME_SHORT, "He");
+define(APP_DESCRIPTION, "A content management system");
+define(APP_VERSION, "0.1.2");
 
 // DATABASE CONSTANTS
 define(HOSTNAME, FALSE);
