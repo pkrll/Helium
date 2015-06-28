@@ -6,13 +6,51 @@ $(document).ready(function() {
         'opacity': 1
     },750);
 
-    $("ul#list-menu > li").click(function() {
+    $("ul#list-menu > li").click(function () {
         var link = $(this).find("a").attr("href") || false;
         if (link !== false)
             window.location.href = link;
     });
 
-    $("input[type=submit]").click(function(event) {
+    $("legend.section").click(function () {
+        var elementsToHide = $(this).parent().children(':not(.section)');
+        elementsToHide.toggle();
+        if (elementsToHide.is(":hidden"))
+            $(this).addClass("hidden");
+        else
+            $(this).removeClass("hidden");
+    });
+
+    $("div.button").click(function () {
+        console.log($("#category").val());
+    });
+
+    $("div.add-input").click(function () {
+        var parent = $(this).parent();
+        if ($(this).is(".headline")) {
+            var legend = $("<legend>").attr({
+                "id": "small-headline"
+            }).html("Small headline:").appendTo(parent);
+            var input = $("<input>").attr({
+                "type": "text",
+                "name": "smallHeadline",
+                "id": "small-headline",
+                "autocomplete": "off",
+                "required": "required"
+            }).appendTo(parent);
+            $(this).remove();
+        } else {
+            parent = parent.find("label");
+            var input = $("<input>").attr({
+                "type": "text",
+                "name": "links[]",
+                "placeholder": "Search for article..."
+            }).appendTo(parent);
+        }
+
+    });
+
+    $("input[type=submit]").click(function (event) {
         // Safari does not fully support the HTML5
         // attribute 'required' as does Chrome and
         // Firefox, check if the form elements are

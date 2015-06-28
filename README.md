@@ -50,4 +50,4 @@ Clone a copy of the Helium repository
 - .htaccess
 ```
 ## License
-This project is licensed under the GNU General Public License v2.0.
+This project is licensed under the GNU General Public License v2.0. The logo was created by Designmodo under the Creative Commons (Attribution 3.0 Unported) license.

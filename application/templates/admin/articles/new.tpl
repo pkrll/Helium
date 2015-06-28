@@ -1,13 +1,13 @@
 
-            <div style="width:100%;display:table;">
-                <!-- <div style="width:100px;border:1px solid #000;border-bottom:none;border-radius:8px 8px 0 0; padding:4px;text-align:center;background:#fff;">
-                    New article
-                </div> -->
+            <div id="form-container" style="">
                 <form id="article" action="/admin/" method="post">
-                    <div style="padding:8px 15px 8px 15px;display:table-cell;width:68%;">
+                    <div id="left-side">
                             <fieldset>
                                 <legend>Headline:</legend>
                                 <input maxlength="140" type="text" name="headline" id="headline" autocomplete="off" required />
+                                <div class="add-input headline">
+                                    <span>+</span> Add small headline
+                                </div>
                             </fieldset>
 
                             <fieldset>
@@ -20,28 +20,108 @@
                                 <textarea name="body" id="body" required></textarea>
                             </fieldset>
 
-                            <input type="submit" />
+                            <div class="section">
+                                <fieldset>
+                                    <legend class="section">images</legend>
+                                    <div class="subsection">
+                                        <div>Cover</div>
+                                    </div>
+                                </fieldet>
+                            </div>
 
                     </div>
 
-                    <div style="display:table-cell;border-left:1px solid rgba(0,0,0,.2);width:26%;">
-                        <div style="background:#eee;padding:18px 15px;">
-                            <a href="" class="button publish" style="">
-                                    Publish
-                            </a>
-
-                            <div class="button preview" style="">
-                                    Preview
+                    <div id="right-side">
+                        <div id="button" class="section">
+                            <div class="button publish">
+                                Publish
+                            </div>
+                            <div class="button preview">
+                                Preview
                             </div>
                         </div>
-                        <div style="margin-top:24px;background:#ddd;padding:18px 15px;">
-                            <fieldset style="">
-                                <legend>V&auml;lj kategori</legend>
-                                <select style="width:100%;padding:10px;">
-                                    <option>A</option>
-                                </select>
+
+                        <div class="section">
+                            <fieldset>
+                                <legend class="section">taxonomy</legend>
+
+                                <div class="subsection">
+                                    <label class="select">
+                                        <select name="category" id="category">
+                                            <option>Choose category</option>
+                                            <option value="12">Category 1</option>
+                                            <option>Category 2</option>
+                                            <option>Category 3</option>
+                                        </select>
+                                    </label>
+                                </div>
+
+                                <div class="subsection">
+                                    <label class="select">
+                                        <select name="theme" id="theme">
+                                            <option>Choose theme (optional)</option>
+                                            <option value="1">Theme 1</option>
+                                            <option>Theme 2</option>
+                                            <option>Theme 3</option>
+                                        </select>
+                                    </label>
+                                </div>
+
+                                <div class="subsection">
+                                    <label>
+                                        <div>Tags</div>
+                                        <input type="text" name="tags" id="tags" placeholder="HTML5, PHP programming, fun ..." />
+                                    </label>
+                                </div>
+
+                                <div class="subsection">
+                                    <label>
+                                        <div>Internal links</div>
+                                        <input type="text" name="links[]" placeholder="Search for article..." />
+                                    </label>
+                                    <div class="add-input">
+                                        <span>+</span> Add link
+                                    </div>
+                                </div>
+
                             </fieldset>
                         </div>
+
+                        <div class="section">
+                            <fieldset>
+                                <legend class="section">extra</legend>
+                                <div class="subsection">
+                                    <label>
+                                        <div>Fact box</div>
+                                        <textarea name="fact" id="fact"></textarea>
+                                    </label>
+                                </div>
+                            </fieldset>
+                        </div>
+
+                        <div class="section">
+                            <fieldset>
+                                <legend class="section">publishing options</legend>
+                                <div class="subsection">
+                                    <label>
+                                        <div>Publish on</div>
+                                        <input type="date"/>
+                                    </label>
+                                </div>
+                            </fieldset>
+                        </div>
+
+                        <div class="section">
+                            <fieldset>
+                                <legend class="section">authoring information</legend>
+                                <div class="subsection">
+                                    <label>
+                                        <input type="text" name="author" placeholder="Add author..." />
+                                    </label>
+                                </div>
+                            </fieldset>
+                        </div>
+
                     </div>
                 </form>
             </div>
