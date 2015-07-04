@@ -1,0 +1,210 @@
+body {
+	background:rgba(54,73,92,0.8);
+	color:#000;
+}
+
+div#container {
+	width:100%;
+}
+
+div#container div#searchbox {
+	width:100%;
+	padding:4px 0 4px 0;
+	background:rgba(54,73,92,1);
+    background:#105B63;
+    background-image: -webkit-linear-gradient(top, rgba(51, 33, 69, 1) 70%, rgba(36, 23, 48, 1) 100%);
+
+}
+
+div#container div#searchbox div.labels {
+	font-size:16px;
+	font-family:'Numans', Sans-serif;
+	display:inline-block;
+	padding:8px 12px 8px 12px;
+}
+
+div#container div#searchbox div.labels.button a {
+	color:#fff;
+	text-decoration:none;
+}
+
+div#container div#searchbox div.labels.button a:hover {
+	color:#de1212;
+	cursor:pointer;
+}
+
+div#container div#searchbox input {
+    -moz-appearance:textfield;
+    -webkit-appearance:textfield;
+	font-family:'Numans', sans-serif;
+	font-size:14px;
+	color:#fff;
+	width:200px;
+	padding:4px 0px 4px 24px;
+	margin:4px 15px 4px 0;
+	border-radius:5px;
+	border:1px solid rgba(255,255,255,0.4);
+	background:none;
+	background-image:url('/public/images/system/search.png');
+    background-repeat:no-repeat;
+	background-size: 19px;
+    background-position: 3px 2px;
+    outline: none;
+}
+
+div#container div#searchbox input:focus {
+  box-shadow: 0 0 2px rgba(255,255,255, 1);
+}
+
+div#container div#searchbox input::-webkit-search-decoration { color:#fff; }
+div#container div#searchbox input::-webkit-search-cancel-button { background:#fff;; }
+div#container div#searchbox input::-webkit-search-results-button { display:none; }
+div#container div#searchbox input::-webkit-search-results-decoration { color:#fff; }
+div#container div#searchbox input::-webkit-input-placeholder { color:#fff; }
+div#container div#searchbox input:-moz-placeholder { color:#fff; }
+div#container div#searchbox input::-moz-placeholder { color:#fff; }
+div#container div#searchbox input:-ms-input-placeholder { color:#fff; }
+div#container div#searchbox input::-webkit-input-placeholder { color:#fff; }
+
+div#upload {
+	margin:auto;
+	width:50%;
+	padding:24px;
+}
+
+div#upload fieldset {
+	border:none;
+	margin-bottom:10px;
+}
+
+div#upload fieldset.dragzone {
+	border:2px dashed #aaa;
+	font-size:14px;
+	font-family:'Numans';
+	position:relative;
+    border-radius: 4px;
+	text-align:center;
+}
+
+div#upload fieldset.dragzone:after {
+	content:"";
+	background-image:url("/public/images/system/big-arrow-down.png");
+	background-repeat:no-repeat;
+	background-position:center;
+	opacity: 0.1;
+    z-index:1;
+	top:0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	position:absolute;
+	pointer-events: none;
+}
+
+div#upload fieldset div {
+	font-size:14px;
+}
+
+div#upload div.preview {
+	padding:8px 0 8px 0;
+	width:100%;
+	text-align:center;
+}
+
+div#upload div.preview fieldset p {
+	font-size:12px;
+
+}
+
+div#upload div.preview fieldset img {
+	max-width:100%;
+	cursor:pointer;
+}
+
+div#navigation {
+	width:100%;
+	margin:auto;
+	text-align:center;
+	padding:12px 0 8px 0;
+}
+
+div#gallery div.image-item {
+	border-bottom:1px solid rgba(0,0,0,0.4);
+	width:100%;
+}
+
+div#gallery > div:nth-child(odd) {
+	background:rgba(54,73,92,0.5);
+}
+
+div#gallery > div:nth-child(even) {
+	background:rgba(54,73,92,0.8);
+}
+
+div#gallery div.image-item:not(.header):hover {
+	background:rgba(255,255,255,1);
+	cursor:pointer;
+	color:rgba(0,0,0,1);
+}
+
+div#gallery div.image-item.header, div#gallery div.image-item.header div {
+	max-height:30px;
+	font-weight:bold;
+}
+
+div#gallery div.image-item div {
+	display:inline-block;
+	vertical-align:middle;
+	font-size:14px;
+}
+
+div#gallery div.image-item div:first-of-type {
+	width:20%;
+	max-width:50px;
+	height:50px;
+	overflow:hidden;
+}
+
+div#gallery div.image-item div:first-of-type img {
+	width:50px;
+}
+
+div#gallery div.image-item div:not(:first-of-type) {
+	padding-left:8px;
+	width:20%;
+	text-align:center;
+}
+
+div#gallery div.image-item div:nth-child(2) {
+	width:45%;
+	overflow:hidden;
+	text-align:left;
+}
+
+div#navigation {
+	font-size:16px;
+}
+
+div#navigation a {
+	color:orange;
+	text-decoration:none;
+	padding:0 2px 0 2px;
+}
+
+div#navigation a:hover {
+	color:#000;
+}
+
+div#upload fieldset.highlight {
+	border: 2px dashed #0B85A1;
+}
+
+.progressbar {
+	margin-top:12px;
+	border:1px solid #000;
+}
+
+.progress {
+	background:green;
+	width:0%;
+}

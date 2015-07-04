@@ -10,9 +10,14 @@
         <link href='http://fonts.googleapis.com/css?family=Dosis:400,700|Ubuntu:400,500|IM+Fell+English|Laila:400,500|Oxygen|Numans' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Cabin:400,700|PT+Sans+Narrow|Raleway:400,600|Karla' rel='stylesheet' type='text/css'>
         <script src="/public/javascript/jquery-2.1.4.min.js"></script>
-        <script src="/public/javascript/plugin/browser-1.0.js"></script>
-        <script src="/public/javascript/plugin/formhandler-1.0.js"></script>
         <script src="/public/javascript/main.js"></script>
+<?php
+    if (!empty($scripts)) {
+        foreach ($scripts as $key => $value) {
+            echo "<script src=\"/public/javascript/{$value}\"></script>";
+        }
+    }
+?>
     </head>
     <body>
         <div id="container">

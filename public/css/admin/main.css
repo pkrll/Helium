@@ -118,3 +118,18 @@ div#splash ul#list-menu li div.label {
     font-size:14px;
     padding:0 8px 0 8px;
 }
+
+#errorMessage {
+	position:fixed;
+	left:0;
+	bottom:0;
+	z-index:99;
+	width:100%;
+	text-align:center;
+	background:rgba(180,0,0,1);
+	color:#fff;
+	padding:10px 20px 10px 20px;
+	cursor:pointer;
+	font-size:17px;
+	font-family:Sans-serif;
+}

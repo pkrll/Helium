@@ -18,7 +18,7 @@ form#article {
 }
 
 form#article div#left-side {
-    padding:20px 50px 8px 25px;
+    padding:20px 30px 8px 25px;
     width:70%;
 }
 
@@ -41,6 +41,11 @@ form#article div#left-side fieldset {
 
 form#article div#left-side fieldset legend {
     font-size:14px;
+    padding-bottom:2px;
+}
+
+form#article div#left-side div.section fieldset legend {
+    font-size:16px;
 }
 
 form#article div#left-side fieldset legend#small-headline {
@@ -105,8 +110,12 @@ form#article div#right-side div.section {
 
 form#article div.section div.subsection div:not(.add-input) {
     font-size:12px;
-    font-weight:bold;
     padding:0 0 4px 0;
+}
+
+
+form#article div.section div.subsection div.label {
+    font-weight:bold;
 }
 
 /* Apply to all but first div child of subsection */
@@ -265,6 +274,26 @@ form#article textarea.error {
 
 form#article input[type="text"].error { background-position: 99% 3px; }
 form#article textarea.error { background-position: 99% 50%; }
+
+div.dragzone {
+    position:relative;
+}
+
+div.dragzone:after {
+	content:"";
+	background-image:url("/public/images/system/big-arrow-down-black.png");
+	background-repeat:no-repeat;
+	background-position:center;
+	opacity: 0.1;
+    z-index:1;
+	top:0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	position:absolute;
+	pointer-events: none;
+}
+
 
 form#article div.error {
     font-size:14px;
