@@ -10,53 +10,93 @@
                             </div>
                         </fieldset>
 
-                        <fieldset>
+                        <fieldset class="textarea">
                             <legend>Preamble</legend>
                             <textarea name="preamble" id="preamble" required></textarea>
                         </fieldset>
 
-                        <fieldset>
+                        <fieldset class="textarea">
                             <legend>Body</legend>
                             <textarea name="body" id="body" required></textarea>
-                            <script>
-								CKEDITOR.replace( 'body', {
-									toolbar: [
-										['Bold', 'Italic', 'Underline'],
-										['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord'],
-										['RemoveFormat'],
-										['Link', 'Unlink', 'Image'],
-										['Format','Source'],
-									],
-									width:"100%",
-									height:"400px",
-								} );
-							</script>
                         </fieldset>
 
-                        <fieldset style="border:3px dashed rgba(0,0,0,0.2);" class="image-cover">
+                        <fieldset class="image-cover dragzone" style="border-top:1px solid #ddd;">
                             <legend>Cover image&nbsp;</legend>
-                            <div id="dragzone" style="text-align:center;font-size:15px; padding:20px;width:50%;margin:auto;">
-                                <div style="padding:10px 0 15px 0;">Upload image by dragging it onto this field, or use the dialog below.</div>
+                            <div class="dragzone">
+                                <div style="padding:10px 0 15px 0;">Upload image by dragging it onto this field, or use the button below.</div>
 
-                                <div style="padding:10px 0 15px 0">
+                                <div class="browse-box">
                                     <input type="file" id="image-cover" />
                                     <button class="image-event-button" data-type="cover" data-action="upload">Upload</button>
                                 </div>
 
-                                <div style="padding:10px 0 0 0;">
-                                    <span style="color:#de1212;cursor:pointer">Choose from gallery</span>
-                                    </div>
-
+                                <div class="gallery-box">
+                                    <span>Choose from gallery</span>
+                                </div>
                             </div>
+                            <!-- <div class="picture-box">
+                                <div class="picture">
+                                    <img src="/public/images/uploads/normal/jimmie_559822b5bdc44.jpg"/>
+                                </div>
+                                <div class="caption">
+                                    <div>
+                                        <input type="text" placeholder="Caption"/>
+                                    </div>
+                                    <div class="image-event-button" data-type="cover" data-action="remove">Remove picture</div>
+                                </div>
+                            </div> -->
                         </fieldset>
 
-                        <fieldset style="border-top:1px solid rgba(0,0,0,0.2)">
-                            <legend>Slidshow&nbsp;</legend>
-                            <div style="text-align:center;font-size:15px;">
-                                <div style="">Upload image</div>
-                                <div style="">or</div>
-                                <div style="">Choose from gallery</div>
+                        <fieldset class="image-slideshow dragzone">
+                            <legend>Slideshow&nbsp;</legend>
+                            <div class="dragzone">
+                                <div style="padding:10px 0 15px 0;">
+                                    Upload image by dragging it onto this field, or use the button below.
+                                </div>
+
+                                <div class="browse-box">
+                                    <input type="file" id="image-cover" />
+                                    <button class="image-event-button" data-type="cover" data-action="upload">Upload</button>
+                                </div>
+
+                                <div class="gallery-box">
+                                    <span>Choose from gallery</span>
+                                </div>
+
                             </div>
+
+                            <!-- <div class="picture-box-container">
+
+                                <div class="picture-box">
+                                    <div class="picture">
+                                        <img src="/public/images/uploads/thumbnails/Johan-Tisell_55982a30e9d14.jpg" />
+                                    </div>
+
+                                    <div class="caption">
+                                        <div class="image-event-button" data-type="slideshow" data-action="remove">Remove picture
+                                        </div>
+                                        <div>
+                                            <input type="text" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="picture-box">
+                                    <div class="picture">
+                                        <img src="/public/images/uploads/thumbnails/dr_559829120e302.jpg" />
+                                    </div>
+
+                                    <div class="caption">
+                                        <div class="image-event-button" data-type="slideshow" data-action="remove">Remove picture
+                                        </div>
+                                        <div>
+                                            <input type="text" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div> -->
+
                         </fieldset>
 
                     </div>
@@ -155,3 +195,27 @@
                     </div>
                 </form>
             </div>
+            <script>
+                // CKEDITOR.replace( 'body', {
+                //     toolbar: [
+                //         ['Bold', 'Italic', 'Underline'],
+                //         ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord'],
+                //         ['RemoveFormat'],
+                //         ['Link', 'Unlink', 'Image'],
+                //         ['Format','Source'],
+                //     ],
+                //     width:"100%",
+                //     height:"400px",
+                // } );
+                //
+                // CKEDITOR.replace( 'preamble', {
+                //     toolbar: [
+                //         ['Bold', 'Italic', 'Underline'],
+                //         ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord'],
+                //         ['RemoveFormat'],
+                //         ['Format','Source'],
+                //     ],
+                //     width:"100%",
+                //     height:"130px",
+                // } );
+            </script>

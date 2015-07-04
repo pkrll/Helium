@@ -8,9 +8,10 @@ class ArticlesModel extends Model {
         $scripts = array(
             "plugin/progressbar-1.0.js",
             "plugin/formhandler-1.0.js",
-            "form.js",
-            "imagehandler.js",
-            "elements.js",
+            "helium.form.js",
+            "helium.imagehandler.js",
+            "helium.elements.js",
+            "helium.dragdrop.js",
             "ckeditor/ckeditor.js"
         );
 

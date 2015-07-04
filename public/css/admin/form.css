@@ -26,6 +26,7 @@ form#article div#right-side {
     border-left:1px solid rgba(0,0,0,.3);
     width:30%;
     min-width:210px;
+    background: #eee;
 }
 
 form#article fieldset {
@@ -44,8 +45,8 @@ form#article div#left-side fieldset legend {
     padding-bottom:2px;
 }
 
-form#article div#left-side div.section fieldset legend {
-    font-size:16px;
+form#article div#left-side fieldset.textarea legend {
+    padding-bottom:6px;
 }
 
 form#article div#left-side fieldset legend#small-headline {
@@ -60,6 +61,10 @@ form#article div.add-input {
     padding:6px 0 0 0;
 }
 
+form#article div.add-input:hover {
+    color: #de1212;
+}
+
 form#article div.add-input span {
     color:#de1212;
     font-weight:bold;
@@ -69,7 +74,7 @@ form#article input[type="text"],
 form#article input[type="date"],
 form#article textarea {
     font-family: 'Helvetica', sans-serif;
-    border:1px solid rgba(0,0,0,0.4);
+    border:1px solid rgba(0,0,0,0.3);
     padding:4px;
 	width:100%;
     -webkit-box-sizing: border-box;
@@ -87,7 +92,7 @@ form#article textarea {
 }
 
 form#article textarea#preamble {
-    height:120px;
+    height:130px;
 }
 
 form#article textarea#body {
@@ -99,8 +104,149 @@ form#article textarea#fact {
     height:100px;
 }
 
-form#article div#left-side div.section {
-    padding:10px 0px;
+form#article fieldset.dragzone {
+    border:1px dashed rgba(0,0,0,.3);
+    margin-bottom:12px;
+}
+
+form#article fieldset.dragzone legend {
+    padding-left:8px;
+}
+
+form#article fieldset.dragzone div.dragzone {
+    text-align:center;
+    font-size:15px;
+    padding:20px;
+    width:50%;
+    margin:auto;
+    position:relative;
+}
+
+form#article fieldset.dragzone div.dragzone:after {
+	content:"";
+	background-image:url("/public/images/system/big-arrow-down-black.png");
+	background-repeat:no-repeat;
+	background-position:center;
+	opacity: 0.1;
+    z-index:1;
+	top:0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	position:absolute;
+	pointer-events: none;
+}
+
+form#article fieldset.dragzone div.dragzone div.browse-box {
+    padding:10px 0 15px 0;
+}
+
+form#article fieldset.dragzone div.dragzone div.gallery-box {
+    padding:10px 0 0 0;
+}
+
+form#article fieldset.dragzone div.dragzone div.gallery-box span {
+    color:#de1212;
+    cursor:pointer
+}
+
+form#article fieldset.image-cover div.picture-box {
+    padding:10px 5px;
+    text-align: center;
+}
+
+form#article fieldset.image-slideshow div.picture-box-container {
+    padding:10px 5px;
+}
+
+form#article fieldset.image-slideshow div.picture-box-container div.picture-box {
+    display:-webkit-flex;
+    width:70%;
+    border:1px solid rgba(0,0,0,0.3);
+    border-radius:4px;
+    margin:0 auto;
+    margin-bottom:8px;
+    padding:10px;
+}
+
+
+form#article fieldset.image-cover div.picture-box div.picture {
+    width:70%;
+    min-width:150px;
+    display:inline-block;
+}
+
+form#article fieldset.image-cover div.picture-box div.picture > img {
+    width:100%;
+    min-width:150px;
+}
+
+
+form#article fieldset.image-slideshow div.picture-box-container div.picture-box div.picture {
+    width:20%;
+    min-width:90px;
+    padding-right:8px;
+}
+
+form#article fieldset.image-cover div.picture-box div.caption {
+    width:70%;
+    font-size:13px;
+    display:inline-block;
+}
+
+form#article fieldset.image-cover div.picture-box div.caption div {
+    padding-bottom:2px;
+}
+
+form#article fieldset div.picture-box div.image-event-button {
+    color:#de1212;
+    cursor:pointer;
+    font-size:13px;
+}
+
+form#article fieldset div.picture-box div.image-event-button:hover {
+    color:#000;
+}
+
+form#article fieldset.image-slideshow div.picture-box-container div.picture-box div.caption {
+    width:80%;
+    display:-webkit-flex;
+    -ms-box-orient: horizontal;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction:column;
+    -webkit-justify-content: space-between;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+form#article fieldset.image-slideshow div.picture-box div.image-event-button {
+    -webkit-align-self: flex-end;
+    align-self: flex-end;
+}
+
+form#article fieldset.image-slideshow div.preview {
+    display:-webkit-flex;
+    -ms-box-orient: horizontal;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-justify-content:space-around;
+    -justify-content:space-around;
+}
+
+form#article fieldset.image-slideshow div.preview div.picture-box {
+    width:25%;
+    padding:10px 5px;
 }
 
 form#article div#right-side div.section {
@@ -112,7 +258,6 @@ form#article div.section div.subsection div:not(.add-input) {
     font-size:12px;
     padding:0 0 4px 0;
 }
-
 
 form#article div.section div.subsection div.label {
     font-weight:bold;
@@ -274,26 +419,6 @@ form#article textarea.error {
 
 form#article input[type="text"].error { background-position: 99% 3px; }
 form#article textarea.error { background-position: 99% 50%; }
-
-div.dragzone {
-    position:relative;
-}
-
-div.dragzone:after {
-	content:"";
-	background-image:url("/public/images/system/big-arrow-down-black.png");
-	background-repeat:no-repeat;
-	background-position:center;
-	opacity: 0.1;
-    z-index:1;
-	top:0;
-	left: 0;
-	bottom: 0;
-	right: 0;
-	position:absolute;
-	pointer-events: none;
-}
-
 
 form#article div.error {
     font-size:14px;

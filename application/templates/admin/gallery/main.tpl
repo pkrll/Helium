@@ -13,13 +13,13 @@
     <link href='http://fonts.googleapis.com/css?family=Dosis:400,700|Ubuntu:400,500|IM+Fell+English|Laila:400,500|Oxygen|Numans' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Cabin:400,700|PT+Sans+Narrow|Raleway:400,600|Karla' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="/public/javascript/jquery-2.1.4.min.js"></script>
-    <script type="text/javascript" src="/public/javascript/ckeditor/ckeditor.js"></script>
-    <script type="text/javascript" src="/public/javascript/main.js"></script>
-    <script type="text/javascript" src="/public/javascript/ajax.js"></script>
-    <script type="text/javascript" src="/public/javascript/gallery.js"></script>
+    <script type="text/javascript" src="/public/javascript/helium.js"></script>
+    <script type="text/javascript" src="/public/javascript/helium.ajax.js"></script>
+    <script type="text/javascript" src="/public/javascript/helium.gallery.js"></script>
     <script type="text/javascript" src="/public/javascript/plugin/progressbar-1.0.js"></script>
-    <script type="text/javascript" src="/public/javascript/imagehandler.js"></script>
-    <script type="text/javascript" src="/public/javascript/elements.js"></script>
+    <script type="text/javascript" src="/public/javascript/helium.imagehandler.js"></script>
+    <script type="text/javascript" src="/public/javascript/helium.elements.js"></script>
+    <script type="text/javascript" src="/public/javascript/helium.dragdrop.js"></script>
 </head>
 <body style="margin:0;">
 	<div id="container">
@@ -34,7 +34,7 @@
 
 		<div id="upload">
 			<fieldset class="image-ckeditor dragzone">
-                <div id="dragzone">
+                <div class="dragzone">
     				<div class="image-ckeditor-input">
     					<p><?=ADMIN_GALLERY_DRAGANDDROP?></p>
     					<p><?=ADMIN_GALLERY_ALLOWEDEXTS?></p>

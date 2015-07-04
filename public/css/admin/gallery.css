@@ -1,6 +1,6 @@
 body {
 	background:rgba(54,73,92,0.8);
-	color:#000;
+	color:#fff;
 }
 
 div#container {
@@ -13,7 +13,6 @@ div#container div#searchbox {
 	background:rgba(54,73,92,1);
     background:#105B63;
     background-image: -webkit-linear-gradient(top, rgba(51, 33, 69, 1) 70%, rgba(36, 23, 48, 1) 100%);
-
 }
 
 div#container div#searchbox div.labels {
@@ -142,9 +141,9 @@ div#gallery > div:nth-child(even) {
 }
 
 div#gallery div.image-item:not(.header):hover {
-	background:rgba(255,255,255,1);
+	background:rgba(255,255,255,.2);
 	cursor:pointer;
-	color:rgba(0,0,0,1);
+	color:#000;
 }
 
 div#gallery div.image-item.header, div#gallery div.image-item.header div {
@@ -193,10 +192,6 @@ div#navigation a {
 
 div#navigation a:hover {
 	color:#000;
-}
-
-div#upload fieldset.highlight {
-	border: 2px dashed #0B85A1;
 }
 
 .progressbar {
