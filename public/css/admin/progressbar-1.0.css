@@ -15,9 +15,11 @@
 	background:#ededed;
 	padding:15px 15px 5px 15px;
 	width:200px;
-	margin:auto;
     box-shadow: 1px 1px 5px rgba(0,0,0,.5);
 	border-radius:10px;
+	position:fixed;
+	top: 30%;
+	left:30%;
 }
 
 .progress-bar-label {
@@ -26,6 +28,7 @@
 	text-align:center;
 	width:100%;
 	padding:4px 0 0px 0;
+	color:#000;
 }
 
 progress#progress-bar {

@@ -20,10 +20,10 @@
                             <textarea name="body" id="body" required></textarea>
                         </fieldset>
 
-                        <fieldset class="image-cover dragzone" style="border-top:1px solid #ddd;">
-                            <legend>Cover image&nbsp;</legend>
+                        <fieldset class="image-cover dragzone" data-type="cover">
+                            <legend>Cover image</legend>
                             <div class="dragzone">
-                                <div style="padding:10px 0 15px 0;">Upload image by dragging it onto this field, or use the button below.</div>
+                                <div>Upload image by dragging it onto this field, or use the button below.</div>
 
                                 <div class="browse-box">
                                     <input type="file" id="image-cover" />
@@ -34,23 +34,12 @@
                                     <span>Choose from gallery</span>
                                 </div>
                             </div>
-                            <!-- <div class="picture-box">
-                                <div class="picture">
-                                    <img src="/public/images/uploads/normal/jimmie_559822b5bdc44.jpg"/>
-                                </div>
-                                <div class="caption">
-                                    <div>
-                                        <input type="text" placeholder="Caption"/>
-                                    </div>
-                                    <div class="image-event-button" data-type="cover" data-action="remove">Remove picture</div>
-                                </div>
-                            </div> -->
                         </fieldset>
 
                         <fieldset class="image-slideshow dragzone">
-                            <legend>Slideshow&nbsp;</legend>
+                            <legend>Slideshow</legend>
                             <div class="dragzone">
-                                <div style="padding:10px 0 15px 0;">
+                                <div>
                                     Upload image by dragging it onto this field, or use the button below.
                                 </div>
 
@@ -73,8 +62,8 @@
                                     </div>
 
                                     <div class="caption">
-                                        <div class="image-event-button" data-type="slideshow" data-action="remove">Remove picture
-                                        </div>
+                                        <span class="image-event-button" data-type="slideshow" data-action="remove">Remove picture
+                                        </span>
                                         <div>
                                             <input type="text" />
                                         </div>
@@ -87,8 +76,8 @@
                                     </div>
 
                                     <div class="caption">
-                                        <div class="image-event-button" data-type="slideshow" data-action="remove">Remove picture
-                                        </div>
+                                        <span class="image-event-button" data-type="slideshow" data-action="remove">Remove picture
+                                        </span>
                                         <div>
                                             <input type="text" />
                                         </div>
@@ -196,26 +185,26 @@
                 </form>
             </div>
             <script>
-                // CKEDITOR.replace( 'body', {
-                //     toolbar: [
-                //         ['Bold', 'Italic', 'Underline'],
-                //         ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord'],
-                //         ['RemoveFormat'],
-                //         ['Link', 'Unlink', 'Image'],
-                //         ['Format','Source'],
-                //     ],
-                //     width:"100%",
-                //     height:"400px",
-                // } );
-                //
-                // CKEDITOR.replace( 'preamble', {
-                //     toolbar: [
-                //         ['Bold', 'Italic', 'Underline'],
-                //         ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord'],
-                //         ['RemoveFormat'],
-                //         ['Format','Source'],
-                //     ],
-                //     width:"100%",
-                //     height:"130px",
-                // } );
+                CKEDITOR.replace( 'body', {
+                    toolbar: [
+                        ['Bold', 'Italic', 'Underline'],
+                        ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord'],
+                        ['RemoveFormat'],
+                        ['Link', 'Unlink', 'Image'],
+                        ['Format','Source'],
+                    ],
+                    width:"100%",
+                    height:"400px",
+                } );
+
+                CKEDITOR.replace( 'preamble', {
+                    toolbar: [
+                        ['Bold', 'Italic', 'Underline'],
+                        ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord'],
+                        ['RemoveFormat'],
+                        ['Format','Source'],
+                    ],
+                    width:"100%",
+                    height:"130px",
+                } );
             </script>

@@ -119,6 +119,11 @@ div#splash ul#list-menu li div.label {
     padding:0 8px 0 8px;
 }
 
+div#upload fieldset.dragzone.highlight,
+form#article fieldset.dragzone.highlight {
+	border: 1px dashed #0B85A1;
+}
+
 #errorMessage {
 	position:fixed;
 	left:0;

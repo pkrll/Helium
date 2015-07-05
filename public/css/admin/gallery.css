@@ -83,6 +83,8 @@ div#upload fieldset.dragzone {
 	position:relative;
     border-radius: 4px;
 	text-align:center;
+	height:160px;
+	padding-top:20px;
 }
 
 div#upload fieldset.dragzone:after {

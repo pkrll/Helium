@@ -14,7 +14,6 @@ $(document).ready(function() {
 		xhr.onload = function() {
 			// If the request succeeded
 			if (xhr.status === 200) {
-				console.log(xhr.responseText);
 				var response = jQuery.parseJSON(xhr.responseText);
 				if (response.error) {
 					element.find("img").remove();
@@ -35,10 +34,9 @@ $(document).ready(function() {
 		xhr.send(data);
 	}
 
-	$.fn.removeImage = function (type, imageID, element) {
+	$.fn.removeImage = function (type, imageID) {
 		var type 	= type || false;
-		var imageId = imageId || false;
-		var element = element || false;
+		var imageID = imageID || false;
 		if (imageID === false || type === false)
 			return false;
 
@@ -49,9 +47,9 @@ $(document).ready(function() {
 				// check for errors
 				if (response.error) {
 					$.fn.createErrorMessage("Ett fel har intr&auml;ffat: " + response.error.message);
+					return false;
 				} else {
-					element.remove();
-					$.fn.createCoverImageElements("remove", null);
+					return true;
 				}
 			});
 		}

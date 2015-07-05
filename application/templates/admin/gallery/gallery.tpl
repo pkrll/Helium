@@ -4,11 +4,11 @@
         <meta charset="utf-8">
         <title><?=APP_NAME ?> - Gallery</title>
         <link href="/public/css/fonts.css" rel="stylesheet" type="text/css">
-        <link href="/public/css/main.css" rel="stylesheet" type="text/css">
+        <link href="/public/css/admin/main.css" rel="stylesheet" type="text/css">
         <link href="/public/css/admin/gallery.css" rel="stylesheet" type="text/css">
         <script type="text/javascript" src="/public/javascript/jquery-2.1.4.min.js"></script>
-        <script type="text/javascript" src="/public/javascript/main.js"></script>
-        <script type="text/javascript" src="/public/javascript/gallery.js"></script>
+        <script type="text/javascript" src="/public/javascript/helium.js"></script>
+        <script type="text/javascript" src="/public/javascript/helium.gallery.js"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href='http://fonts.googleapis.com/css?family=Gudea:400,700' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Abel' rel='stylesheet' type='text/css'>
@@ -61,7 +61,7 @@
         			 else if ($page == $gallery["paging"]["current"])
         				 echo " {$page} ";
         			 else
-        				 echo " <a href=\"/admin/gallery/?CKEditor=body&CKEditorFuncNum=0&langCode=en&page={$page}\">{$page}</a> ";
+        				 echo " <a href=\"/admin/gallery/browse/?CKEditor=body&CKEditorFuncNum=0&langCode=en&page={$page}\">{$page}</a> ";
         		}
             }
 ?>

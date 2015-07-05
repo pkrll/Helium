@@ -6,8 +6,8 @@ define('DEFAULT_CONTROLLER', 'Main');
 define('DEFAULT_METHOD', 'main');
 define(APP_NAME, "Helium");
 define(APP_NAME_SHORT, "He");
-define(APP_DESCRIPTION, "A content management system");
-define(APP_VERSION, "0.1.4");
+define(APP_DESCRIPTION, "");
+define(APP_VERSION, "0.9.5");
 
 // DATABASE CONSTANTS
 define(HOSTNAME, FALSE);

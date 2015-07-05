@@ -1,29 +1,52 @@
 $(document).ready(function($) {
 
+    $.fn.bindDragEvents = function () {
+        this.on("dragenter", function (event) { $.fn.dragEnter(event, $(this)); });
+        this.on("dragover", function (event) { $.fn.dragOver(event); });
+        this.on("drop", function (event) { $.fn.drop(event, $(this)); });
+        this.on("dragleave", function (event) { $.fn.dragLeave (event); });
+    }
 
-    $("fieldset.dragzone").on("dragenter", function (event) {
-		$(this).addClass("highlight");
-		$.fn.dragAndDrop(event);
-	});
+    $("fieldset.dragzone").bindDragEvents();
 
-	$("fieldset.dragzone").on("dragover", function (event) { $.fn.dragAndDrop(event); });
+    $.fn.dragEnter = function (event, element) {
+        var element = element || false;
+        if (element !== false)
+            element.addClass("highlight");
+        $.fn.dragAndDrop(event);
+    }
 
-	$("fieldset.dragzone").on("drop", function (event) {
+    $.fn.dragOver = function (event, element) {
+        var element = element || false;
+        if (element !== false)
+            element.removeClass("highlight");
+        $.fn.dragAndDrop(event);
+    }
+
+    $.fn.dragLeave = function (event, element) {
+        var element = element || false;
+        if (element !== false)
+            element.removeClass("highlight");
+        $.fn.dragOver(event);
+    }
+
+    $.fn.drop = function (event, element) {
+        var element = element || false;
+        if (element !== false)
+            var type = element.attr("data-type");
 		$("fieldset.dragzone").removeClass("highlight");
-		$.fn.dragAndDrop(event, "upload");
-	});
+		$.fn.dragAndDrop(event, "upload", type);
+    }
 
-	$(document).on("dragenter", function (event) { $.fn.dragAndDrop(event); });
-	$(document).on("drop", function (event) { $.fn.dragAndDrop(event); });
-	$(document).on("dragover", function (event) {
-		$("fieldset.dragzone").removeClass("highlight");
-		$.fn.dragAndDrop(event);
-	});
+	$(document).on("dragenter", function (event) { $.fn.dragEnter(event); });
+	$(document).on("drop", function (event) { $.fn.drop(event); });
+	$(document).on("dragover", function (event) { $.fn.dragOver(event, $("fieldset.dragzone")); });
 
-	$.fn.dragAndDrop = function (event, action) {
+	$.fn.dragAndDrop = function (event, action, type) {
 		var action = action || false;
+        var type = type || false;
 		// Check which action was requested
-		if (action === false) {
+		if (action === false || type == false) {
 			// Default. Stop everything!
 			event.stopPropagation();
 			event.preventDefault();
@@ -32,31 +55,40 @@ $(document).ready(function($) {
 			// on the #dragzone, sort through
 			// and ignore the non-image files.
 			var files = event.originalEvent.dataTransfer.files;
+            var error = false;
 			var formData = new FormData();
 			$.each(files, function(x, file) {
 				if ($.fn.checkExtension(file.name) === false) {
 					$.fn.createErrorMessage("Du m&aring;ste v&auml;lja en bild med r&auml;tt &auml;ndelse.");
+                    error = true;
 					return false;
 				} else {
 					// Create the FormData to send
 					formData.append('file'+x, file);
 				}
-			});
 
+                if (type === "cover")
+                    return false;
+			});
+            if (error)
+                return false;
 			// Create the container for the progressbar
-			var element = $("<div>").attr({"id": "progress-bar-container"}).appendTo("div#upload");
+			var element = $("<div>").attr({
+                "id": "progress-bar-container"
+            }).css({
+                "left": (($(window).width() / 2) - (200/2))
+            }).appendTo("body");
 			// Create the progress bar before sending
 			var statusbar = new ProgressBar ({
 				color: "#000",
 				parentElement: element
 			});
 			statusbar.createBar();
-			$.fn.send(formData, files.length, statusbar);
-
+			$.fn.send(formData, type, files.length, statusbar);
 		}
 	}
 
-	$.fn.send = function (dataPackage, packageSize, progressBar) {
+	$.fn.send = function (dataPackage, type, packageSize, progressBar) {
 		var dataPackage = dataPackage || false;
 		var packageSize = packageSize || false;
 		var progressBar = progressBar || false;
@@ -64,7 +96,7 @@ $(document).ready(function($) {
 			return false;
 		// Set type of image uploading,
 		// for the server to know.....
-		var type = "CKEditor";
+        var type = type || false;
 		// Create the XHR Request.
 		var xhr = new XMLHttpRequest();
 		// These are for onprogress
@@ -94,19 +126,36 @@ $(document).ready(function($) {
 			var completed = (Math.round((++xhr.loaded / xhr.total * 1000) / 10 / 2) + progressBar.getProgress());
 			progressBar.setProgress(completed);
 			xhr.previousBuffer = response;
-
-			try {
-				var image = JSON.parse(contents);
-				$.fn.createCKEditorImageElement(image);
-			} catch (e) {
-				console.log(e);
-			}
-
+            if (type == "ckeditor") {
+                try {
+    				var image = jQuery.parseJSON(contents);
+    				$.fn.createCKEditorImageElement(image);
+    			} catch (e) {
+    				console.log(e);
+                    console.log(contents);
+    			}
+            }
 		}
 
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState === 4) {
-				// DO SOME
+                if (type == "cover") {
+                    try {
+                        var image = jQuery.parseJSON(xhr.responseText);
+
+                        if (type == "cover") {
+                            $.fn.imageHandlerEvent (type, "uploaded", image);
+                        } else {
+
+                        }
+
+                    } catch (e) {
+                        $.fn.createErrorMessage("Ett fel har intr&auml;ffat: " + e)
+                        console.log(e + "\n" + xhr.responseText);
+                    }
+                }
+
+                $("#progress-bar-container").remove();
 			}
 		}
 

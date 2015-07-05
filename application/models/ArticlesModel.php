@@ -12,6 +12,7 @@ class ArticlesModel extends Model {
             "helium.imagehandler.js",
             "helium.elements.js",
             "helium.dragdrop.js",
+            "helium.ajax.js",
             "ckeditor/ckeditor.js"
         );
 

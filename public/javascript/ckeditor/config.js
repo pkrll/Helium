@@ -8,9 +8,9 @@ CKEDITOR.editorConfig = function( config ) {
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
 	CKEDITOR.config.filebrowserImageBrowseUrl = "/admin/gallery/";
-	CKEDITOR.config.filebrowserImageUploadUrl = "/upload/images/";
-	CKEDITOR.config.filebrowserImageWindowWidth = '640';
-	CKEDITOR.config.filebrowserImageWindowHeight = '480';
+	CKEDITOR.config.filebrowserImageUploadUrl = "/upload/imagess/";
+	CKEDITOR.config.filebrowserImageWindowWidth = '815';
+	CKEDITOR.config.filebrowserImageWindowHeight = '680';
 	CKEDITOR.config.skin = 'moono';
 	// CKEDITOR.config.simpleImageBrowserListType = "thumbnails";
 };

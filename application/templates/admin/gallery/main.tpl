@@ -4,7 +4,7 @@
     <meta charset="utf-8">
 	<title><?=APP_NAME ?> - Gallery</title>
 	<link href="/public/css/fonts.css" rel="stylesheet" type="text/css">
-	<link href="/public/css/main.css" rel="stylesheet" type="text/css">
+	<link href="/public/css/admin/main.css" rel="stylesheet" type="text/css">
     <link href="/public/css/admin/gallery.css" rel="stylesheet" type="text/css">
     <link href="/public/css/admin/progressbar-1.0.css" rel="stylesheet" type="text/css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -33,7 +33,7 @@
 
 
 		<div id="upload">
-			<fieldset class="image-ckeditor dragzone">
+			<fieldset class="image-ckeditor dragzone" data-type="ckeditor">
                 <div class="dragzone">
     				<div class="image-ckeditor-input">
     					<p><?=ADMIN_GALLERY_DRAGANDDROP?></p>

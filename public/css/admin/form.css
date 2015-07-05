@@ -104,9 +104,17 @@ form#article textarea#fact {
     height:100px;
 }
 
+form#article fieldset.image-cover,
+form#article fieldset.image-slideshow {
+    border-top:1px solid rgba(0,0,0,.3);
+}
+
 form#article fieldset.dragzone {
     border:1px dashed rgba(0,0,0,.3);
     margin-bottom:12px;
+    background: rgba(200,200,200,.1);
+    background-image: -webkit-linear-gradient(top, rgba(180,180,180, .2) 1%, rgba(200,200,200,.1) 100%);
+    border-radius:8px;
 }
 
 form#article fieldset.dragzone legend {
@@ -169,7 +177,6 @@ form#article fieldset.image-slideshow div.picture-box-container div.picture-box 
     padding:10px;
 }
 
-
 form#article fieldset.image-cover div.picture-box div.picture {
     width:70%;
     min-width:150px;
@@ -198,13 +205,13 @@ form#article fieldset.image-cover div.picture-box div.caption div {
     padding-bottom:2px;
 }
 
-form#article fieldset div.picture-box div.image-event-button {
+form#article fieldset div.picture-box span.image-event-button {
     color:#de1212;
     cursor:pointer;
     font-size:13px;
 }
 
-form#article fieldset div.picture-box div.image-event-button:hover {
+form#article fieldset div.picture-box span.image-event-button:hover {
     color:#000;
 }
 
@@ -224,7 +231,7 @@ form#article fieldset.image-slideshow div.picture-box-container div.picture-box 
     justify-content: space-between;
 }
 
-form#article fieldset.image-slideshow div.picture-box div.image-event-button {
+form#article fieldset.image-slideshow div.picture-box span.image-event-button {
     -webkit-align-self: flex-end;
     align-self: flex-end;
 }
