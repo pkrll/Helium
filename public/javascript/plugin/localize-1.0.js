@@ -18,9 +18,12 @@
         },
 
         setLocaleString: function (lang) {
+            var file = '/public/javascript/lang/lang.'+lang+'.json';
             var self = this;
-            $.getJSON('/public/javascript/lang/lang.'+lang+'.json').success(function (data) {
+            $.getJSON(file, function(data) {
                 self.localizedStrings = data;
+            }).fail(function () {
+                self.localizedStrings = "";
             });
         }
     }

@@ -174,8 +174,13 @@
                             <fieldset>
                                 <legend class="section">authoring information</legend>
                                 <div class="subsection">
-                                    <label>
-                                        <input type="text" name="author" placeholder="Add author..." />
+                                    <label class="select">
+                                        <select name="author" id="author">
+                                            <option>Choose author</option>
+                                            <option value="12" selected="true">John Doe</option>
+                                            <option>Jane Doe</option>
+                                            <option>Tarzan X</option>
+                                        </select>
                                     </label>
                                 </div>
                             </fieldset>

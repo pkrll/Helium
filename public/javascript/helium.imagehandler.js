@@ -55,7 +55,6 @@ $(document).ready(function() {
             if (type === "cover") {
                 $.fn.createCoverImageElement(image, null);
             } else {
-                parent.children().show();
                 if (type ==="ckeditor") {
                     $.fn.createCKEditorImageElement(image);
                 } else {
@@ -77,7 +76,7 @@ $(document).ready(function() {
         var image = image || false;
         if (image === false)
             return false;
-            
+
     }
 
     $.fn.createCKEditorImageElement = function (image) {
@@ -102,6 +101,10 @@ $(document).ready(function() {
             $.fn.insertImage(imageURL);
             window.close();
         });
+
+        var parent = $("fieldset.image-ckeditor").find("div.dragzone");
+        parent.find("img").remove();
+        parent.children().show();
         // Add it to the page
         div.appendTo($("div#upload"));
     }

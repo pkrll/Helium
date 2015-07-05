@@ -17,6 +17,7 @@
     <script type="text/javascript" src="/public/javascript/helium.ajax.js"></script>
     <script type="text/javascript" src="/public/javascript/helium.gallery.js"></script>
     <script type="text/javascript" src="/public/javascript/plugin/progressbar-1.0.js"></script>
+    <script type="text/javascript" src="/public/javascript/plugin/localize-1.0.js"></script>
     <script type="text/javascript" src="/public/javascript/helium.imagehandler.js"></script>
     <script type="text/javascript" src="/public/javascript/helium.elements.js"></script>
     <script type="text/javascript" src="/public/javascript/helium.dragdrop.js"></script>
