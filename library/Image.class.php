@@ -152,17 +152,20 @@ class Image {
 	private function setSourceImage ($file) {
 		// Retrieve the width, height and type of
 		// of the selected image with getimagesize().
-		list($this->sourceWidth, $this->sourceHeight, $this->fileExtension) = getimagesize($file);
-		// Create the source image from the file,
-		// based on its extension.
-		if ($this->fileExtension === IMAGETYPE_JPEG)
-			$this->sourceImage = imagecreatefromjpeg($file);
-		else if ($this->fileExtension === IMAGETYPE_PNG)
-			$this->sourceImage = imagecreatefrompng($file);
-		else if ($this->fileExtension === IMAGETYPE_GIF)
-			$this->sourceImage = imagecreatefromgif($file);
-		else
-			$this->throwError("File is not an image");
+		if (list($this->sourceWidth, $this->sourceHeight, $this->fileExtension) = @getimagesize($file)) {
+			// Create the source image from the file,
+			// based on its extension.
+			if ($this->fileExtension === IMAGETYPE_JPEG)
+				$this->sourceImage = $this->imageCreateFromJpeg($file);
+			else if ($this->fileExtension === IMAGETYPE_PNG)
+				$this->sourceImage = $this->imageCreateFromPng($file);
+			else if ($this->fileExtension === IMAGETYPE_GIF)
+				$this->sourceImage = $this->imageCreateFromGif($file);
+			else
+				throw new Exception ("File is not an image");
+		} else {
+			throw new Exception ("File is not an image");
+		}
 	}
 
 	/**
@@ -304,6 +307,60 @@ class Image {
 	 */
 	private function getWidthByHeight ($height) {
 		return floor(($this->sourceWidth / $this->sourceHeight) * $height);
+	}
+
+	/**
+	 * Calls imagecreatefromjpeg function, but
+	 * not before it checks if it exists.
+	 * Implemented to make sure the php build
+	 * has JPEG/PNG/GIF support enabled.
+	 *
+	 * @param string $file
+	 * @return resource
+	 */
+	private function imageCreateFromJpeg ($file) {
+		if (function_exists('imagecreatefromjpeg')
+			&& is_callable('imagecreatefromjpeg')) {
+			return imagecreatefromjpeg($file);
+		} else {
+			throw new Exception ("No JPEG support");
+		}
+	}
+
+	/**
+	 * Calls imageCreateFromPng function, but
+	 * not before it checks if it exists.
+	 * Implemented to make sure the php build
+	 * has JPEG/PNG/GIF support enabled.
+	 *
+	 * @param string $file
+	 * @return resource
+	 */
+	private function imageCreateFromPng ($file) {
+		if (function_exists('imagecreatefrompng')
+			&& is_callable('imagecreatefrompng')) {
+			return imagecreatefrompng($file);
+		} else {
+			throw new Exception ("No PNG support");
+		}
+	}
+
+	/**
+	 * Calls imageCreateFromGif function, but
+	 * not before it checks if it exists.
+	 * Implemented to make sure the php build
+	 * has JPEG/PNG/GIF support enabled.
+	 *
+	 * @param string $file
+	 * @return resource
+	 */
+	private function imageCreateFromGif ($file) {
+		if (function_exists('imagecreatefromgif')
+			&& is_callable('imagecreatefromgif')) {
+			return imagecreatefromgif($file);
+		} else {
+			throw new Exception ("No GIF support");
+		}
 	}
 
 }

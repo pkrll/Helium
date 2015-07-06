@@ -1,0 +1,19 @@
+{
+    "name": "Helium/Helium",
+    "version": "0.9",
+    "description": "Like its namesake, the second lightest element, the Helium CMS is pretty lightweight.",
+    "authors": [
+        {
+            "name": "Ardalan Samimi",
+            "role": "Developer"
+        }
+    ],
+    "keywords": [
+        "CMS"
+    ],
+    "license": "GPL-2.0",
+    "homepage": "https://github.com/pkrll/Helium",
+    "require": {
+        "php": ">=5.5.24"
+    }
+}

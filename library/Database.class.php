@@ -1,15 +1,15 @@
 <?php
 
-class Database {
+final class Database {
 
-	private $_connection;
-	private $_statement;
+	private $connection;
+	private $statement;
 
 	public function __construct($hostname, $database, $username, $password) {
 		try {
-			$this->_connection = new PDO("mysql:host=$hostname;dbname=$database", $username, $password);
-			$this->_connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			$this->_connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+			$this->connection = new PDO("mysql:host=$hostname;dbname=$database", $username, $password);
+			$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$this->connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 		} catch (PDOException $error) {
 			die("Connection error: " . $error->getMessage());
 		}
@@ -22,34 +22,34 @@ class Database {
 	}
 
 	public function prepare($query) {
-		$this->_statement = $this->_connection->prepare($query);
+		$this->statement = $this->connection->prepare($query);
 	}
 
 	public function execute($args = null) {
 		try {
-			$this->_statement->execute($args);
+			$this->statement->execute($args);
 		} catch (PDOException $error) {
 			return $error->getMessage();
 		}
 	}
 
 	public function fetchAll($flags = PDO::FETCH_ASSOC) {
-		return $this->_statement->fetchAll($flags);
+		return $this->statement->fetchAll($flags);
 	}
 
 	public function fetch($flags = PDO::FETCH_ASSOC) {
-		return $this->_statement->fetch($flags);
+		return $this->statement->fetch($flags);
 	}
 
 	public function rowCount() {
-		return $this->_statement->rowCount();
+		return $this->statement->rowCount();
 	}
 
 	public function lastInsertId() {
-		return $this->_connection->lastInsertId();
+		return $this->connection->lastInsertId();
 	}
 
 	public function error() {
-		return $this->_statement->errorInfo();
+		return $this->statement->errorInfo();
 	}
 }

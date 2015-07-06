@@ -4,9 +4,7 @@
 *
 * @author Ardalan Samimi
 */
-class Session {
-
-	function __construct() { }
+final class Session {
 
     /**
      * Set the session variable. If the
@@ -19,7 +17,7 @@ class Session {
      * @param mixed $value
      * @param bool $global (optional)
      */
-	public function setSessionVariable($key, $value, $global = TRUE) {
+	public static function set ($key, $value, $global = TRUE) {
 		$variableName = self::constructVariableName($key, $global);
 		$_SESSION[$variableName] = $value;
 	}
@@ -31,7 +29,7 @@ class Session {
      * @param bool $global (optional)
      * @return mixed
      */
-	public function getSessionVariable($key, $global = TRUE) {
+	public static function get ($key, $global = TRUE) {
 		$variableName = self::constructVariableName($key, $global);
 		return isset($_SESSION[$variableName]) ? $_SESSION[$variableName] : NULL;
 	}
@@ -42,7 +40,7 @@ class Session {
      * @param string $key
      * @param bool $global (optional)
      */
-	public function clearSessionVariable($key, $global = TRUE) {
+	public static function clear ($key, $global = TRUE) {
 		$variableName = self::constructVariableName($key, $global);
 		unset($_SESSION[$variableName]);
 	}
@@ -53,7 +51,7 @@ class Session {
      * @param string $key
      * @return bool
      */
-	public function checkSessionVariableFromExtClass($key) {
+	public static function check ($key) {
 		return isset($_SESSION[$key]) ? TRUE : FALSE;
 	}
 
@@ -66,7 +64,7 @@ class Session {
      * @param bool $global
      * @return string
      */
-	private function constructVariableName($key, $global = TRUE) {
+	private static function constructVariableName ($key, $global = TRUE) {
 		if ($global)
 			return APP_NAME_SHORT . '_' . $key;
 		else

@@ -57,7 +57,7 @@ class Controller {
 	 * Load the model that belongs to the
 	 * requested controller.
 	 */
-	private function loadModel() {
+	final private function loadModel() {
 		// The Model must be named the same
 		// as the controller but with Model
 		// suffixed instead of Controller.
@@ -78,7 +78,7 @@ class Controller {
 	 * Load the View that belongs to the
 	 * requested controller.
 	 */
-	private function loadView() {
+	final private function loadView() {
 		// The View must be named the same
 		// as the controller but with View
 		// suffixed instead of Controller.

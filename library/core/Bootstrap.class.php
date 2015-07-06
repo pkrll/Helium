@@ -1,7 +1,7 @@
 <?php
 require_once("Config.php");
 
-class Bootstrap {
+final class Bootstrap {
 	/**
 	 * @access private
 	 * @var string

@@ -20,7 +20,7 @@ class Model {
 	 *
 	 * @return void
 	 */
-	public function __construct() {
+	final public function __construct() {
 		if (HOSTNAME !== FALSE
 			&& DATABASE !== FALSE
 			&& USERNAME !== FALSE
@@ -39,7 +39,7 @@ class Model {
 	 * @param bool $shouldFetchAll
 	 * @return array
 	 */
-	protected function readFromDatabase($sqlQuery, $params = NULL, $shouldFetchAll = TRUE) {
+	final protected function readFromDatabase($sqlQuery, $params = NULL, $shouldFetchAll = TRUE) {
 		if ($this->database === FALSE)
 			return $this->createErrorMessage("No database");
 		$this->database->prepare($sqlQuery);
@@ -61,7 +61,7 @@ class Model {
 	 * @param array $params
 	 * @return array
 	 */
-	protected function writeToDatabase($sqlQuery, $params = NULL) {
+	final protected function writeToDatabase($sqlQuery, $params = NULL) {
 		if ($this->database === FALSE)
 			return $this->createErrorMessage("No database");
 		$this->database->prepare($sqlQuery);
@@ -77,7 +77,7 @@ class Model {
 	 *
 	 * @return integer
 	 */
-	protected function rowCount () {
+	final protected function rowCount () {
 		if ($this->database === FALSE)
 			return $this->createErrorMessage("No database");
 		return $this->database->rowCount();
@@ -90,7 +90,7 @@ class Model {
 	 * @param string $message
 	 * @return array
 	 */
-	protected function createErrorMessage ($message) {
+	final protected function createErrorMessage ($message) {
 		return array("error" => array("message" => $message));
 	}
 }

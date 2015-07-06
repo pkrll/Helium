@@ -1,8 +1,10 @@
 # Helium ![Temporary logo] (https://raw.githubusercontent.com/pkrll/Helium/master/public/images/system/admin/tmp-logo-black.png)
 ## What is it?
-Helium is a web based application (written in PHP5 and JavaScript/jQuery) for authoring, editing and otherwise managing the content and data of a website, a Simple CMS.
+Helium is a web application (written in PHP5, JavaScript/jQuery) for managing content and data, simply speaking, a CMS.
 ## Why not done?
 It will be, eventually.
+## Will it really?
+Maybe. Probably. Maybe.
 ## How to use?
 ### Download
 Clone a copy of the Helium repository
@@ -11,6 +13,7 @@ Clone a copy of the Helium repository
 ### Installation
 * Set up a virtual host in Apache, pointing to the Helium directory.
 * Create a MySQL database and supply the database constants in the file /library/Config.php with the appropriate values.
+*** The database should have the following tables: Users, Roles, Resources ... (More details to come).
 
 ### Usage
 * Just start creating your controllers (application logic), models (data-access logic) and views and templates (design) as per the folder structure below.

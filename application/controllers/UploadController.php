@@ -10,35 +10,38 @@ class UploadController extends Controller {
 
     protected function image () {
         if (isset($_FILES)) {
-
+            // Stream = drag and drop
             if (isset($this->arguments[1])
             && $this->arguments[1] === "stream") {
                 $this->view()->setHeader(array(
                     'Content-Type: text/octet-stream',
                     'Cache-Control: No-cache'
                 ));
-            }
+                // Loop through every file that
+                // has been dropped and let the
+                // view stream the result out as
+                // it is ready.
+                foreach ($_FILES AS $key => $file) {
+                    $response = $this->model()->uploadImage($file, $this->arguments[0]);
+                    $this->view()->stream(json_encode($response));
+                }
+            // Otherwise, it is just a
+            // simple browse and upload
+            } else {
+                $response["error"]["message"] = "Undefined error";
+                // Make sure there are no
+                // errors before sending
+                // it to the model.
+                if (isset($_FILES['file'])
+                && $_FILES['file']['error'] == UPLOAD_ERR_OK
+                && is_uploaded_file($_FILES['file']['tmp_name']))
+                    $response = $this->model()->uploadImage($_FILES['file'], $this->arguments[0]);
+                else if ($_FILES['file']['error'] == 1)
+                    $response["error"]["message"] = ERROR_UPLOAD_SIZE;
 
-            foreach ($_FILES AS $key => $file) {
-                $response = $this->model()->uploadImage($file, $this->arguments[0]);
-                $this->view()->stream(json_encode($response));
+                echo json_encode($response);
             }
         }
-
-
-        // foreach ($_FILES AS $key => $file) {
-        //     echo json_encode($file);
-        // }
-        // if (isset($_FILES['file']) &&
-        //     $_FILES['file']['error'] == UPLOAD_ERR_OK &&
-        //     is_uploaded_file($_FILES['file']['tmp_name'])) {
-        //
-        //         // $response = $this->model()->uploadImage($_FILES['file'], $this->arguments[0]);
-        //         // echo json_encode($response);
-        //     } else if ($_FILES['file']['error'] == 1) {
-        //         $response["error"]["message"] = ERROR_UPLOAD_SIZE;
-        //         echo json_encode($response);
-        //     }
     }
 
     protected function remove() {

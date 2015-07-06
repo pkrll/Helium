@@ -30,17 +30,33 @@ class UploadModel extends Model {
 		// then width and save path
 		// should be different.
 		if ($option === "cover") {
-			$image = new Image ($tmp_name, MAX_WIDTH_COVER, 0, IM_SIZE_WIDTH);
-			$imagePath = COVERS . $imageName;
-			if ($image->save ($imagePath) !== TRUE)
-				return $image->getErrorMessage();
+			try {
+				$image = new Image ($tmp_name, MAX_WIDTH_COVER, 0, IM_SIZE_WIDTH);
+				$imagePath = COVERS . $imageName;
+				if ($image->save ($imagePath) !== TRUE)
+					return $image->getErrorMessage();
+			} catch (Exception $e) {
+				return array(
+					"error" => array(
+						"message" => $e->getMessage()
+					)
+				);
+			}
 			// Set the path to return
 			$returnPath = "/public/images/uploads/cover/" . $imageName;
 		} else {
-			$image = new Image ($tmp_name, MAX_WIDTH_IMAGE, 0, IM_SIZE_WIDTH);
-			$imagePath = IMAGES . $imageName;
-			if ($image->save ($imagePath) !== TRUE)
-				return $image->getErrorMessage();
+			try {
+				$image = new Image ($tmp_name, MAX_WIDTH_IMAGE, 0, IM_SIZE_WIDTH);
+				$imagePath = IMAGES . $imageName;
+				if ($image->save ($imagePath) !== TRUE)
+					return $image->getErrorMessage();
+			} catch (Exception $e) {
+				return array(
+					"error" => array(
+						"message" => $e->getMessage()
+					)
+				);
+			}
 			// Regular images should also
 			// get a thumbnail partner.
 			$image->resize (MAX_WIDTH_THUMBNAIL, MAX_WIDTH_THUMBNAIL, IM_SIZE_CROP);
