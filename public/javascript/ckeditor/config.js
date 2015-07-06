@@ -6,11 +6,10 @@
 CKEDITOR.editorConfig = function( config ) {
 	// Define changes to default configuration here. For example:
 	// config.language = 'fr';
-	// config.uiColor = '#AADC6E';
-	CKEDITOR.config.filebrowserImageBrowseUrl = "/admin/gallery/";
-	CKEDITOR.config.filebrowserImageUploadUrl = "/upload/imagess/";
+	// config.uiColor = '#cccccc';
+	CKEDITOR.config.filebrowserImageBrowseUrl = "/gallery/";
+	CKEDITOR.config.filebrowserImageUploadUrl = "/upload/image/";
 	CKEDITOR.config.filebrowserImageWindowWidth = '815';
 	CKEDITOR.config.filebrowserImageWindowHeight = '680';
 	CKEDITOR.config.skin = 'moono';
-	// CKEDITOR.config.simpleImageBrowserListType = "thumbnails";
 };

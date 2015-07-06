@@ -17,7 +17,7 @@ div#container div#searchbox {
 
 div#container div#searchbox div.labels {
 	font-size:16px;
-	font-family:'Numans', Sans-serif;
+	font-family:'Numans', 'Raleway', Sans-serif;
 	display:inline-block;
 	padding:8px 12px 8px 12px;
 }
@@ -35,7 +35,7 @@ div#container div#searchbox div.labels.button a:hover {
 div#container div#searchbox input {
     -moz-appearance:textfield;
     -webkit-appearance:textfield;
-	font-family:'Numans', sans-serif;
+	font-family:'Numans', 'Raleway', sans-serif;
 	font-size:14px;
 	color:#fff;
 	width:200px;
@@ -79,7 +79,7 @@ div#upload fieldset {
 div#upload fieldset.dragzone {
 	border:1px dashed #aaa;
 	font-size:14px;
-	font-family:'Numans';
+	font-family:'Numans', 'Raleway', sans-serif;
 	position:relative;
     border-radius: 4px;
 	text-align:center;
@@ -148,9 +148,10 @@ div#gallery div.image-item:not(.header):hover {
 	color:#000;
 }
 
-div#gallery div.image-item.header, div#gallery div.image-item.header div {
+div#gallery div.image-item.header div {
+	font-family: 'Numans','Raleway',sans-serif;
+	font-size:15px;
 	max-height:30px;
-	font-weight:bold;
 }
 
 div#gallery div.image-item div {

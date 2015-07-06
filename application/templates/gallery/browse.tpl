@@ -10,17 +10,13 @@
         <script type="text/javascript" src="/public/javascript/helium.js"></script>
         <script type="text/javascript" src="/public/javascript/helium.gallery.js"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href='http://fonts.googleapis.com/css?family=Gudea:400,700' rel='stylesheet' type='text/css'>
-        <link href='http://fonts.googleapis.com/css?family=Abel' rel='stylesheet' type='text/css'>
-        <link href='http://fonts.googleapis.com/css?family=Dosis:400,700|Ubuntu:400,500|IM+Fell+English|Laila:400,500|Oxygen|Numans' rel='stylesheet' type='text/css'>
-        <link href='http://fonts.googleapis.com/css?family=Cabin:400,700|PT+Sans+Narrow|Raleway:400,600|Karla' rel='stylesheet' type='text/css'>
     </head>
     <body style="margin:0;">
     	<input type="file" name="file" style="display:none">
     	<div id="container">
     		<div id="searchbox" style="">
     			<div class="labels button">
-    				<a href="/admin/gallery/?CKEditor=body&amp;CKEditorFuncNum=0&amp;langCode=en"><?=LANG_UPLOAD?></a>
+    				<a href="/gallery/?CKEditor=body&amp;CKEditorFuncNum=0&amp;langCode=en"><?=LANG_UPLOAD?></a>
     			</div>
     			<input type="search" name="search" id="search" placeholder="<?=LANG_SEARCH?>" style="float:right;"/>
     		</div>
@@ -61,7 +57,7 @@
         			 else if ($page == $gallery["paging"]["current"])
         				 echo " {$page} ";
         			 else
-        				 echo " <a href=\"/admin/gallery/browse/?CKEditor=body&CKEditorFuncNum=0&langCode=en&page={$page}\">{$page}</a> ";
+        				 echo " <a href=\"/gallery/browse/?CKEditor=body&CKEditorFuncNum=0&langCode=en&page={$page}\">{$page}</a> ";
         		}
             }
 ?>

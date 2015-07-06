@@ -1,0 +1,26 @@
+@font-face {
+  font-family: 'Numans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Numans'), local('Numans-Regular'), url('/public/fonts/system/numans.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Raleway'), url('/public/fonts/system/raleway.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Dosis';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Dosis Regular'), local('Dosis-Regular'), url('/public/fonts/system/dosis.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Dosis';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Dosis Bold'), local('Dosis-Bold'), url('/public/fonts/system/dosis-bold.ttf') format('truetype');
+}

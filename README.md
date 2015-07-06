@@ -29,7 +29,6 @@ Clone a copy of the Helium repository
       - Bootstrap.php
       - Controller.class.php
       - Model.class.php
-      - Router.class.php
       - View.class.php
     - Config.php
     - Database.class.php
@@ -50,4 +49,4 @@ Clone a copy of the Helium repository
 - .htaccess
 ```
 ## License
-This project is licensed under the GNU General Public License v2.0. The logo was created by Designmodo under the Creative Commons (Attribution 3.0 Unported) license.
+This project is licensed under the GNU General Public License v2.0. The logo was created by Designmodo under the Creative Commons (Attribution 3.0 Unported) license. All fonts in this project are licensed under the SIL Open Font License 1.1. The font Numans was created by Jovanny Lemonad. The font Dosis was created by Pablo Impallari.

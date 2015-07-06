@@ -7,13 +7,13 @@ define('DEFAULT_METHOD', 'main');
 define(APP_NAME, "Helium");
 define(APP_NAME_SHORT, "He");
 define(APP_DESCRIPTION, "");
-define(APP_VERSION, "0.9.5");
+define(APP_VERSION, "0.9.6");
 
 // DATABASE CONSTANTS
-define(HOSTNAME, FALSE);
-define(USERNAME, FALSE);
-define(PASSWORD, FALSE);
-define(DATABASE, FALSE);
+define(HOSTNAME, "");
+define(USERNAME, "");
+define(PASSWORD, "");
+define(DATABASE, "");
 
 // CONSTANTS
 define(MAX_WIDTH_COVER, 700);
@@ -26,7 +26,6 @@ define(IM_SIZE_HEIGHT, 3);
 define(IM_SIZE_CROP, 4);
 
 // REQUIRED SYSTEM FILES
-require_once("core/Router.class.php");
 require_once("core/Model.class.php");
 require_once("core/View.class.php");
 require_once("core/Controller.class.php");

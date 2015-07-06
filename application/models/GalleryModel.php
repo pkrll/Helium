@@ -1,11 +1,10 @@
 <?php
 /**
- * ADminModel
+ * GalleryModel
  *
  * @author Ardalan Samimi
  */
-class AdminModel extends Model {
-
+class GalleryModel extends Model {
 	/**
 	 * @access private
 	 * @var integer

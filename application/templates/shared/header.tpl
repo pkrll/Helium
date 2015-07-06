@@ -2,6 +2,6 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>SimpleCMS</title>
+        <title>Helium</title>
     </head>
     <body>

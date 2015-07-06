@@ -18,5 +18,5 @@ define(THUMBNAILS,	UPLOAD.'thumbnails/');
 
 chdir(LIBRARY);
 
-require_once('core/Bootstrap.php');
+require_once('core/Bootstrap.class.php');
 $boot = new Bootstrap();

@@ -1,7 +1,7 @@
 <?php
 /**
  * The base Model, where all the logic happens, baby.
- * All other models inherits Model().
+ * All other models inherits Model.
  *
  * @author Ardalan Samimi
  */
@@ -21,11 +21,13 @@ class Model {
 	 * @return void
 	 */
 	public function __construct() {
-		if (HOSTNAME !== FALSE &&
-			DATABASE !== FALSE &&
-			USERNAME !== FALSE &&
-			PASSWORD !== FALSE)
+		if (HOSTNAME !== FALSE
+			&& DATABASE !== FALSE
+			&& USERNAME !== FALSE
+			&& PASSWORD !== FALSE)
 			$this->database = new Database(HOSTNAME, DATABASE, USERNAME, PASSWORD);
+		else
+			$this->database = FALSE;
 	}
 
 	/**
@@ -38,6 +40,8 @@ class Model {
 	 * @return array
 	 */
 	protected function readFromDatabase($sqlQuery, $params = NULL, $shouldFetchAll = TRUE) {
+		if ($this->database === FALSE)
+			return $this->createErrorMessage("No database");
 		$this->database->prepare($sqlQuery);
 		$errorMessage = $this->database->execute($params);
 		if ($errorMessage !== NULL)
@@ -58,6 +62,8 @@ class Model {
 	 * @return array
 	 */
 	protected function writeToDatabase($sqlQuery, $params = NULL) {
+		if ($this->database === FALSE)
+			return $this->createErrorMessage("No database");
 		$this->database->prepare($sqlQuery);
 		$errorMessage = $this->database->execute($params);
 		if ($errorMessage)
@@ -72,6 +78,8 @@ class Model {
 	 * @return integer
 	 */
 	protected function rowCount () {
+		if ($this->database === FALSE)
+			return $this->createErrorMessage("No database");
 		return $this->database->rowCount();
 	}
 
