@@ -26,6 +26,7 @@ define(IM_SIZE_HEIGHT, 3);
 define(IM_SIZE_CROP, 4);
 
 // REQUIRED SYSTEM FILES
+require_once('core/Bootstrap.class.php');
 require_once("core/Model.class.php");
 require_once("core/View.class.php");
 require_once("core/Controller.class.php");

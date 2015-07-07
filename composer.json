@@ -1,7 +1,7 @@
 {
-    "name": "Helium/Helium",
+    "name": "saturn/helium",
     "version": "0.9",
-    "description": "Like its namesake, the second lightest element, the Helium CMS is pretty lightweight.",
+    "description": "Like its namesake – pretty lightweight.",
     "authors": [
         {
             "name": "Ardalan Samimi",

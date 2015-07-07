@@ -2,6 +2,7 @@
 /**
  * Image Class
  * Resize and crop images
+ * @author Ardalan Samimi
 */
 
 class Image {

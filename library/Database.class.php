@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * Database class
+ *
+ * @author Ardalan Samimi
+ **/
 final class Database {
 
 	private $connection;

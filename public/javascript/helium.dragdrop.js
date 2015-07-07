@@ -126,12 +126,19 @@ $(document).ready(function($) {
 			var completed = (Math.round((++xhr.loaded / xhr.total * 1000) / 10 / 2) + progressBar.getProgress());
 			progressBar.setProgress(completed);
 			xhr.previousBuffer = response;
-            if (type == "ckeditor") {
+            if (type == "ckeditor" || type == "slideshow") {
                 try {
     				var image = jQuery.parseJSON(contents);
-    				$.fn.createCKEditorImageElement(image);
+                    if (image.error) {
+                        $.fn.createErrorMessage(Localize.getLocaleString(image.error.message));
+                    } else {
+                        if (type == "ckeditor")
+        				    $.fn.createCKEditorImageElement (image);
+                        else
+                            $.fn.createSlideshowImageElement (image);
+                    }
     			} catch (e) {
-    				console.log(e);
+                    $.fn.createErrorMessage(Localize.getLocaleString("Error:") + "\n" + e);
                     console.log(contents);
     			}
             }
@@ -142,16 +149,10 @@ $(document).ready(function($) {
                 if (type == "cover") {
                     try {
                         var image = jQuery.parseJSON(xhr.responseText);
-
-                        if (type == "cover") {
-                            $.fn.imageHandlerEvent (type, "uploaded", image);
-                        } else {
-
-                        }
-
+                        $.fn.imageHandlerEvent (type, "uploaded", image);
                     } catch (e) {
-                        $.fn.createErrorMessage("Ett fel har intr&auml;ffat: " + e)
-                        console.log(e + "\n" + xhr.responseText);
+                        $.fn.createErrorMessage(Localize.getLocaleString("Error:") + "\n" + e);
+                        console.log("Error:" + e + "\n" + xhr.responseText);
                     }
                 }
 

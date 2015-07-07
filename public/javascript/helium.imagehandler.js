@@ -58,7 +58,6 @@ $(document).ready(function() {
                 if (type ==="ckeditor") {
                     $.fn.createCKEditorImageElement(image);
                 } else {
-                    $("fieldset.image-slideshow").removeClass("dragzone");
                     $.fn.createSlideshowImageElement(image);
                 }
             }
@@ -76,7 +75,39 @@ $(document).ready(function() {
         var image = image || false;
         if (image === false)
             return false;
+        var parent = $("fieldset.image-slideshow");
+        if (parent.find("div.picture-box-container").length > 0) {
+            var divContainer = $("fieldset.image-slideshow div.picture-box-container");
+        } else {
+            var divContainer = $("<div>").attr({
+                "class": "picture-box-container"
+            }).appendTo(parent);
+        }
 
+        var divPicBox = $("<div>").attr({
+            "class": "picture-box"
+        }).appendTo(divContainer);
+        var divPicElm = $("<div>").attr({
+            "class": "picture"
+        }).appendTo(divPicBox);
+        var divPicImg = $("<img>").attr({
+            "src": image.path
+        }).appendTo(divPicElm);
+        var divCaption = $("<div>").attr({
+            "class": "caption"
+        }).appendTo(divPicBox);
+        var spanButton = $("<span>").attr({
+            "class": "image-event-button",
+            "data-type": "slideshow",
+            "data-action": "remove"
+        }).html(Localize.getLocaleString("Remove picture")).appendTo(divCaption);
+        var divInput = $("<div>").appendTo(divCaption);
+        var input = $("<input>").attr({
+            "type": "text"
+        }).appendTo(divInput);
+        var parent = $("fieldset.image-slideshow").find("div.dragzone");
+        parent.find("img").remove();
+        parent.children().show();
     }
 
     $.fn.createCKEditorImageElement = function (image) {

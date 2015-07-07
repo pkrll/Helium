@@ -24,80 +24,31 @@
                             <legend>Cover image</legend>
                             <div class="dragzone">
                                 <div>Upload image by dragging it onto this field, or use the button below.</div>
-
                                 <div class="browse-box">
                                     <input type="file" id="image-cover" />
                                     <button class="image-event-button" data-type="cover" data-action="upload">Upload</button>
                                 </div>
-
-                                <div class="gallery-box">
-                                    <span>Choose from gallery</span>
-                                </div>
+                                <div class="gallery-box"><span>Choose from gallery</span></div>
                             </div>
                         </fieldset>
 
-                        <fieldset class="image-slideshow dragzone">
+                        <fieldset class="image-slideshow dragzone" data-type="slideshow">
                             <legend>Slideshow</legend>
                             <div class="dragzone">
-                                <div>
-                                    Upload image by dragging it onto this field, or use the button below.
-                                </div>
-
+                                <div>Upload image by dragging it onto this field, or use the button below.</div>
                                 <div class="browse-box">
-                                    <input type="file" id="image-cover" />
-                                    <button class="image-event-button" data-type="cover" data-action="upload">Upload</button>
+                                    <input type="file" id="image-slideshow" />
+                                    <button class="image-event-button" data-type="slideshow" data-action="upload">Upload</button>
                                 </div>
-
-                                <div class="gallery-box">
-                                    <span>Choose from gallery</span>
-                                </div>
-
+                                <div class="gallery-box"><span>Choose from gallery</span></div>
                             </div>
-
-                            <!-- <div class="picture-box-container">
-
-                                <div class="picture-box">
-                                    <div class="picture">
-                                        <img src="/public/images/uploads/thumbnails/Johan-Tisell_55982a30e9d14.jpg" />
-                                    </div>
-
-                                    <div class="caption">
-                                        <span class="image-event-button" data-type="slideshow" data-action="remove">Remove picture
-                                        </span>
-                                        <div>
-                                            <input type="text" />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="picture-box">
-                                    <div class="picture">
-                                        <img src="/public/images/uploads/thumbnails/dr_559829120e302.jpg" />
-                                    </div>
-
-                                    <div class="caption">
-                                        <span class="image-event-button" data-type="slideshow" data-action="remove">Remove picture
-                                        </span>
-                                        <div>
-                                            <input type="text" />
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div> -->
-
                         </fieldset>
-
                     </div>
 
                     <div id="right-side">
                         <div id="button" class="section">
-                            <div class="button publish">
-                                Publish
-                            </div>
-                            <div class="button preview">
-                                Preview
-                            </div>
+                            <div class="button publish">Publish</div>
+                            <div class="button preview">Preview</div>
                         </div>
 
                         <div class="section">

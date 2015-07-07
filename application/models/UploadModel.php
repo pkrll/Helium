@@ -64,10 +64,15 @@ class UploadModel extends Model {
 				return $image->getErrorMessage();
 			// Option should be normal
 			// for database purposes.
-			if ($option === "ckeditor")
+			if ($option === "ckeditor") {
+				$returnPath = "/public/images/uploads/normal/" . $imageName;
 				$option = "normal";
+			} else {
+				$returnPath = "/public/images/uploads/thumbnails/" . $imageName;
+			}
+
 			// Set the path to return
-			$returnPath = "/public/images/uploads/normal/" . $imageName;
+
 		}
 		// Memory clean up
 		$image->cleanUp();
