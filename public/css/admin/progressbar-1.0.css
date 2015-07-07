@@ -18,8 +18,8 @@
     box-shadow: 1px 1px 5px rgba(0,0,0,.5);
 	border-radius:10px;
 	position:fixed;
-	top: 30%;
-	left:30%;
+	top:8px;
+	right:8px;
 }
 
 .progress-bar-label {

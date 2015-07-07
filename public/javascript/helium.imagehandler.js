@@ -100,7 +100,7 @@ $(document).ready(function() {
             "class": "image-event-button",
             "data-type": "slideshow",
             "data-action": "remove"
-        }).html(Localize.getLocaleString("Remove picture")).appendTo(divCaption);
+        }).html(Localize.getLocaleString("Remove image")).appendTo(divCaption);
         var divInput = $("<div>").appendTo(divCaption);
         var input = $("<input>").attr({
             "type": "text"
