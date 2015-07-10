@@ -1,24 +1,16 @@
 <?php
 /**
- * Articles Model
+ * Articles model
  */
 class ArticlesModel extends Model {
 
-    public function getJavascript() {
-        $scripts = array(
-            "plugin/progressbar-1.0.js",
-            "plugin/formhandler-1.0.js",
-            "helium.form.js",
-            "helium.imagehandler.js",
-            "helium.elements.js",
-            "helium.dragdrop.js",
-            "helium.ajax.js",
-            "ckeditor/ckeditor.js"
-        );
+    protected function main () {
 
-        return $scripts;
     }
 
+    public function getIncludedFiles () {
+        return TEMPLATES."/includes/articles.tpl";
+    }
 }
 
 

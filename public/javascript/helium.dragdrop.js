@@ -1,5 +1,9 @@
 $(document).ready(function($) {
 
+    /**
+     * Small plugin function that binds
+     * the drag events to an element.
+     */
     $.fn.bindDragEvents = function () {
         this.on("dragenter", function (event) { $.fn.dragEnter(event, $(this)); });
         this.on("dragover", function (event) { $.fn.dragOver(event); });
@@ -7,8 +11,18 @@ $(document).ready(function($) {
         this.on("dragleave", function (event) { $.fn.dragLeave (event); });
     }
 
+    // Run the below function on start
     $("fieldset.dragzone").bindDragEvents();
 
+    /**
+     * This function will fire when a
+     * dragged object enters the valid
+     * drop zone. The drop target will
+     * get highlighted through css.
+     *
+     * @param eventObject
+     * @param Element
+     */
     $.fn.dragEnter = function (event, element) {
         var element = element || false;
         if (element !== false)
@@ -16,6 +30,18 @@ $(document).ready(function($) {
         $.fn.dragAndDrop(event);
     }
 
+    /**
+     * This function will fire when an
+     * object is being dragged over the
+     * valid drop zone. If an element is
+     * provided, it will be stripped of
+     * the class highlight. This is for
+     * when the drag leaves the valid drop
+     * target and enters the document body.
+     *
+     * @param eventObject
+     * @param Element
+     */
     $.fn.dragOver = function (event, element) {
         var element = element || false;
         if (element !== false)
@@ -23,6 +49,16 @@ $(document).ready(function($) {
         $.fn.dragAndDrop(event);
     }
 
+    /**
+     * This function will fire when a
+     * dragged object leaves the valid
+     * drop target. If an element is
+     * provided, it will be stripped of
+     * the class highlight.
+     *
+     * @param eventObject
+     * @param Element
+     */
     $.fn.dragLeave = function (event, element) {
         var element = element || false;
         if (element !== false)
@@ -30,6 +66,17 @@ $(document).ready(function($) {
         $.fn.dragOver(event);
     }
 
+    /**
+     * This function will fire when a
+     * dragged object is dropped on a
+     * valid target zone. It will call
+     * the function dragAndDrop with
+     * the drop targets type (cover or
+     * slideshow) as one of the params.
+     *
+     * @param eventObject
+     * @param Element
+     */
     $.fn.drop = function (event, element) {
         var element = element || false;
         if (element !== false)
@@ -38,21 +85,36 @@ $(document).ready(function($) {
 		$.fn.dragAndDrop(event, "upload", type);
     }
 
-	$(document).on("dragenter", function (event) { $.fn.dragEnter(event); });
+    /**
+     * Binds the drag events to the DOM.
+     * This will make sure the highlights
+     * dissapear on the valid drop targets
+     * when the dragging exists those areas.
+     */
+    $(document).on("dragenter", function (event) { $.fn.dragEnter(event); });
 	$(document).on("drop", function (event) { $.fn.drop(event); });
 	$(document).on("dragover", function (event) { $.fn.dragOver(event, $("fieldset.dragzone")); });
 
+    /**
+     * Determines if the drag/drop was valid
+     * and creates a formData object to send
+     * to the method Send().
+     *
+     * @param eventTarget
+     * @param String The type of action requested
+     * @param String The type of object being dropped
+     */
 	$.fn.dragAndDrop = function (event, action, type) {
 		var action = action || false;
         var type = type || false;
-		// Check which action was requested
+		// Check what action was requested
 		if (action === false || type == false) {
-			// Default. Stop everything!
+			// Default: Stop everything!
 			event.stopPropagation();
 			event.preventDefault();
 		} else if (action === "upload") {
 			// Get the files that got dropped
-			// on the #dragzone, sort through
+			// on the drop target, sort through
 			// and ignore the non-image files.
 			var files = event.originalEvent.dataTransfer.files;
             var error = false;
@@ -66,27 +128,43 @@ $(document).ready(function($) {
 					// Create the FormData to send
 					formData.append('file'+x, file);
 				}
-
+                // Cover images can not be sent in
+                // bulk. Only one cover per article.
                 if (type === "cover")
                     return false;
 			});
+            // Quit the script if an error was detected
             if (error)
                 return false;
-			// Create the container for the progressbar
-			var element = $("<div>").attr({
-                "id": "progress-bar-container"
-            }).appendTo("body");
-			// Create the progress bar before sending
-            // the data.
-			var statusbar = new ProgressBar ({
-				parentElement: element
-			});
-			statusbar.createBar();
-			$.fn.send(formData, type, files.length, statusbar);
+            var statusbar = $.fn.createStatusBar();
+            // Send the dropped files.
+			$.fn.sendDroppedFiles(formData, type, files.length, statusbar);
 		}
 	}
 
-	$.fn.send = function (dataPackage, type, packageSize, progressBar) {
+    /**
+     * Creates a ProgressBar object
+     * that will monitor the upload
+     * progress of files that's been
+     * uploaded through drag an drop.
+     *
+     * @returns ProgressBar
+     */
+    $.fn.createStatusBar = function() {
+        // Create the container for the progressbar
+        var element = $("<div>").attr({
+            "id": "progress-bar-container"
+        }).appendTo("body");
+        // Create the progress bar object
+        var statusbar = new ProgressBar ({
+            parentElement: element
+        });
+        statusbar.createBar();
+
+        return statusbar;
+    }
+
+    $.fn.sendDroppedFiles = function (dataPackage, type, packageSize, progressBar) {
 		var dataPackage = dataPackage || false;
 		var packageSize = packageSize || false;
 		var progressBar = progressBar || false;
@@ -95,10 +173,10 @@ $(document).ready(function($) {
 		// Set type of image uploading,
 		// for the server to know.....
         var type = type || false;
-		// Create the XHR Request.
+		// Time for the request
 		var xhr = new XMLHttpRequest();
 		// These are for onprogress
-		// monitoring the stream.
+		// monitoring the "stream".
 		xhr.previousBuffer = "";
 		xhr.loaded = 0;
 		xhr.total = packageSize;
@@ -135,8 +213,8 @@ $(document).ready(function($) {
 			progressBar.setProgress(completed);
 			xhr.previousBuffer = response;
             // Only CKEditor and slideshow images should
-            // be subject to streaming, because the cover
-            // can only be one.
+            // be subject to streaming, because there can
+            // be only one cover image.
             if (type == "ckeditor" || type == "slideshow") {
                 // Nasty fix for streaming bug that occurs
                 // when the server sends the JSON encoded
@@ -144,7 +222,7 @@ $(document).ready(function($) {
                 // the JSON array is actually just a string.
                 // Stream array will place a newline between
                 // the } {-brackets and then split the string
-                // by the newline, making it an array.
+                // by the newline, making it an array again.
                 var streamArray = contents.replace(/(\}([\s\S]*?)\{)/gi, "}\n{");
                 streamArray = streamArray.split("\n");
                 try {
@@ -182,7 +260,11 @@ $(document).ready(function($) {
                 if (type == "cover") {
                     try {
                         var image = jQuery.parseJSON(xhr.responseText);
-                        $.fn.imageHandlerEvent (type, "uploaded", image);
+                        if (image.error) {
+                            $.fn.createErrorMessage (Localize.getLocaleString (image.error.message));
+                        } else {
+                            $.fn.imageHandlerEvent (type, "display", image);
+                        }
                     } catch (e) {
                         $.fn.createErrorMessage (Localize.getLocaleString ("Error:") + "\n" + e);
                         console.log("Error:" + e + "\n" + xhr.responseText);

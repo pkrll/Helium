@@ -1,140 +1,156 @@
 html, body {
-    height:100%;
-    width:100%;
-    font-family: 'Numans',sans-serif;
+    font-family:    'Raleway', sans-serif;
+    width:          100%;
+    height:         100%;
 }
+
 
 body {
-    font-size:100%;
-    color: #000;
-    margin:0;
-    padding:0;
-}
-div#container { }
-
-div#page-header-container {
-    /*background-color:rgba(51, 33, 69, 1);*/
-    background:#105B63;
-    background-image: -webkit-linear-gradient(top, rgba(51, 33, 69, 1) 70%, rgba(36, 23, 48, 1) 100%);
-    width:100%;
-    height:100px;
+    background-image:   url("/public/images/system/BB.jpg");
+    background-size: 100%;
+    background-attachment: fixed;
+    background-repeat:  repeat;
+    font-size:          100%;
+    margin:             0;
 }
 
-div#page-header-container div#page-header-title {
-    color:#fff;
-    font-family: 'Dosis', sans-serif;
-    padding:24px 0px 12px 16px;
+#page-container {
+    display:        -webkit-flex;
+    display:        -webkit-box;
+    display:        -moz-box;
+    display:        -ms-flexbox;
+    display:        -moz-flex;
+    display:        -webkit-flex;
+    display:        flex;
+    height:         auto;
+    min-height:     100%;
+    width:          100%;
+    -webkit-flex-wrap: nowrap;
+            flex-wrap: nowrap;
 }
 
-div#page-header-container div#page-header-title a {
-    color:#fff;
-    text-decoration:none;
+#page-container > div {
+    /*-webkit-align-self:stretch;*/
 }
 
-div#page-header-container div#page-header-title a:hover {
-    color:#de1212;
+#menu-bar-container {
+    background:         rgba(0,0,0,0.6);
+    border-right:       1px solid rgba(230,230,230,1);
+    width:              10%;
+    max-width:          250px;
+    min-width:          250px;
 }
 
-div#page-header-container div#page-header-title a h1,
-div#page-header-container div#page-header-title a h2,
-div#page-header-container div#page-header-title a h3,
-div#splash h1,
-div#splash h2,
-div#splash h3 {
-    margin:0;
-    padding:0;
+#menu-bar-header {
+    border-bottom:  1px solid rgba(230,230,230,1);
+    color:          #FFFFFF;
+    padding:        10px 0 20px 0px;
+    text-align:     center;
+    width:          100%;
 }
 
-div#page-header-container div#page-header-title a h1 { font-size:40px; }
-div#page-header-container div#page-header-title a h2 { font-size:25px; }
-div#page-header-container div#page-header-title a h3 { font-size:20px; }
-
-div#splash {
-    margin:auto;
-    padding:16px 0 0px 0;
-    width:100%;
-    text-align:center;
+#menu-bar-header a {
+    color:              #FFFFFF;
+    display:            block;
+    font-family:        "Dosis", "Raleway" sans-serif;
+    font-variant:       small-caps;
+    font-weight:        700;
+    font-size:          64px;
+    font-weight:        600;
+    line-height:        64px;
+    text-decoration:    none;
+    text-transform:     lowercase;
 }
 
-div#splash h1.splash-header {
-    font-size:30px;
+#menu-bar-header:hover {
+    background: rgba(230,230,230,1);
+    cursor:     pointer;
 }
 
-div#splash h2.splash-header {
-    font-size:24px;
-    padding-bottom: 8px;
+#menu-bar-header:hover a, #menu-bar-header:hover span {
+    color: #000000;
 }
 
-div#splash ul#list-menu {
-    margin:0;
-    padding:0;
-    list-style: none;
-    width:50%;
-    margin:auto;
-    -ms-box-orient: horizontal;
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -moz-flex;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-flex-wrap: wrap;
-    flex-wrap: wrap;
-    align-items: center;
-    -webkit-justify-content: center;
-    -moz-justify-content: center;
-    justify-content: center;
+#menu-bar-header span {
+    font-family:    "Dosis", "Raleway" sans-serif;
+    font-variant:   small-caps;
 }
 
-div#splash ul#list-menu li {
+#menu-bar {
+    padding: 28px 0 0 0;
+}
+
+.menu-bar-ul {
+    color:              #FFFFFF;
+    list-style-type:    none;
+    margin:             0;
+    padding:            0;
+}
+
+.menu-bar-ul li {
+    border-bottom:  1px solid rgba(255,255,255,.1);
+    cursor:         pointer;
+    font-size:      18px;
+    padding:        28px;
+}
+
+.menu-bar-ul li:hover {
+    background: rgba(221,111,50,1);
+}
+
+li.sub-menu {
+    padding-left: 52px;
+}
+
+.hidden {
+    display: none;
+}
+
+.content-container {
+    background: rgba(0,0,0,0.6);
+    margin:     0;
+    padding:    0px;
+    width:      90%;
+}
+
+.splash {
+    color: #FFFFFF;
+    height:100%;
     padding:10px;
-    text-align:center;
-    list-style: none;
-    flex-grow: 0;
-    cursor:pointer;
-    width:25%;
+    width:100%;
 }
 
-div#splash ul#list-menu li:hover {
-    background:rgba(0,0,0,0.1);
-    background:rgba(255,255,255,0.5);
-    border-radius: 35px;
+.flex-box {
+    display:        -webkit-flex;
+    display:        -webkit-box;
+    display:        -moz-box;
+    display:        -ms-flexbox;
+    display:        -moz-flex;
+    display:        -webkit-flex;
+    display:        flex;
+    width:          100%;
+    -webkit-flex-wrap: nowrap;
+            flex-wrap: nowrap;
+    height:auto;
+    min-height:auto;
 }
 
-div#splash ul#list-menu li:hover a {
-    color: rgba(219,92,92,1);
+.flex-header {
+    border-bottom:  1px solid #FFFFFF;
+    padding:        10px 0 20px 0;
+    line-height:    64px;
 }
 
-div#splash ul#list-menu li a {
-    color:#000;
-    text-decoration:none;
-}
-
-div#splash ul#list-menu li img {
-    width:72px;
-}
-
-div#splash ul#list-menu li div.label {
-    font-size:14px;
-    padding:0 8px 0 8px;
+.flex-box-single {
+    color:          #FFFFFF;
+    font-family:    'Dosis' sans-serif;
+    font-size:      44px;
+    text-align:     center;
+    padding:        10px;
+    width:          100%;
 }
 
 div#upload fieldset.dragzone.highlight,
 form#article fieldset.dragzone.highlight {
 	border: 1px dashed #0B85A1;
-}
-
-#errorMessage {
-	position:fixed;
-	left:0;
-	bottom:0;
-	z-index:99;
-	width:100%;
-	text-align:center;
-	background:rgba(180,0,0,1);
-	color:#fff;
-	padding:10px 20px 10px 20px;
-	cursor:pointer;
-	font-size:17px;
-	font-family:Sans-serif;
 }

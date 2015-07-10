@@ -1,15 +1,13 @@
 <?php
 /**
- * Controller for the admin panel.
- *
- * @author Ardalan Samimi
+ * Controller for the /admin/ pages
  */
 class AdminController extends Controller {
 
     protected function main () {
-        $this->view()->render("admin/shared/header.tpl");
+        $this->view()->render("shared/header_admin.tpl");
         $this->view()->render("admin/main.tpl");
-        $this->view()->render("admin/shared/footer.tpl");
+        $this->view()->render("shared/footer_admin.tpl");
     }
 
 }

@@ -1,17 +1,28 @@
 <?php
 /**
-* UPLOAD MODEL
-*
-* @author Ardalan Samimi
-*/
+ * Upload model
+ *
+ * The model class for the upload function.
+ * This class handles the manipulation of
+ * files that are to be uploaded to server,
+ * and also acting as access to the database.
+ *
+ * @author	Ardalan Samimi
+ * @since	Available since 0.9.6
+ */
 class UploadModel extends Model {
 
 	/**
-	 * Upload an image to the server.
+	 * Upload image to the server.
+	 * This function resizes and
+	 * saves the image to server,
+	 * with the help of the class
+	 * Image. Also adds the image
+	 * to the database.
 	 *
 	 * @param array $file
-	 * @param string $option (optional)
-	 * @return mixed
+	 * @param string $option (OPTIONAL: The type of the image)
+	 * @return array (Either an error message or path and id of image)
 	 */
 	public function uploadImage ($file = NULL, $option = "normal") {
 		// Check if the file is set
@@ -86,8 +97,8 @@ class UploadModel extends Model {
 		// the id and path of the image.
 		if (isset($response["error"]))
 			return $error;
-
-		return array("path" => $returnPath, "id" => $response);
+			// $id = $response;
+		return array("path" => $returnPath, "id" => time());
 	}
 
 	/**
