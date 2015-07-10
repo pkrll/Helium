@@ -3,3 +3,19 @@
 .tooltip-container {
     position:relative;
 }
+
+.bottom-label {
+    background:     rgba(0,0,0,0.4);
+    bottom:         0;
+    color:          #FFFFFF;
+    cursor:         default;
+    font-family:    'Dosis' sans-serif;
+    font-size:      14px;
+    position:       absolute;
+    text-align:     right;
+    width:          100%;
+}
+
+.bottom-label div {
+    padding:        10px;
+}
