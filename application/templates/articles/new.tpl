@@ -12,7 +12,7 @@
                                 <div class="tooltip-container">
                                     <input maxlength="140" type="text" name="headline" id="headline" autocomplete="off" required="required"/>
                                 </div>
-                                <div class="add-input" data-type="text" data-name="small-headline" data-id="smallHeadline" data-required="true" data-remove="true" data-legend="Small headline">
+                                <div class="add-input" data-type="text" data-name="small-headline" data-id="smallHeadline" data-remove="true" data-legend="Small headline">
                                     <span class="font-icon icon-plus" style=""></span> Add small headline
                                 </div>
                             </fieldset>
@@ -41,7 +41,7 @@
                                     </div>
                                     <div class="gallery-box">
                                         <span class="gallery">
-                                            <span class="font-icon menu icon-gallery"></span>Choose from gallery
+                                            <span class="font-icon icon-gallery"></span>Choose from gallery
                                         </span>
                                     </div>
                                 </div>
@@ -114,7 +114,7 @@
                                         </div>
                                         <div class="gallery-box">
                                             <span class="gallery">
-                                                <span class="font-icon menu icon-gallery"></span>Choose from gallery
+                                                <span class="font-icon icon-gallery"></span>Choose from gallery
                                             </span>
                                         </div>
                                     </div>
@@ -166,3 +166,27 @@
 
                     </div>
                 </form>
+                <script>
+                    CKEDITOR.replace( 'body', {
+                        toolbar: [
+                            ['Bold', 'Italic', 'Underline'],
+                            ['Paste', 'PasteText', 'PasteFromWord'],
+                            ['RemoveFormat'],
+                            ['Link', 'Unlink', 'Image'],
+                            ['Format','Source'],
+                        ],
+                        width:"100%",
+                        height:"400px",
+                    } );
+
+                    CKEDITOR.replace( 'preamble', {
+                        toolbar: [
+                            ['Bold', 'Italic', 'Underline'],
+                            ['Paste', 'PasteText', 'PasteFromWord'],
+                            ['RemoveFormat'],
+                            ['Format','Source'],
+                        ],
+                        width:"100%",
+                        height:"130px",
+                    } );
+                </script>

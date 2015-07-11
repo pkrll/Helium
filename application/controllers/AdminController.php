@@ -1,6 +1,10 @@
 <?php
 /**
- * Controller for the /admin/ pages
+ * Admin Controller
+ *
+ *
+ * @author  Ardalan Samimi
+ * @since   Available since 0.9
  */
 class AdminController extends Controller {
 

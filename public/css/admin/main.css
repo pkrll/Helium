@@ -6,12 +6,14 @@ html, body {
 
 
 body {
-    background-image:   url("/public/images/system/BB.jpg");
-    background-size: 100%;
-    background-attachment: fixed;
-    background-repeat:  repeat;
-    font-size:          100%;
-    margin:             0;
+    /*background-image:       url("/public/images/system/backgrounds/2.jpg");
+    background-size:        100% 100%;
+    background-attachment:  fixed;
+    background-repeat:      repeat;*/
+    font-size:              100%;
+    margin:                 0;
+    background:             #996633;
+    /* FF75D1 3399FF 66CCFF */
 }
 
 #page-container {
@@ -34,12 +36,13 @@ body {
 }
 
 #menu-bar-container {
-    background:         rgba(0,0,0,0.6);
+    background:         rgba(0,0,0,0.5);
     border-right:       1px solid rgba(230,230,230,1);
-    width:              10%;
+    width:              30%;
     max-width:          250px;
-    min-width:          250px;
+    min-width:          190px;
 }
+
 
 #menu-bar-header {
     border-bottom:  1px solid rgba(230,230,230,1);
@@ -50,16 +53,28 @@ body {
 }
 
 #menu-bar-header a {
+    color:              #FFF;
+    text-decoration:    none;
+}
+
+.appname {
     color:              #FFFFFF;
     display:            block;
     font-family:        "Dosis", "Raleway" sans-serif;
-    font-variant:       small-caps;
     font-weight:        700;
     font-size:          64px;
     font-weight:        600;
     line-height:        64px;
-    text-decoration:    none;
+
+}
+
+.long {
+    font-variant:       small-caps;
     text-transform:     lowercase;
+}
+
+.short {
+    display:none;
 }
 
 #menu-bar-header:hover {
@@ -71,10 +86,10 @@ body {
     color: #000000;
 }
 
-#menu-bar-header span {
+/*#menu-bar-header span {
     font-family:    "Dosis", "Raleway" sans-serif;
     font-variant:   small-caps;
-}
+}*/
 
 #menu-bar {
     padding: 28px 0 0 0;
@@ -94,8 +109,15 @@ body {
     padding:        28px;
 }
 
-.menu-bar-ul li:hover {
-    background: rgba(221,111,50,1);
+.menu-bar-ul li:hover, .menu-active {
+    /*background: rgba(221,111,50,1);*/
+    background: #FFF;
+    color: #000;
+}
+
+.menu-active {
+    background: rgba(0,0,0,0.2);
+    color: #FFF;
 }
 
 li.sub-menu {
@@ -107,10 +129,11 @@ li.sub-menu {
 }
 
 .content-container {
-    background: rgba(0,0,0,0.6);
+    background: rgba(0,0,0,0.5);
     margin:     0;
     padding:    0px;
     width:      90%;
+
 }
 
 .splash {

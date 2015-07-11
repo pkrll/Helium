@@ -1,6 +1,10 @@
 <?php
 /**
  * User Controller
+ *
+ *
+ * @author  Ardalan Samimi
+ * @since   Available since 0.10
  */
 class UserController extends Controller {
 

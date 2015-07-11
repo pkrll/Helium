@@ -4,17 +4,18 @@
 }
 
 .flex-box-left {
-    background:     rgba(238, 238, 238,.1);
+    background: rgba(238, 238, 238,.1);
     color:      #FFFFFF;
     padding:    20px 35px 0 35px;
     width:      65%;
+
 }
 
 .flex-box-right {
     background:     rgba(238, 238, 238,.1);
     border-left:    1px solid rgba(0,0,0,.3);
-    min-width:      210px;
     width:          35%;
+    min-width:      290px;
 }
 
 fieldset {
@@ -143,20 +144,20 @@ span.gallery:hover {
 }
 
 .image-cover .picture-box .picture {
-    width:90%;
-    min-width:150px;
-    display:inline-block;
+    display:    inline-block;
+    width:      90%;
+    min-width:  150px;
 }
 
 .image-cover .picture > img {
-    width:100%;
-    min-width:150px;
+    width:      100%;
+    min-width:  150px;
 }
 
 .image-cover .picture-box .caption {
-    width:90%;
-    font-size:13px;
-    display:inline-block;
+    display:    inline-block;
+    font-size:  13px;
+    width:      90%;
 }
 
 .image-cover .picture-box .caption input {
@@ -168,26 +169,24 @@ span.gallery:hover {
 }
 
 .image-slideshow .picture-box {
-    display:-webkit-flex;
-    -ms-box-orient: horizontal;
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -moz-flex;
-    display: -webkit-flex;
-    display: flex;
-    width:70%;
-    border:1px solid rgba(0,0,0,0.3);
-    border-radius:4px;
-    margin:0 auto;
-    margin-bottom:8px;
-    padding:10px;
+    display:        -webkit-box;
+    display:        -moz-box;
+    display:        -ms-flexbox;
+    display:        -moz-flex;
+    display:        -webkit-flex;
+    display:        flex;
+    width:          70%;
+    border:         1px solid rgba(0,0,0,0.3);
+    border-radius:  4px;
+    margin:         0 auto;
+    margin-bottom:  8px;
+    padding:        10px;
 }
 
 .image-slideshow .picture-box .picture {
-    width:20%;
-    min-width:90px;
-    padding-right:8px;
+    padding-right:  8px;
+    width:          20%;
+    min-width:      90px;
 }
 
 .image-slideshow .picture-box .picture > img {
@@ -217,9 +216,9 @@ span.gallery:hover {
 }
 
 span.image-event-button[data-action='remove'] {
-    color: #FFF;
-    cursor: pointer;
-    font-size:14px;
+    color:      #FFFFFF;
+    cursor:     pointer;
+    font-size:  14px;
 }
 
 span.image-event-button[data-action='remove']:hover {

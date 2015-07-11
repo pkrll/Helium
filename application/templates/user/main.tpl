@@ -8,11 +8,11 @@
         <link rel="stylesheet" type="text/css" media="screen" href="/public/css/user/main.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="/public/css/plugins/tooltip-1.0.css" />
         <script src="/public/javascript/jquery-2.1.4.min.js"></script>
-        <script src="/public/javascript/helium.js"></script>
-        <script src="/public/javascript//helium.articles.js"></script>
         <script src="/public/javascript/plugins/helium.tooltip-1.0.js"></script>
         <script src="/public/javascript/plugins/helium.browser-1.0.js"></script>
         <script src="/public/javascript/plugins/helium.localize-1.0.js"></script>
+        <script src="/public/javascript/helium.js"></script>
+        <script src="/public/javascript/helium.form.js" charset="utf-8"></script>
     </head>
     <body>
 
@@ -21,7 +21,7 @@
                 Application access
             </div>
             <div class="login-window-input" >
-                <form>
+                <form action="/">
                     <label>
                         <div class="login-window-input-label">Provide your <b>login credentials</b> below</div>
                         <div class="tooltip-container">

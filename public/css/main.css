@@ -1,4 +1,7 @@
-
+html, body {
+    height: 100%;
+    margin: 0;
+}
 
 .tooltip-container {
     position:relative;
@@ -6,7 +9,7 @@
 
 .bottom-label {
     background:     rgba(0,0,0,0.4);
-    bottom:         0;
+    bottom:         0%;
     color:          #FFFFFF;
     cursor:         default;
     font-family:    'Dosis' sans-serif;

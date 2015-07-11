@@ -1,0 +1,17 @@
+@media all and (max-width: 850px) {
+
+    .flex-box {
+        -webkit-flex-wrap: wrap;
+    }
+
+    .flex-box-left {
+        width:100%;
+    }
+
+
+    .flex-box-right {
+        width:100%;
+        display:-webkit-flex;
+        -webkit-flex-direction:column-reverse;
+    }
+}

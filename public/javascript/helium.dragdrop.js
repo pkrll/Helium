@@ -234,6 +234,7 @@ $(document).ready(function($) {
                             if (content.length > 0) {
                                 var image = jQuery.parseJSON(content);
                                 // Check for errors
+                                console.log(image);
                                 if (image.error) {
                                     $.fn.createErrorMessage (Localize.getLocaleString (image.error.message));
                                 } else {
@@ -246,8 +247,8 @@ $(document).ready(function($) {
                         });
                     }
     			} catch (e) {
-                    $.fn.createErrorMessage (Localize.getLocaleString ("Error:") + "\n" + e);
-                    console.log("Error:" + contents);
+                    $.fn.createErrorMessage (Localize.getLocaleString("Error:") + "\n" + e);
+                    console.log(e);
     			}
             }
 		}

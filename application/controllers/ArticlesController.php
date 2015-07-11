@@ -1,6 +1,10 @@
 <?php
 /**
- * Controller for the /articles/ pages
+ * Articles Controller
+ *
+ *
+ * @author  Ardalan Samimi
+ * @since   Available since 0.9.6
  */
 class ArticlesController extends Controller {
 

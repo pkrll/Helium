@@ -251,6 +251,27 @@ $(document).ready(function() {
         parent.children().show();
     }
 
+    $.fn.createCKEditorImageElement = function (image) {
+        var image = image || false;
+        if (image === false)
+            return false;
+        // The container of the images
+        var divContainer = $("#preview");
+        // Create the image box
+        var divPicture = $("<div>").attr({"class": "picture"}).appendTo(divContainer);
+        var paragraph = $("<p>").html(Localize.getLocaleString("Click to insert image")).appendTo(divPicture);
+        var image = $("<img>").attr({"src": image.path}).appendTo(divPicture);
+        // Bind the image to send it to the ckeditor
+        image.click(function () {
+            var imageURL = $(this).attr("src");
+            $.fn.insertImage(imageURL);
+            window.close();
+        });
+        var parent = $("fieldset.image-ckeditor").find("div.dragzone");
+        parent.find("img").remove();
+        parent.children().show();
+    }
+
     $.fn.createLoaderImage = function (element) {
         var loaderImage = $("<img>").attr({
             "src": "/public/images/system/loading-128.png",
