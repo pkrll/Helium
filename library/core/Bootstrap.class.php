@@ -105,7 +105,7 @@ final class Bootstrap {
 		if ($nodePermission === FALSE)
 			return FALSE;
 		// Check if user is logged in.
-		$userID = 1;//Session::getSessionVariable("He_userID");
+		$userID = Session::get("user_id");
 		if ($userID === NULL) {
 			$this->controller = DEFAULT_CONTROLLER;
 		} else {

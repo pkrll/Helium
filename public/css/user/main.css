@@ -49,3 +49,10 @@ body {
     padding:            0 0 10px 0;
     text-align:         center;
 }
+
+.login-error {
+    color:          #de1212;
+    font-size:      13px;
+    padding:        3px 0px 8px 0px;
+    text-align:     center;
+}

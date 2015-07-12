@@ -1,8 +1,12 @@
 body {
+    background:             #444444;
+    background-image:       url("/public/images/system/backgrounds/4.png");
+    background-size:        100% 100%;
+    background-attachment:  fixed;
+    background-repeat:      repeat;
+    color:                  #FFFFFF;
     font-size:              100%;
     margin:                 0;
-	color:                  #000000;
-    background:             #FAFAFA;
 }
 
 div#container {
@@ -137,11 +141,15 @@ div#gallery div.image-item {
 }
 
 div#gallery > .image-item:not(.header):nth-child(odd) {
-	background: rgba(255,255,255,1);
+	background: rgba(255,255,255,.7);
 }
 
 div#gallery > .image-item:not(.header):nth-child(even) {
-	background: rgba(211, 214, 216,1);
+	background: rgba(211, 214, 216,.4);
+}
+
+div#gallery div.image-item:not(.header) {
+    color: #000;
 }
 
 div#gallery div.image-item:not(.header):hover {
@@ -150,23 +158,11 @@ div#gallery div.image-item:not(.header):hover {
     cursor:     pointer;
 }
 
-div#gallery div.image-item.header div {
-	font-family:   'Numans','Raleway',sans-serif;
-	font-size:     15px;
-	max-height:    30px;
-}
 
 div#gallery div.image-item div {
 	display:           inline-block;
 	font-size:         14px;
     vertical-align:    middle;
-}
-
-div#gallery div.image-item div:first-of-type {
-    height:     50px;
-    overflow:   auto;
-    width:      20%:
-    max-width:  50px;
 }
 
 div#gallery div.image-item div:first-of-type img {
@@ -175,8 +171,19 @@ div#gallery div.image-item div:first-of-type img {
 
 div#gallery div.image-item div:not(:first-of-type) {
 	padding-left:  8px;
-	text-align:    center;
 	width:         20%;
+}
+
+
+div#gallery div.image-item.header div {
+	font-family:   'Numans','Raleway',sans-serif;
+	font-size:     15px;
+	max-height:    30px;
+}
+
+div#gallery div.image-item.header div:first-of-type {
+    width: 20%;
+    max-width: 50px;
 }
 
 div#gallery div.image-item div:nth-child(2) {
@@ -184,6 +191,15 @@ div#gallery div.image-item div:nth-child(2) {
     text-align:     left;
     width:          45%;
 }
+
+div#gallery div.image-item div:first-of-type,
+div#gallery div.image-item.header div:first-of-type {
+    height:     50px;
+    overflow:   auto;
+    width:      20%:
+    max-width:  50px;
+}
+
 
 div#navigation {
 	font-size: 16px;

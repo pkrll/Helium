@@ -5,7 +5,7 @@
 
 .flex-box-left {
     /*background: rgba(238, 238, 238,.1);*/
-    color:      #000;
+    color:      #FFF;
     padding:    20px 35px 0 35px;
     width:      65%;
 
@@ -60,7 +60,7 @@ textarea {
 }
 
 .add-input:hover {
-    color:      rgba(221,111,50,1);
+    color:      #1188BB;
 }
 
 #small-headline {
@@ -135,7 +135,7 @@ div.dragzone:after {
 }
 
 span.gallery:hover {
-    color:  #66CCFF;
+    color:  #1188BB;
     cursor: pointer;
 }
 
@@ -216,13 +216,13 @@ span.gallery:hover {
 }
 
 span.image-event-button[data-action='remove'] {
-    color:      #FFFFFF;
+    color:      #000000;
     cursor:     pointer;
     font-size:  14px;
 }
 
 span.image-event-button[data-action='remove']:hover {
-    color: #66CCFF;
+    color: #1188BB;
 }
 
 .section {

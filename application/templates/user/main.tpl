@@ -21,16 +21,17 @@
                 Application access
             </div>
             <div class="login-window-input" >
-                <form action="/">
+                <form action="/user/login/" method="POST">
                     <label>
                         <div class="login-window-input-label">Provide your <b>login credentials</b> below</div>
                         <div class="tooltip-container">
-                            <input type="text" placeholder="Username" autofocus="autofocus" required="required" />
+                            <input type="text" name="username" placeholder="Username" autofocus="autofocus" required="required" />
                         </div>
                     </label>
                         <div class="tooltip-container">
-                            <input type="password" placeholder="Password" required="required"/>
+                            <input type="password" name="password" placeholder="Password" required="required"/>
                         </div>
+                        <?php if (isset($_errorMessage)) { ?><div class="login-error"><?=$_errorMessage?></div><?php } ?>
                     <input type="submit" value="Login" />
                 </form>
             </div>

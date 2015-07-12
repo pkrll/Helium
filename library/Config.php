@@ -7,13 +7,13 @@ define('DEFAULT_METHOD', 'main');
 define(APP_NAME, "Helium");
 define(APP_NAME_SHORT, "He");
 define(APP_DESCRIPTION, "");
-define(APP_VERSION, "0.10");
+define(APP_VERSION, "0.10.2");
 
 // DATABASE CONSTANTS
-define(HOSTNAME, "");
-define(USERNAME, "");
+define(HOSTNAME, "localhost");
+define(USERNAME, "root");
 define(PASSWORD, "");
-define(DATABASE, "");
+define(DATABASE, "Helium");
 
 // CONSTANTS
 define(MAX_WIDTH_COVER, 700);

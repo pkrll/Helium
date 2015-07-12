@@ -20,5 +20,4 @@ define(THUMBNAILS,	UPLOAD.'thumbnails/');
 chdir(LIBRARY);
 
 require_once("Config.php");
-
 $boot = new Bootstrap();
