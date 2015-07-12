@@ -1,0 +1,27 @@
+
+
+.fieldset-naked {
+    border:     none;
+    margin:     0;
+    padding:    0;
+}
+
+.pad-18 {
+    padding: 18px;
+}
+
+.pad-18-top-bottom {
+    padding: 18px 0;
+}
+
+.pad-18-bottom {
+    padding: 0 0 18px 0;
+}
+
+.font-16 {
+    font-size: 16px;
+}
+
+.bold {
+    font-weight: bold;
+}

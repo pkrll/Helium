@@ -133,13 +133,20 @@ li.sub-menu {
     box-shadow: -1px 0px 8px #111;
 }
 
-.splash {
+.window-background-opaque {
+
+}
+
+.window-background-transparent {
+    background:     rgba(255,255,255,.5);
+}
+
+.content-window {
     background:     rgba(255,255,255,1);
     color:          #000;
     padding:        10px 0;
     width:          100%;
     height:600px;
-
 }
 
 .flex-box {
@@ -154,6 +161,7 @@ li.sub-menu {
             flex-wrap:  nowrap;
     height:             auto;
     min-height:         auto;
+
 }
 
 .flex-header {

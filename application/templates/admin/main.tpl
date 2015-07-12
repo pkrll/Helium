@@ -3,7 +3,7 @@
                         Administration
                     </div>
                 </div>
-                <div class="splash">
+                <div class="splash" style="z-index: 0;">
                     <h2>Welcome, <?=$username?>.</h2>
                     <div>
                         What do you want to do?

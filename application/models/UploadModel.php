@@ -89,16 +89,16 @@ class UploadModel extends Model {
 		$image->cleanUp();
 		// Add the newly uploaded
 		// image to the database.
-		// $sqlQuery = "INSERT INTO DO_ARTICLES_IMAGES (imageName, type) VALUES (:imageName, :type)";
-		// $sqlParam = array("imageName" => $imageName, "type" => $option);
-		// $response = $this->writeToDatabase ($sqlQuery, $sqlParam);
+		$sqlQuery = "INSERT INTO Articles_Images (imageName, type) VALUES (:imageName, :type)";
+		$sqlParam = array("imageName" => $imageName, "type" => $option);
+		$response = $this->writeToDatabase ($sqlQuery, $sqlParam);
 		// Check for errors while writing
 		// to the database, otherwise return
 		// the id and path of the image.
 		if (isset($response["error"]))
 			return $error;
 			// $id = $response;
-		return array("path" => $returnPath, "id" => time());
+		return array("path" => $returnPath, "id" => $response);
 	}
 
 	/**

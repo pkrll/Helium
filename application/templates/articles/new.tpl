@@ -1,4 +1,4 @@
-                <form id="article" action="/articles/" method="post">
+                <form id="article" action="/articles/create" method="POST">
                     <div class="flex-box flex-header" style="height:10%;">
                         <div class="flex-box-single">
                             New article

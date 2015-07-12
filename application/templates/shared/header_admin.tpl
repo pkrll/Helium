@@ -36,12 +36,11 @@
                         <li class="menu-bar-li sub-menu hidden" data-href="/users/add" style=""><span class="font-icon menu icon-user"></span><span class="menu-title">Edit user</span></li>
                         <li class="menu-bar-li sub-menu hidden" data-href="/users/add" style=""><span class="font-icon menu icon-user-add"></span><span class="menu-title">Add user</span></li>
                         <li class="menu-bar-li"><span class="font-icon menu icon-calendar"></span><span class="menu-title">Calendar</span></li>
-                        <li class="menu-bar-li"><span class="font-icon menu icon-settings"></span><span class="menu-title">Settings</span></li>
+                        <li class="menu-bar-li" data-href="/settings"><span class="font-icon menu icon-settings"></span><span class="menu-title">Settings</span></li>
                         <li class="menu-bar-li" data-href="/user/logout"><span class="font-icon menu icon-logout"></span><span class="menu-title">Logout</span></li>
                     </ul>
                 </div>
             </div>
             <!-- END: SIDEBAR -->
-            <div class="content-container" style="">
+            <div class="content-container">
             <!-- START: CONTENT -->
-<!--  -->

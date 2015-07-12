@@ -22,11 +22,12 @@ $(document).ready(function() {
      */
     $.fn.imageEventClick = function (element) {
         var action    = element.attr("data-action") || false,
-              type    = element.attr("data-type") || false;
+              type    = element.attr("data-type") || false,
+                id    = element.attr("data-id") || false;
         if (type === false || action === false)
 			return null;
         // FIRE!
-    	$.fn.imageHandlerEvent(type, action);
+    	$.fn.imageHandlerEvent(type, action, id);
     }
 
     /**
@@ -73,11 +74,12 @@ $(document).ready(function() {
             // the uploaded images.
             $.fn.createImageElements(type, image)
         } else if (action === "remove") {
-            var imageID = $("input[name='image-"+type+"']").val();
-            // var remove = $.fn.removeImage(type, imageID);
+            if (image === false)
+                return false;
+            // var remove = $.fn.removeImage(type, image);
             var remove = true;
             if (remove === true) {
-                $.fn.removeImageElements(type, imageID);
+                $.fn.removeImageElements(type, image);
             }
         }
     }
@@ -90,8 +92,7 @@ $(document).ready(function() {
         if (type === "cover") {
             $.fn.createCoverImageElement(null, "remove");
         } else if (type === "slideshow") {
-
-            $("div#"+imageID).remove();
+            $("div[data-id='"+imageID+"']").remove();
         }
 
     }
@@ -213,7 +214,7 @@ $(document).ready(function() {
         // Create the picture box
         var divPicBox = $("<div>").attr({
             "class": "picture-box",
-            "id": image.id
+            "data-id": image.id
         }).appendTo(divContainer);
         var divPicElm = $("<div>").attr({
             "class": "picture"
@@ -230,7 +231,8 @@ $(document).ready(function() {
         var spanButton = $("<span>").attr({
             "class": "image-event-button",
             "data-type": "slideshow",
-            "data-action": "remove"
+            "data-action": "remove",
+            "data-id": image.id
         }).append(spanTrash).append(Localize.getLocaleString("Remove image")).appendTo(divCaption);
         var divInput = $("<div>").appendTo(divCaption);
         var input = $("<input>").attr({
@@ -238,7 +240,7 @@ $(document).ready(function() {
         }).appendTo(divInput);
         var inpHidden = $("<input>").attr({
             "type": "hidden",
-            "name": "image-slideshow",
+            "name": "image-slideshow[]",
             "value": image.id
         }).appendTo(divInput);
         // Bind the button to do that stuff
