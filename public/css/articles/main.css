@@ -4,8 +4,8 @@
 }
 
 .flex-box-left {
-    background: rgba(238, 238, 238,.1);
-    color:      #FFFFFF;
+    /*background: rgba(238, 238, 238,.1);*/
+    color:      #000;
     padding:    20px 35px 0 35px;
     width:      65%;
 
@@ -105,7 +105,7 @@ fieldset.left div.dragzone {
 fieldset.right div.dragzone {
     font-size:  14px;
     margin:     auto;
-    padding:    20px;
+    padding:    18px;
     position:   relative;
     text-align: center;
     width:      80%;

@@ -6,14 +6,17 @@ html, body {
 
 
 body {
-    /*background-image:       url("/public/images/system/backgrounds/2.jpg");
-    background-size:        100% 100%;
-    background-attachment:  fixed;
-    background-repeat:      repeat;*/
+    /*background:             #3366FF;*/
+    /*background-image:       url("/public/images/system/backgrounds/1.jpg");*/
+    /*background-size:        100% 100%;*/
+    /*background-attachment:  fixed;*/
+    background-repeat:      repeat;
     font-size:              100%;
     margin:                 0;
-    background:             #996633;
-    /* FF75D1 3399FF 66CCFF */
+    background:             #FAFAFA;
+
+
+    /* FF75D1 3399FF 66CCFF 996633 */
 }
 
 #page-container {
@@ -36,16 +39,19 @@ body {
 }
 
 #menu-bar-container {
-    background:         rgba(0,0,0,0.5);
-    border-right:       1px solid rgba(230,230,230,1);
+    /*background:         rgba(0,0,0,0.8);*/
+    /*border-right:       1px solid rgba(230,230,230,1);*/
+    /*border-right:       1px solid #444444;*/
     width:              30%;
     max-width:          250px;
     min-width:          190px;
+    background:         #1188BB;
 }
 
 
 #menu-bar-header {
-    border-bottom:  1px solid rgba(230,230,230,1);
+    /*border-bottom:  1px solid rgba(230,230,230,1);*/
+    border-bottom:  1px solid #444444;
     color:          #FFFFFF;
     padding:        10px 0 20px 0px;
     text-align:     center;
@@ -78,18 +84,13 @@ body {
 }
 
 #menu-bar-header:hover {
-    background: rgba(230,230,230,1);
+    background: rgba(255,255,255,1);
     cursor:     pointer;
 }
 
 #menu-bar-header:hover a, #menu-bar-header:hover span {
     color: #000000;
 }
-
-/*#menu-bar-header span {
-    font-family:    "Dosis", "Raleway" sans-serif;
-    font-variant:   small-caps;
-}*/
 
 #menu-bar {
     padding: 28px 0 0 0;
@@ -129,43 +130,42 @@ li.sub-menu {
 }
 
 .content-container {
-    background: rgba(0,0,0,0.5);
+    /*background: rgba(0,0,0,0.2);*/
     margin:     0;
     padding:    0px;
-    width:      90%;
-
+    width:      100%;
+    box-shadow: 0px 0px 8px #111;
 }
 
 .splash {
-    color: #FFFFFF;
-    height:100%;
-    padding:10px;
-    width:100%;
+    color:      #000;
+    height:     100%;
+    padding:    10px;
+    width:      100%;
 }
 
 .flex-box {
-    display:        -webkit-flex;
     display:        -webkit-box;
     display:        -moz-box;
     display:        -ms-flexbox;
     display:        -moz-flex;
-    display:        -webkit-flex;
     display:        flex;
+    display:        -webkit-flex;
     width:          100%;
     -webkit-flex-wrap: nowrap;
             flex-wrap: nowrap;
-    height:auto;
-    min-height:auto;
+    height:         auto;
+    min-height:     auto;
 }
 
 .flex-header {
-    border-bottom:  1px solid #FFFFFF;
+    border-bottom:  1px solid #444;
     padding:        10px 0 20px 0;
-    line-height:    64px;
+    line-height:    63px;
 }
 
 .flex-box-single {
-    color:          #FFFFFF;
+    color:          #000;
     font-family:    'Dosis' sans-serif;
     font-size:      44px;
     text-align:     center;
@@ -173,7 +173,6 @@ li.sub-menu {
     width:          100%;
 }
 
-div#upload fieldset.dragzone.highlight,
-form#article fieldset.dragzone.highlight {
+fieldset.dragzone.highlight {
 	border: 1px dashed #0B85A1;
 }

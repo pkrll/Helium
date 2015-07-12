@@ -11,7 +11,7 @@
         <script src="/public/javascript/plugins/helium.localize-1.0.js" charset="utf-8"></script>
         <script src="/public/javascript/helium.js" charset="utf-8"></script>
         <script src="/public/javascript/helium.admin.js" charset="utf-8"></script>
-        <?php if ($include_files) include_once $include_files; ?>
+        <?php if ($includes) { include_once $includes; } ?>
     </head>
     <body>
         <div id="page-container">
