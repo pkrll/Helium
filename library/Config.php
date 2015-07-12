@@ -7,7 +7,7 @@ define('DEFAULT_METHOD', 'main');
 define(APP_NAME, "Helium");
 define(APP_NAME_SHORT, "He");
 define(APP_DESCRIPTION, "");
-define(APP_VERSION, "0.9.6");
+define(APP_VERSION, "0.10");
 
 // DATABASE CONSTANTS
 define(HOSTNAME, "");

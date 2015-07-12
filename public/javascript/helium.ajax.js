@@ -6,7 +6,6 @@ $(document).ready(function() {
 		var element = element || false;
 		if (data === false || type === false)
 			return false;
-
 		// Make the XMLHTTPRequest
 		var xhr = new XMLHttpRequest();
 		xhr.open('POST', '/upload/image/'+type);
@@ -21,16 +20,14 @@ $(document).ready(function() {
 					$.fn.createErrorMessage(response.error.message);
 				} else {
 					$("input#image-"+type).val("");
-					$.fn.imageHandlerEvent(type, "uploaded", response);
+					$.fn.imageHandlerEvent(type, "display", response);
 				}
 			} else {
 				element.find("img").remove();
 				element.children().show();
 				$.fn.createErrorMessage("Ett fel har intr&auml;ffat: status " + xhr.status);
 			}
-
 		}
-
 		xhr.send(data);
 	}
 

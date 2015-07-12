@@ -1,0 +1,36 @@
+@media all and (max-width: 1050px) {
+
+    .menu.font-icon {
+        font-size: 18px;
+    }
+
+    .long {
+        display:none;
+    }
+
+    .short {
+        display:        block;
+        font-variant:   normal;
+    }
+
+    #menu-bar-container {
+        min-width:  140px;
+        width:      15%;
+    }
+
+    .menu-title {
+        /*display:block;
+        padding-top:10px;*/
+    }
+
+    .menu-bar-ul li {
+        font-size:      15px;
+        padding:        15px 15px 15px 15px;
+        /*text-align:   center;*/
+    }
+
+    li.sub-menu {
+        padding-left:   25px;
+    }
+
+}

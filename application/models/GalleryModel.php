@@ -1,15 +1,18 @@
 <?php
 /**
- * GalleryModel
+ * Gallery Model
  *
- * @author Ardalan Samimi
+ * @author  Ardalan Samimi
+ * @since   Available since 0.9.6
  */
-class GalleryModel extends Model {
+ class GalleryModel extends Model {
 	/**
 	 * @access private
 	 * @var integer
 	 */
 	const GALLERY_ITEM_LIMIT = 10;
+    const IMAGES = "/public/images/uploads/normal/";
+    const THUMBS = "/public/images/uploads/thumbnails/";
 
 	/**
 	 * Retrieve the contents of the
@@ -48,8 +51,8 @@ class GalleryModel extends Model {
 				break;
 			$returnImagesArray[] = array(
 				"name" => $filesystemIterator->getFilename(),
-				"path" => "/public/images/uploads/normal/" . $filesystemIterator->getFilename(),
-				"thumbnail" => "/public/images/uploads/thumbnails/" . $filesystemIterator->getFilename(),
+				"path" => self::IMAGES . $filesystemIterator->getFilename(),
+				"thumbnail" => self::THUMBS . $filesystemIterator->getFilename(),
 				"size" => $this->convertBytes ($filesystemIterator->getSize()),
 				"date" => date("Y-m-d H:i", $filesystemIterator->getCTime())
 			);

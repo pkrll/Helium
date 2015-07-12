@@ -84,14 +84,4 @@ class View {
 		echo ob_get_clean();
 	}
 
-	public function stream($content) {
-		echo $content;
-	    ob_flush();
-	    flush();
-	}
-
-	public function setHeader ($header) {
-		foreach ($header as $key => $value)
-			header($value);
-	}
 }

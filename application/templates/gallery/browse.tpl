@@ -1,27 +1,4 @@
-<!DOCTYPE html>
-<html lang="sv">
-    <head>
-        <meta charset="utf-8">
-        <title><?=APP_NAME ?> - Gallery</title>
-        <link href="/public/css/fonts.css" rel="stylesheet" type="text/css">
-        <link href="/public/css/admin/main.css" rel="stylesheet" type="text/css">
-        <link href="/public/css/admin/gallery.css" rel="stylesheet" type="text/css">
-        <script type="text/javascript" src="/public/javascript/jquery-2.1.4.min.js"></script>
-        <script type="text/javascript" src="/public/javascript/helium.js"></script>
-        <script type="text/javascript" src="/public/javascript/helium.gallery.js"></script>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-    </head>
-    <body style="margin:0;">
-    	<input type="file" name="file" style="display:none">
-    	<div id="container">
-    		<div id="searchbox" style="">
-    			<div class="labels button">
-    				<a href="/gallery/?CKEditor=body&amp;CKEditorFuncNum=0&amp;langCode=en"><?=LANG_UPLOAD?></a>
-    			</div>
-    			<input type="search" name="search" id="search" placeholder="<?=LANG_SEARCH?>" style="float:right;"/>
-    		</div>
-
-    		<div id="gallery" class="gallery">
+            <div id="gallery" class="gallery">
     			<div class="image-item header">
     				<div>&nbsp;</div>
     				<div><?=ADMIN_GALLERY_FILENAME?></div>
@@ -55,13 +32,10 @@
         			 else if ($page === FALSE)
         				 echo "...";
         			 else if ($page == $gallery["paging"]["current"])
-        				 echo " {$page} ";
+        				 echo " <b>{$page}</b> ";
         			 else
         				 echo " <a href=\"/gallery/browse/?CKEditor=body&CKEditorFuncNum=0&langCode=en&page={$page}\">{$page}</a> ";
         		}
             }
 ?>
     		</div>
-    	</div>
-    </body>
-</html>

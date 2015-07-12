@@ -1,18 +1,18 @@
 <?php
 /**
- * Main controller
+ * Main Controller
  *
- * @author Ardalan Samimi
+ *
+ * @author  Ardalan Samimi
+ * @since   Available since 0.9
  */
+
 class MainController extends Controller {
 
     protected function main () {
-        $variables = $this->model()->loadFrontPage();
-        $this->view()->render("shared/header.tpl");
-        $this->view()->assign("welcomeText", $variables);
-        $this->view()->render("main/main.tpl");
-        $this->view()->render("shared/footer.tpl");
+        echo "HEllo WOrld!";
     }
+
 }
 
 ?>
