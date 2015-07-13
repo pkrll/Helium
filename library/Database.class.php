@@ -29,6 +29,11 @@ final class Database {
 		$this->statement = $this->connection->prepare($query);
 	}
 
+	public function bindValue($param, $value) {
+		$response = $this->statement->bindValue($param, $value);
+		return $response;
+	}
+
 	public function execute($args = null) {
 		try {
 			$this->statement->execute($args);

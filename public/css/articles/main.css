@@ -42,6 +42,7 @@ fieldset.textarea textarea {
 
 input[type="text"],
 input[type="date"],
+input[type="time"],
 textarea {
     border:             1px solid rgba(0,0,0,0.3);
     font-family:        "Helvetica", sans-serif;
@@ -52,6 +53,14 @@ textarea {
     -webkit-box-sizing: border-box;
        -moz-box-sizing: border-box;
             box-sizing: border-box;
+}
+
+input.published-date {
+    width: 65%;
+}
+
+input.published-time {
+    width: 30%;
 }
 
 .add-input {
@@ -228,7 +237,7 @@ span.image-event-button[data-action='remove']:hover {
 }
 
 .section {
-    background:     rgba(222,222,222,.5);
+    background:     rgba(222,222,222,1);
     border-bottom:  1px solid rgba(0,0,0,.5);
     padding:        16px 15px 16px 15px;
 }

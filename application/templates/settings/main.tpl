@@ -17,6 +17,17 @@
                                             Transparent backgrounds
                                         </label>
                                     </div>
+
+                                    <div class="font-16 bold pad-18-bottom">
+                                        Content
+                                    </div>
+                                    <div>
+                                        <label>
+                                            <input type="checkbox" />
+                                            Enable themes
+                                        </label>
+                                    </div>
+
                                 </div>
                             </fieldset>
                         </form>

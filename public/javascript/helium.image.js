@@ -94,7 +94,6 @@ $(document).ready(function() {
         } else if (type === "slideshow") {
             $("div[data-id='"+imageID+"']").remove();
         }
-
     }
 
     /**
@@ -236,7 +235,9 @@ $(document).ready(function() {
         }).append(spanTrash).append(Localize.getLocaleString("Remove image")).appendTo(divCaption);
         var divInput = $("<div>").appendTo(divCaption);
         var input = $("<input>").attr({
-            "type": "text"
+            "type": "text",
+            "name": "caption-slideshow[]",
+            "placeholder": "Caption"
         }).appendTo(divInput);
         var inpHidden = $("<input>").attr({
             "type": "hidden",

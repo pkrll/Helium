@@ -65,9 +65,9 @@
                                         <label class="select tooltip-container">
                                             <select name="category" id="category" required="required">
                                                 <option value="">Choose category</option>
-                                                <option value="12">Category 1</option>
-                                                <option>Category 2</option>
-                                                <option>Category 3</option>
+<?php                                       foreach ($categories as $key => $value) { ?>
+                                                <option value="<?=$value['id']?>"><?=$value['name']?></option>
+<?php                                       } ?>
                                             </select>
                                         </label>
                                     </div>
@@ -75,10 +75,10 @@
                                     <div class="subsection">
                                         <label class="select">
                                             <select name="theme" id="theme">
-                                                <option>Choose theme (optional)</option>
+                                                <option value="">Choose theme (optional)</option>
                                                 <option value="1">Theme 1</option>
-                                                <option>Theme 2</option>
-                                                <option>Theme 3</option>
+                                                <option value="2">Theme 2</option>
+                                                <option value="3">Theme 3</option>
                                             </select>
                                         </label>
                                     </div>
@@ -140,8 +140,9 @@
                                     <div class="subsection">
                                         <label>
                                             <div class="subsection-label">Publish on</div>
-                                            <input type="date" />
+                                            <input type="date" name="published-date" class="published-date" id="published" placeholder="dd/mm/yyyy"/>
                                         </label>
+                                        <input type="time" name="published-time" class="published-time" placeholder="00:00"/>
                                     </div>
                                 </fieldset>
                             </div>
@@ -152,10 +153,15 @@
                                     <div class="subsection">
                                         <label class="select">
                                             <select name="author" id="author">
-                                                <option>Choose author</option>
-                                                <option value="12" selected="true">John Doe</option>
-                                                <option>Jane Doe</option>
-                                                <option>Tarzan X</option>
+                                                <option value="">Choose author</option>
+<?php                                       foreach ($users["users"] as $key => $value) {
+                                                if ($users["userID"] === $value['id'])
+                                                    $selected = " selected=\"true\"";
+                                                else
+                                                    $selected = "";
+?>
+                                                <option value="<?=$value['id']?>"<?=$selected?>><?=$value['firstname'] . " " . $value['lastname']?></option>
+<?php } ?>
                                             </select>
                                         </label>
                                     </div>
@@ -189,4 +195,20 @@
                         width:"100%",
                         height:"130px",
                     } );
+
+                    CKEDITOR.replace( 'fact', {
+                        toolbar: [
+                            ['Bold', 'Italic', 'Underline'],
+                            ['Paste', 'PasteText', 'PasteFromWord'],
+                            ['RemoveFormat']
+                        ],
+                        width:"100%",
+                        height:"120px",
+                    } );
+
+                    if ($.fn.Browser.safari()) {
+                        $("#published").datepicker({
+                            inline: true
+                        });
+                    }
                 </script>

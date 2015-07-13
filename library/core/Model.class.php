@@ -20,7 +20,7 @@ class Model {
 	 *
 	 * @return void
 	 */
-	final public function __construct() {
+	final public function __construct () {
 		if (HOSTNAME !== FALSE
 			&& DATABASE !== FALSE
 			&& USERNAME !== FALSE
@@ -39,7 +39,7 @@ class Model {
 	 * @param bool $shouldFetchAll
 	 * @return array
 	 */
-	final protected function readFromDatabase($sqlQuery, $params = NULL, $shouldFetchAll = TRUE) {
+	final protected function readFromDatabase ($sqlQuery, $params = NULL, $shouldFetchAll = TRUE) {
 		if ($this->database === FALSE)
 			return $this->createErrorMessage("No database");
 		$this->database->prepare($sqlQuery);
@@ -61,14 +61,25 @@ class Model {
 	 * @param array $params
 	 * @return array
 	 */
-	final protected function writeToDatabase($sqlQuery, $params = NULL) {
+	final protected function writeToDatabase ($sqlQuery = NULL, $params = NULL) {
 		if ($this->database === FALSE)
 			return $this->createErrorMessage("No database");
-		$this->database->prepare($sqlQuery);
+		if ($sqlQuery !== NULL)
+			$this->database->prepare($sqlQuery);
 		$errorMessage = $this->database->execute($params);
 		if ($errorMessage)
 			return $this->createErrorMessage($errorMessage);
 		return $this->database->lastInsertId();
+	}
+
+	final protected function prepare ($sqlQuery) {
+		if ($this->database === FALSE)
+			return $this->createErrorMessage("No database");
+		$this->database->prepare($sqlQuery);
+	}
+
+	final protected function bindValue ($param, $value) {
+		$this->database->bindValue($param, $value);
 	}
 
 	/**

@@ -126,19 +126,11 @@ li.sub-menu {
 }
 
 .content-container {
-    background: rgba(0,0,0,0.6);
+    /*background: rgba(0,0,0,0.6);*/
     margin:     0;
     padding:    0px;
     width:      100%;
     box-shadow: -1px 0px 8px #111;
-}
-
-.window-background-opaque {
-
-}
-
-.window-background-transparent {
-    background:     rgba(255,255,255,.5);
 }
 
 .content-window {
@@ -146,7 +138,6 @@ li.sub-menu {
     color:          #000;
     padding:        10px 0;
     width:          100%;
-    height:600px;
 }
 
 .flex-box {
@@ -161,7 +152,6 @@ li.sub-menu {
             flex-wrap:  nowrap;
     height:             auto;
     min-height:         auto;
-
 }
 
 .flex-header {
