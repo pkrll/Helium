@@ -13,18 +13,20 @@ Clone a copy of the Helium repository
 ### Installation
 * Set up a virtual host in Apache, pointing to the Helium directory.
 * Create a MySQL database and supply the database constants in the file /library/Config.php with the appropriate values.
-*** The database should have the following tables: Users, Roles, Resources ... (More details to come).
+    * MySQL database schema to be added later.
 
 ### Usage
-* Just start creating your controllers (application logic), models (data-access logic) and views and templates (design) as per the folder structure below.
+* Create your controllers, models and views and templates as per the folder structure below.
 ```
 - application/
    - controllers/
-     + Add controllers (ExampleController.php).
+     + Add custom controllers (ExampleController.php).
+   - includes/
+     + Add custom includes templates (controllerName/functionName.inc)
    - models/
-     + Add models (ExampleModel.php).
+     + Add custom models (ExampleModel.php).
    - templates/
-      + The UI templates resides here, with its own folder structure (ie example/main.tpl).
+     + The UI templates resides here, with its own folder structure (ie example/main.tpl).
    - views/
      + Add custom views (ExampleView.php).
 - library/
