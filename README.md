@@ -1,4 +1,4 @@
-# Helium ![Temporary logo] (https://raw.githubusercontent.com/pkrll/Helium/master/public/images/system/admin/tmp-logo-black.png)
+# Helium
 ## What is it?
 Helium is a web application (written in PHP5, JavaScript/jQuery) for managing content and data, simply speaking, a CMS.
 ## Why not done?
@@ -52,4 +52,4 @@ Clone a copy of the Helium repository
 - .htaccess
 ```
 ## License
-This project is licensed under the GNU General Public License v2.0. The logo was created by Designmodo under the Creative Commons (Attribution 3.0 Unported) license. All fonts in this project are licensed under the SIL Open Font License 1.1. The font Numans was created by Jovanny Lemonad. The font Dosis was created by Pablo Impallari.
+This project is licensed under the GNU General Public License v2.0. All fonts and font icons in this project are licensed under the SIL Open Font License 1.1. The font Numans was created by Jovanny Lemonad. The font Dosis was created by Pablo Impallari. Fonts icons were created by Dave Gandy and Daniel Bruce.

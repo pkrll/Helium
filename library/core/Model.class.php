@@ -95,6 +95,17 @@ class Model {
 	}
 
 	/**
+	 * Get the last executed query.
+	 *
+	 * @return string
+	 */
+	final protected function queryString () {
+		if ($this->database === FALSE)
+			return $this->createErrorMessage("No database");
+		return $this->database->queryString();
+	}
+
+	/**
 	 * Creates an array, for error
 	 * handling purposes.
 	 *

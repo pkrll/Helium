@@ -58,6 +58,10 @@ final class Database {
 		return $this->connection->lastInsertId();
 	}
 
+	public function queryString() {
+		return $this->statement->queryString;
+	}
+
 	public function error() {
 		return $this->statement->errorInfo();
 	}

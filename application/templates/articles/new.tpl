@@ -94,8 +94,10 @@
                                         <label>
                                             <div class="subsection-label">Internal links</div>
                                         </label>
-                                            <input type="text" name="links[]" placeholder="Search for article..." />
-                                        <div class="add-input" data-type="text" data-name="links[]" data-placeholder="Search for article...">
+                                        <div class="links-container">
+                                            <input type="search" class="links" placeholder="Search for article..." autocomplete="off" />
+                                        </div>
+                                        <div class="add-input" data-type="search" data-class="links" data-placeholder="Search for article...">
                                             <span class="font-icon icon-plus"></span> Add link
                                         </div>
                                     </div>

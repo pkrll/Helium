@@ -22,9 +22,10 @@ $(document).ready(function() {
         var name = $(this).attr("data-name") || false;
         var remove = $(this).attr("data-remove") || false;
         var legend = $(this).attr("data-legend") || false;
+        var inpClass = $(this).attr("data-class") || false;
         var required = $(this).attr("data-required") || false;
         var placeholder = $(this).attr("data-placeholder") || false;
-        if (type === false || name === false)
+        if (type === false)
             return false;
         // Create the label, if requested,
         // that will sit above the new input.
@@ -36,19 +37,186 @@ $(document).ready(function() {
         // provided by the triggering element.
         var input = $("<input>").attr({
             "type": type,
-            "name": name,
             "autocomplete": "off"
         });
+        // The optional values
         if (id !== false)
             input.attr("id", id);
+        if (name !== false)
+            input.attr("name", name);
+        if (inpClass !== false)
+            input.attr("class", inpClass);
         if (required !== false)
             input.attr("required", "required");
         if (placeholder !== false)
             input.attr("placeholder", placeholder);
-        // INSERT IT
-        input.insertBefore($(this));
+        // If the input is a internal links box
+        // then put it inside a div container.
+        if (inpClass === "links") {
+            var div = $("<div>").addClass("links-container").insertBefore($(this));
+            input.appendTo(div);
+            // Bind the input so it
+            // can do the searching.
+            input.on("keyup", function(event) {
+                $.fn.inputSearchEvent(event, $(this));
+            }).on("search", function() {
+                $.fn.inputSearchEvent("search", $(this));
+            });
+        } else {
+            input.insertBefore($(this));
+        }
+
         if (remove !== false)
             $(this).remove();
-    })
+    });
+
+    /**
+     * Binds the keyup event of the search
+     * input fields to the inputSearchEvent
+     * function.
+     *
+     * @param       object  event
+     */
+    $("input.links").on("keyup", function(event) {
+        $.fn.inputSearchEvent(event, $(this));
+    });
+
+    /**
+     * Remove the suggestion box and the
+     * hidden input field if any.
+     */
+    $("input.links").on("search", function() {
+        $.fn.inputSearchEvent("search", $(this));
+    });
+
+    /**
+     * This function merges the keyup and
+     * the search events. If event is set
+     * to search, that means the user has
+     * cleared the input. This will remove
+     * the suggestion box and also remove
+     * the hidden input field if there are
+     * any. Otherwise, search for internal
+     * links to add, fires 0.5 seconds after
+     * the last key input by user.
+     *
+     * @param       mixed   event
+     * @param       element self
+     */
+    var searchTimeout;
+    $.fn.inputSearchEvent = function (event, self) {
+        // The search event fires either on enter
+        // key or when the cancel button is pressed
+        // If the search box is empty, that probably
+        // means the latter.
+        if (event === "search") {
+            if (self.val().length === 0) {
+                // Remove the suggestions box but also
+                // the hidden input field representing
+                // the linked item.
+                $("div.suggestions").remove();
+                var hiddenInput = self.parent().find("input[type='hidden']");
+                if (hiddenInput.length > 0)
+                    hiddenInput.remove();
+            }
+        } else {
+            // Keys like arrows up, left, right and
+            // enter and others should not be counted.
+            var keyCode = event.keyCode;
+            if (keyCode !== 91 && keyCode !== 38 &&
+                keyCode !== 37 && keyCode !== 39 &&
+                keyCode !== 20 && keyCode !== 16 &&
+                keyCode !== 17 && keyCode !== 18 &&
+                keyCode !== 13 && keyCode !== 93) {
+                // Clear the search timeout and add
+                // a new one half a second long before
+                // actually doing the search.
+                window.clearTimeout(searchTimeout);
+                 searchTimeout = window.setTimeout(function() {
+                     // Remove the previous suggestion
+                     //box, if there were any.
+                     var suggestionsDiv = $("div.suggestions");
+                     if (suggestionsDiv.length > 0)
+                         suggestionsDiv.children().remove();
+                     var searchString = self.val();
+                     $.fn.searchForArticle (self, searchString);
+                 }, 500);
+            }
+        }
+    }
+
+    /**
+     * AJAX call to server that retrieves
+     * ten search results based on query
+     * searchString.
+     *
+     * @param       element element
+     * @param       string  searchString
+     */
+    $.fn.searchForArticle = function (element, searchString) {
+        var searchString = searchString || false,
+                 element = element || false;
+        if (searchString === false || element === false)
+            return null;
+        var data = new FormData();
+        data.append("searchString", searchString);
+		var xhr = new XMLHttpRequest();
+		xhr.open('POST', '/articles/search/');
+		xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+		xhr.onload = function() {
+			// If the request succeeded
+			if (xhr.status === 200) {
+                var response = jQuery.parseJSON(xhr.responseText);
+                if (response.error) {
+                    $.fn.createErrorMessage(response.error.message);
+                } else {
+                    $.fn.createSuggestionsBox(element, response);
+                }
+			}
+		}
+		xhr.send(data);
+    }
+
+    /**
+     * Creates the suggestions box.
+     *
+     * @param       element element
+     * @param       array   suggestions
+     */
+    $.fn.createSuggestionsBox = function (element, suggestions) {
+        var suggestions = suggestions || false;
+        if (suggestions === false)
+            return null;
+        // After variable check, get or create
+        // the div that is the suggestions box.
+        var suggestionsDiv = $("div.suggestions");
+        if (suggestionsDiv.length === 0) {
+            suggestionsDiv = $("<div>").attr({
+                "class": "suggestions"
+            }).insertAfter(element);
+        }
+        // Loop through the suggestions and
+        // display below the element.
+        if (suggestions.length > 0) {
+            $.each(suggestions, function(index, item) {
+                var suggestionDiv = $("<div>").attr({
+                    "class": "suggestion",
+                    "tabindex": -1
+                }).append(item.headline + " (id:"+item.id+")").appendTo(suggestionsDiv);
+                // When clicked, the result should
+                // be added to the input, but also
+                // create a hidden input field.
+                suggestionDiv.on("click", function() {
+                    element.val($(this).html());
+                    var hiddenInput = $("<input>").attr({
+                        "type": "hidden",
+                        "name": "links[]",
+                        "value": item.id,
+                    }).insertAfter(element);
+                    $(this).parent().remove();
+                });
+            });
+        }
+    }
 
 });

@@ -18,7 +18,7 @@ class ArticlesController extends Controller {
     private function createFail ($error, $data) {
         $categories = $this->model()->getCategories();
         $users = $this->model()->getUsers();
-        $includes = INCLUDES . '/' . $this->name() . '/' . __FUNCTION__ . '.inc';
+        $includes = INCLUDES . '/' . $this->name() . '/create.inc';
         $this->view()->assign("includes", $includes);
         $this->view()->render("shared/header_admin.tpl");
         $this->view()->assign("categories", $categories);
@@ -47,6 +47,17 @@ class ArticlesController extends Controller {
             $this->view()->assign("users", $users);
             $this->view()->render("articles/new.tpl");
             $this->view()->render("shared/footer_admin.tpl");
+        }
+    }
+
+    protected function search () {
+        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&
+			strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+            $response = $this->model()->search($_POST['searchString']);
+            if (empty($response))
+                echo json_encode("");
+            else
+                echo json_encode($response);
         }
     }
 

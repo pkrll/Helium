@@ -11,7 +11,6 @@ $(document).ready(function() {
             // Gather all the elements marked with
             // the 'required' attribute.
             var requiredElements = $('input,textarea,select').filter('[required]:visible')
-            console.log(requiredElements);
             $.each(requiredElements, function(index, element) {
                 if ($(element).val() === '')
                     emptyElements.push($(element));

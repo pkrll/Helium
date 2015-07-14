@@ -6,6 +6,7 @@
  * otherwise manipulation of articles and posts of
  * the Helium Application.
  *
+ * @version 1.0
  * @author  Ardalan Samimi
  * @since   Available since 0.10.2
  */
@@ -40,6 +41,15 @@ class ArticlesModel extends Model {
 
     }
 
+    public function search ($searchString = NULL) {
+        if ($searchString === NULL)
+            return NULL;
+        $sqlQuery = "SELECT id, headline FROM Articles WHERE headline LIKE :searchString";
+        $sqlParam = array("searchString" => '%' . $searchString . '%');
+        $response = $this->readFromDatabase($sqlQuery, $sqlParam);
+        return $response;
+    }
+
     /**
      * Adds the article to the database,
      * along with the images that are to
@@ -69,6 +79,9 @@ class ArticlesModel extends Model {
         $response = $this->writeToDatabase($sqlQuery, $sqlParam);
         if (isset($response["error"]))
             return $response["error"];
+
+        // TODO: Add internal linkings too...
+
         // The images metadata are to be
         // placed in a separate table.
         if (!empty($data["images"])) {
@@ -123,11 +136,11 @@ class ArticlesModel extends Model {
         // Set the return array
         $response = array(
             "author"            => (empty($formData["author"])) ? 0 : $formData["author"],
-            "headline"          => utf8_decode($formData["headline"]),
-            "preamble"          => utf8_decode($formData["preamble"]),
-            "body"              => utf8_decode($formData["body"]),
+            "headline"          => $formData["headline"],
+            "preamble"          => $formData["preamble"],
+            "body"              => $formData["body"],
             "category"          => $formData["category"],
-            "fact"              => (empty($formData["fact"])) ? NULL : utf8_decode($formData["fact"]),
+            "fact"              => (empty($formData["fact"])) ? NULL : $formData["fact"],
             "theme"             => (empty($formData["theme"])) ? NULL : $formData["theme"],
             "created"           => time()
         );
@@ -162,14 +175,14 @@ class ArticlesModel extends Model {
             foreach ($image AS $key => $image) {
                 $response[] = array(
                     "image_id"  => $image,
-                    "caption"   => (empty($caption[$key])) ? NULL : utf8_decode($caption[$key]),
+                    "caption"   => (empty($caption[$key])) ? NULL : $caption[$key],
                     "type"      => $type
                 );
             }
         } else {
             $response = array(
                 "image_id"  => $image,
-                "caption"   => (empty($caption)) ? NULL : utf8_decode($caption),
+                "caption"   => (empty($caption)) ? NULL : $caption,
                 "type"      => $type
             );
         }

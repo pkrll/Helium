@@ -43,6 +43,7 @@ fieldset.textarea textarea {
 input[type="text"],
 input[type="date"],
 input[type="time"],
+input[type="search"],
 textarea {
     border:             1px solid rgba(0,0,0,0.3);
     font-family:        "Helvetica", sans-serif;
@@ -53,6 +54,16 @@ textarea {
     -webkit-box-sizing: border-box;
        -moz-box-sizing: border-box;
             box-sizing: border-box;
+}
+
+input[type="search"] {
+    -webkit-appearance: none;
+    padding-left:       0;
+    padding-right:      0;
+}
+
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: default;
 }
 
 input.published-date {
@@ -396,4 +407,32 @@ label.select::after {
        -moz-transform:  rotate(90deg);
         -ms-transform:  rotate(90deg);
             transform:  rotate(90deg);
+}
+
+.links-container {
+    position: relative;
+}
+
+
+div.suggestions {
+    background:     #FFFFFF;
+    border:         1px solid #999;
+    padding:        0;
+    position:       absolute;
+    top:            80%;
+    width:          auto;
+    z-index:999;
+}
+
+div.suggestion {
+    cursor:         pointer;
+    overflow:       hidden;
+    padding:        6px 10px 3px 10px;
+    white-space:    wrap;
+
+}
+
+div.suggestion:hover, .suggestions div.focused {
+    background:     #B4D5FE;
+    outline:        none;
 }
