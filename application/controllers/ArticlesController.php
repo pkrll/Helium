@@ -35,7 +35,8 @@ class ArticlesController extends Controller {
             if (isset($response["error"])) {
                 $this->createFail($response["error"], $_POST);
             } else {
-                header("Location: /articles/" . $response);
+                // header("Location: /articles/" . $response);
+                header("Location: /articles/create");
             }
         } else {
             $categories = $this->model()->getCategories();

@@ -89,8 +89,8 @@ class UploadModel extends Model {
 		$image->cleanUp();
 		// Add the newly uploaded
 		// image to the database.
-		$sqlQuery = "INSERT INTO Articles_Images (imageName, type) VALUES (:imageName, :type)";
-		$sqlParam = array("imageName" => $imageName, "type" => $option);
+		$sqlQuery = "INSERT INTO Articles_Images (image_name, type) VALUES (:image_name, :type)";
+		$sqlParam = array("image_name" => $imageName, "type" => $option);
 		$response = $this->writeToDatabase ($sqlQuery, $sqlParam);
 		// Check for errors while writing
 		// to the database, otherwise return
@@ -111,7 +111,7 @@ class UploadModel extends Model {
 		if ($imageID === NULL)
 			return NULL;
 		$params = array("id" => $imageID);
-		$errorMessage = $this->writeToDatabase("DELETE FROM DO_ARTICLES_IMAGES WHERE id = :id", $params);
+		$errorMessage = $this->writeToDatabase("DELETE FROM Articles_Images WHERE id = :id", $params);
 		return $errorMessage;
 	}
 

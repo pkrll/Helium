@@ -11,7 +11,7 @@ define(APP_VERSION, "0.10.2");
 
 // DATABASE CONSTANTS
 define(HOSTNAME, "localhost");
-define(USERNAME, "root");
+define(USERNAME, "helium");
 define(PASSWORD, "");
 define(DATABASE, "Helium");
 

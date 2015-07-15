@@ -1,5 +1,9 @@
 $(document).ready(function() {
 
+    $(".dismiss").on("click", function() {
+        $(this).parent().remove();
+    });
+
     /**
      * Show/hide the right side sections.
      * Triggers when the user clicks on

@@ -214,3 +214,15 @@
                         });
                     }
                 </script>
+                <?php if (isset($error)) { ?>
+                <div class="overlay-300-center">
+                    <div>
+                        <div class="font-icon icon-attention icon"></div>
+                        <div class="warning">The article could not be added proberly. An error occurred:</div>
+                    </div>
+                    <div class="description">
+                        <?=$error["message"];?>
+                    </div>
+                    <div class="button default dismiss">Dismiss</div>
+                </div>
+                <?php } ?>

@@ -22,3 +22,42 @@ html, body {
 .bottom-label div {
     padding:        10px;
 }
+
+.overlay-300-center {
+    background:     #FFFFFF;
+    border:         1px solid rgba(0,0,0,0.5);
+    border-radius:  3px;
+    box-shadow:     2px 2px 8px #000;
+    color:          #de1212;
+    left:           50%;
+    top:            30%;
+    margin-left:    -150px;
+    padding:        10px;
+    position:       fixed;
+    text-align:     right;
+    width:          300px;
+    z-index:        99999;
+}
+
+.overlay-300-center .icon {
+    display:    inline-block;
+    font-size:  38px;
+    text-align: left;
+}
+
+.overlay-300-center .warning {
+    display:        inline-block;
+    font-weight:    bold;
+    line-height:    16px;
+    padding-left:   10px;
+    text-align:     left;
+    vertical-align: middle;
+    width:          80%;
+}
+
+.overlay-300-center .description {
+    color:          #000000;
+    font-size:      13px;
+    padding-top:    10px;
+    text-align:     left;
+}

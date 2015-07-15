@@ -6,7 +6,7 @@
  * otherwise manipulation of articles and posts of
  * the Helium Application.
  *
- * @version 1.0
+ * @version 1.0.1
  * @author  Ardalan Samimi
  * @since   Available since 0.10.2
  */
@@ -67,9 +67,9 @@ class ArticlesModel extends Model {
         $data = $this->extractFormData($formData);
         // Create a new row for the new
         // post in the Articles table.
-        $sqlQuery = "INSERT INTO Articles (authorId, category, headline, preamble, body, fact, theme, created, published) VALUES (:author, :category, :headline, :preamble, :body, :fact, :theme, :created, :published)";
+        $sqlQuery = "INSERT INTO Articles (author_id, category, headline, preamble, body, fact, theme, created, published) VALUES (:author, :category, :headline, :preamble, :body, :fact, :theme, :created, :published)";
         // The $data variable will also
-        // hold the image meta data. Get
+        // hold other meta data. Retrieve
         // only the values specific for
         // the Articles table.
         $tmpArray = array("author", "category", "headline", "preamble", "body", "fact", "theme", "created", "published");
@@ -79,34 +79,28 @@ class ArticlesModel extends Model {
         $response = $this->writeToDatabase($sqlQuery, $sqlParam);
         if (isset($response["error"]))
             return $response["error"];
-
-        // TODO: Add internal linkings too...
-
-        // The images metadata are to be
-        // placed in a separate table.
-        if (!empty($data["images"])) {
-            // The images will all be inserted
-            // with just one query. Prepare the
-            // query and create the parameter
-            // markers based on the number of
-            // images inside the array.
-            $preQuery = "INSERT INTO Articles_Images_Metadata (image_id, article_id, caption, type) VALUES ";
-            $PDOValue = array_fill(0, count($data["images"]), "(?, ?, ?, ?)");
-            $sqlQuery = $preQuery . implode(",", $PDOValue);
-            $this->prepare($sqlQuery);
-            $count = 1;
-            // Loop through the images array
-            // and bind the parameters, with
-            // $count as position marker.
-            foreach ($data['images'] AS $ke => $image) {
-                $this->bindValue($count++, $image["image_id"]);
-                $this->bindValue($count++, $response);
-                $this->bindValue($count++, $image["caption"]);
-                $this->bindValue($count++, $image["type"]);
+        // The images and internal links
+        // metadata are to be placed in
+        // separate tables.
+        $array["images"] = array_filter($array["images"]);
+        if (!empty($data["images"]) && $data["images"] !== array(NULL)) {
+            // Create the columns for the images metadata table
+            $array = array("image_id", "article_id", "caption", "type");
+            // Add the article id to the images, otherwise there
+            // will be a problem with the insertMetadata method.
+            foreach($data["images"] AS $key => $item) {
+                $data["images"][$key]["article_id"] = $response;
             }
-            // Insert into table, and
-            // check for any errors.
-            $error = $this->writeToDatabase();
+            // Insert the data
+            $error = $this->insertMetadata("Articles_Images_Metadata", $array, $data["images"]);
+            if (isset($error["error"]))
+                return $error;
+        }
+
+        if (!empty($data["links"])) {
+            $data["links"] = $this->createMetaLinkArray($data["links"], $response);
+            $array = array("article_id", "linked_article_id");
+            $error = $this->insertMetadata("Articles_Metadata_Links", $array, $data["links"]);
             if (isset($error["error"]))
                 return $error;
         }
@@ -142,12 +136,15 @@ class ArticlesModel extends Model {
             "category"          => $formData["category"],
             "fact"              => (empty($formData["fact"])) ? NULL : $formData["fact"],
             "theme"             => (empty($formData["theme"])) ? NULL : $formData["theme"],
-            "created"           => time()
+            "created"           => time(),
+            "links"             => (empty($formData["links"])) ? NULL : $formData["links"]
         );
+
         // Get meta info of the images to be
         // stored in a different database.
         $response['images']     = $this->mergeImageWithCaption($formData['image-slideshow'], $formData['caption-slideshow']);
         $response["images"][]   = $this->mergeImageWithCaption($formData['image-cover'], $formData['caption-cover'], "cover");
+        $response["images"]     = array_filter($response["images"]);
         // Check if the post is supposed to
         // be published on a later date.
         if (empty($formData['published-date'])) {
@@ -188,6 +185,87 @@ class ArticlesModel extends Model {
         }
 
         return $response;
+    }
+
+    /**
+     * Format the internal links array
+     * and add the article id to it.
+     *
+     * @param   array   $linksArray
+     * @param   integer $articleID
+     * @return  array
+     */
+    private function createMetaLinkArray ($linksArray, $articleID) {
+        foreach ($linksArray AS $key => $link) {
+            $links[] = array(
+                "article_id" => $articleID,
+                "linked_article_id" => $link
+            );
+        }
+        return $links;
+    }
+
+    /**
+     * Creates multiple rows in a given
+     * table, with the given columns and
+     * values.
+     *
+     * @param   string  $tableName
+     * @param   array   $columnArray
+     * @param   array   $valueArray
+     * @return  mixed
+     */
+    private function insertMetadata ($tableName = NULL, $columnArray = NULL, $valueArray = NULL) {
+        if ($tableName === NULL || $columnArray === NULL || $valueArray === NULL)
+            return NULL;
+        // Make sure that the number of columns
+        // match the number of values supplied.
+        if (count($columnArray) !== count($valueArray[0])) {
+            return $this->createErrorMessage("Invalid parameter number: number of bound variables does not match number of tokens");
+        }
+        // The metadata items should all be
+        // inserted with one query. Prepare
+        // the query, create the parameter
+        // markers based on the count of the
+        // array
+        $preQuery = "INSERT INTO " . $tableName . " (" . implode(", ", $columnArray) . ") VALUES ";
+        $PDOValue = array_fill(0, count($valueArray), $this->createMarkers(count($valueArray[0])));
+        $sqlQuery = $preQuery . implode(",", $PDOValue);
+        $this->prepare($sqlQuery);
+        $count = 1;
+        // Bind the parameters, with $count as
+        // the positions marker. The values array
+        // keys must match the columns array, as
+        // they are going to fill those columns.
+        foreach ($valueArray AS $key => $value) {
+            // Matching the values by keynames from
+            // the column arrays makes sure that the
+            // right value will fill the right column
+            // in the database table.
+            foreach ($columnArray AS $column) {
+                $this->bindvalue($count++, $value[$column]);
+            }
+        }
+        // Insert into table, and
+        // check for any errors.
+        $error = $this->writeToDatabase();
+        if (isset($error["error"]))
+            return $error;
+        return TRUE;
+    }
+
+    /**
+     * Returns a string representing a
+     * question mark parameters marker
+     * with n number of parameters.
+     *
+     * @param   integer $count
+     * @return  string
+     */
+    private function createMarkers ($count = 0) {
+        $markers = array_fill(0, $count, '?');
+        $markers = '(' . implode(", ", $markers) . ')';
+        return $markers;
     }
 
     /**
