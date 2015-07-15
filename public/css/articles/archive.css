@@ -1,0 +1,86 @@
+.div-table {
+    background:     #FFFFFF;
+    width:          100%;
+}
+
+.div-table-row {
+    display:                    -webkit-box;
+    display:                    -moz-box;
+    display:                    -ms-flexbox;
+    display:                    -moz-flex;
+    display:                    -webkit-flex;
+    display:                    flex;
+    font-family:                "Helvetica", "Verdana", "Arial", sans-serif;
+    font-size:                  15px;
+    padding:                    8px 5px 8px 10px;
+    -webkit-align-items:        center;
+            align-items:        center;
+    -webkit-box-orient:         vertical;
+       -moz-box-orient:         vertical;
+    -webkit-box-pack:           center;
+       -moz-box-pack:           center;
+       -ms-flex-pack:           center;
+    -webkit-justify-content:    space-between;
+            justify-content:    space-between;
+}
+
+.div-table-header {
+    font-size:      15px;
+    font-weight:    bold;
+    padding-bottom: 8px;
+    background:     #1188BB;
+    color:          #FFF;
+    border-bottom:  1px solid rgba(0,0,0,0.2);
+}
+
+.div-table-row div:not(:first-of-type) {
+    text-align: center;
+
+}
+
+.header-size-2 {
+    -webkit-flex: 2;
+}
+
+.header-size-1 {
+    -webkit-flex: 1;
+}
+
+.div-table-content:nth-child(odd) {
+    background: rgba(225,225,240,1);
+}
+
+.div-table-content:nth-child(even) {
+    background: rgba(240,240,240,1);
+}
+
+.div-table-content:hover {
+    background: rgba(15,165,195,.5);
+}
+
+.div-table-drawer {
+    background:                 #ccc;
+    background-image:           -webkit-linear-gradient(top, #ccc 5%, #ddd 100%);
+    background-image:                   linear-gradient(top, #ccc 5%, #ddd 100%);
+    color:                      #000;
+    -webkit-justify-content:    center;
+            justify-content:    center;
+}
+
+.div-table-drawer div {
+    font-size:  17px;
+    padding:    15px 5px 15px 5px;
+}
+
+.div-table-drawer a {
+    color:              inherit;
+    text-decoration:    none;
+}
+
+.div-table-drawer a:hover {
+    color:      #0000DE;
+}
+
+.div-table-drawer .font-icon {
+    font-size:19px;
+}

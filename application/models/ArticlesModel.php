@@ -12,6 +12,12 @@
  */
 class ArticlesModel extends Model {
 
+    public function getArticles () {
+        $sqlQuery = "SELECT article.id, article.headline, article.created, article.published, article.last_edit, category.name AS category, CONCAT_WS(' ', user.firstname, user.lastname) AS author FROM Articles AS article JOIN Articles_Categories AS category ON category.id = article.category JOIN Users as user ON user.id = article.author_id ORDER BY article.created DESC LIMIT 10";
+        $response = $this->readFromDatabase($sqlQuery);
+        return $response;
+    }
+
     /**
      * Returns all the users (authors)
      * from the database.

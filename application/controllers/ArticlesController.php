@@ -8,8 +8,14 @@
  */
 class ArticlesController extends Controller {
 
-    protected function main () {
-
+    protected function archive () {
+        $articles = $this->model()->getArticles();
+        $includes = INCLUDES . '/' . $this->name() . '/' . __FUNCTION__ . '.inc';
+        $this->view()->assign("includes", $includes);
+        $this->view()->render("shared/header_admin.tpl");
+        $this->view()->assign("articles", $articles);
+        $this->view()->render("articles/archive.tpl");
+        $this->view()->render("shared/footer_admin.tpl");
     }
 
     /**

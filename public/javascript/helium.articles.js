@@ -127,25 +127,40 @@ $(document).ready(function() {
             // Keys like arrows up, left, right and
             // enter and others should not be counted.
             var keyCode = event.keyCode;
+
             if (keyCode !== 91 && keyCode !== 38 &&
                 keyCode !== 37 && keyCode !== 39 &&
                 keyCode !== 20 && keyCode !== 16 &&
                 keyCode !== 17 && keyCode !== 18 &&
                 keyCode !== 13 && keyCode !== 93) {
+                var suggestionsDiv = $("div.suggestions");
+                if (keyCode === 40) {
+                    if (suggestionsDiv.length)
+                        $.fn.moveDown($(this));
+                        return false;
+                }
                 // Clear the search timeout and add
                 // a new one half a second long before
                 // actually doing the search.
                 window.clearTimeout(searchTimeout);
                  searchTimeout = window.setTimeout(function() {
+                     self.parent().addClass("searching");
                      // Remove the previous suggestion
                      //box, if there were any.
-                     var suggestionsDiv = $("div.suggestions");
+
                      if (suggestionsDiv.length > 0)
                          suggestionsDiv.children().remove();
                      var searchString = self.val();
                      $.fn.searchForArticle (self, searchString);
                  }, 500);
+            } else if (keyCode === 38) {
+                if ($("div.suggestions").length)
+                    $.fn.moveUp($(this));
+            } else if (keyCode === 13) {
+                if ($("div.suggestions").length)
+                    $.fn.selectFocusedDiv($(this));
             }
+
         }
     }
 
@@ -191,6 +206,7 @@ $(document).ready(function() {
         var suggestions = suggestions || false;
         if (suggestions === false)
             return null;
+        element.parent().removeClass("searching");
         // After variable check, get or create
         // the div that is the suggestions box.
         var suggestionsDiv = $("div.suggestions");
@@ -211,6 +227,7 @@ $(document).ready(function() {
                 // be added to the input, but also
                 // create a hidden input field.
                 suggestionDiv.on("click", function() {
+                    element.addClass("no-padding");
                     element.val($(this).html());
                     var hiddenInput = $("<input>").attr({
                         "type": "hidden",
@@ -223,4 +240,60 @@ $(document).ready(function() {
         }
     }
 
+    /**
+     * Move selection of suggestions
+     * box down an item.
+     *
+     * @param   element element
+     */
+    $.fn.moveDown = function (element) {
+        if ($(".suggestions").length) {
+            if ($(".suggestion.focused").length) {
+                var selected = $(".suggestion.focused");
+                if (selected.next().length) {
+                    selected.next().addClass("focused").siblings().removeClass("focused");
+                } else {
+                    selected.removeClass("focused");
+                    $(".suggestions div:first-child").addClass("focused");
+                }
+            } else {
+                $(".suggestions div:first-child").addClass("focused");
+            }
+        }
+    }
+
+    /**
+     * Move selection of suggestions
+     * box up an item.
+     *
+     * @param   element element
+     */
+    $.fn.moveUp = function (element) {
+        if ($(".suggestions").length) {
+            if ($(".suggestion.focused").length) {
+                var selected = $(".suggestion.focused");
+                if (selected.prev().length) {
+                    selected.prev().addClass("focused").siblings().removeClass("focused");
+                } else {
+                    selected.removeClass("focused");
+                    $(".suggestions div:last-child").addClass("focused");
+                }
+            } else {
+                $(".suggestions div:last-child").addClass("focused");
+            }
+        }
+    }
+
+    /**
+     * Select the current selection
+     * and emulate a single click.
+     *
+     * @param   element element
+     */
+    $.fn.selectFocusedDiv = function (element) {
+        var selected = $(".suggestions").find("div.focused");
+        if (selected.length)
+            selected.trigger("click");
+        return false;
+    }
 });

@@ -27,14 +27,15 @@
                         <li class="menu-bar-li" data-href="/admin/"><span class="font-icon menu icon-home"></span><span class="menu-title">Home</span></li>
                         <li class="menu-bar-li" data-href="open:sub-menu"><span class="font-icon menu icon-document"></span><span class="menu-title">Articles</span></li>
                         <li class="menu-bar-li sub-menu hidden" data-href="/articles/create" style=""><span class="font-icon menu icon-pencil"></span><span class="menu-title">New</span></li>
-                        <li class="menu-bar-li sub-menu hidden" data-href="/articles/list" style=""><span class="font-icon menu icon-box"></span><span class="menu-title">Archive</span></li>
+                        <li class="menu-bar-li sub-menu hidden" data-href="/articles/archive" style=""><span class="font-icon menu icon-box"></span><span class="menu-title">Archive</span></li>
                         <li class="menu-bar-li" data-href="open:sub-menu"><span class="font-icon menu icon-front"></span><span class="menu-title">Front page</span></li>
                         <li class="menu-bar-li sub-menu hidden" data-href="/admin/front/edit" style=""><span class="font-icon menu icon-pencil"></span><span class="menu-title">Edit</span></li>
                         <li class="menu-bar-li sub-menu hidden" data-href="/admin/front/add" style=""><span class="font-icon menu icon-tools"></span><span class="menu-title">Modules</span></li>
                         <li class="menu-bar-li"><span class="font-icon menu icon-gallery"></span><span class="menu-title">Gallery</span></li>
                         <li class="menu-bar-li" data-href="open:sub-menu"><span class="font-icon menu icon-users"></span><span class="menu-title">Users</span></li>
-                        <li class="menu-bar-li sub-menu hidden" data-href="/users/add" style=""><span class="font-icon menu icon-user"></span><span class="menu-title">Edit user</span></li>
-                        <li class="menu-bar-li sub-menu hidden" data-href="/users/add" style=""><span class="font-icon menu icon-user-add"></span><span class="menu-title">Add user</span></li>
+                        <li class="menu-bar-li sub-menu hidden" data-href="/users/edit" style=""><span class="font-icon menu icon-user"></span><span class="menu-title">Edit</span></li>
+                        <li class="menu-bar-li sub-menu hidden" data-href="/users/add" style=""><span class="font-icon menu icon-user-add"></span><span class="menu-title">Add</span></li>
+                        <li class="menu-bar-li" data-href="/users/rights"><span class="font-icon menu icon-eye"></span><span class="menu-title">Permission</span></li>
                         <li class="menu-bar-li"><span class="font-icon menu icon-calendar"></span><span class="menu-title">Calendar</span></li>
                         <li class="menu-bar-li" data-href="/settings"><span class="font-icon menu icon-settings"></span><span class="menu-title">Settings</span></li>
                         <li class="menu-bar-li" data-href="/user/logout"><span class="font-icon menu icon-logout"></span><span class="menu-title">Logout</span></li>

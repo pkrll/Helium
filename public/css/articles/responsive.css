@@ -21,3 +21,11 @@
         width:                  100%;
     }
 }
+
+@media all and (max-width: 517px) {
+
+.div-table-row:not(.div-table-drawer) div:nth-child(2) {
+        display: none;
+    }
+
+}

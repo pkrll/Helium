@@ -13,7 +13,7 @@
                                     <input maxlength="140" type="text" name="headline" id="headline" autocomplete="off" required="required"/>
                                 </div>
                                 <div class="add-input" data-type="text" data-name="small-headline" data-id="smallHeadline" data-remove="true" data-legend="Small headline">
-                                    <span class="font-icon icon-plus" style=""></span> Add small headline
+                                    <span class="font-icon icon-plus"></span> Add small headline
                                 </div>
                             </fieldset>
 
