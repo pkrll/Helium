@@ -10,7 +10,7 @@
                             <fieldset class="left">
                                 <legend>Headline</legend>
                                 <div class="tooltip-container">
-                                    <input maxlength="140" type="text" name="headline" id="headline" autocomplete="off" required="required"/>
+                                    <input maxlength="140" type="text" name="headline" id="headline" autocomplete="off" required="required" value="<?=$contents["article"]["headline"]?>"/>
                                 </div>
                                 <div class="add-input" data-type="text" data-name="small-headline" data-id="smallHeadline" data-remove="true" data-legend="Small headline">
                                     <span class="font-icon icon-plus"></span> Add small headline
@@ -20,14 +20,14 @@
                             <fieldset class="left textarea">
                                 <legend>Preamble</legend>
                                 <div class="tooltip-container">
-                                    <textarea name="preamble" id="preamble" required="required"></textarea>
+                                    <textarea name="preamble" id="preamble" required="required"><?=$contents["article"]["preamble"]?></textarea>
                                 </div>
                             </fieldset>
 
                             <fieldset class="left textarea">
                                 <legend>Body</legend>
                                 <div class="tooltip-container">
-                                    <textarea name="body" id="body" required="required"></textarea>
+                                    <textarea name="body" id="body" required="required"><?=$contents["article"]["body"]?></textarea>
                                 </div>
                             </fieldset>
 
@@ -45,7 +45,32 @@
                                         </span>
                                     </div>
                                 </div>
-
+                                <?php
+                                    if (!empty($contents["images"]["slide"]["image"])) {
+                                ?>
+                                    <div class="picture-box-container">
+                                <?php
+                                        foreach ($contents["images"]["slide"]["image"] AS $key => $image) {
+                                ?>
+                                    <div class="picture-box" data-id="<?=$image["id"]?>">
+                                        <div class="picture">
+                                            <img src="/public/images/uploads/thumbnails/<?=$image["image_name"]?>" />
+                                        </div>
+                                        <div class="caption">
+                                            <span class="image-event-button" data-type="slideshow" data-action="remove" data-id="<?=$image["id"]?>" data-edit="true"><span class="font-icon icon-cancel-circled"></span>Ta bort bild</span>
+                                            <div>
+                                                <input type="text" name="caption-slideshow[]" placeholder="Caption" value="<?=$contents["images"]["slide"]["caption"][$key]?>">
+                                                <input type="hidden" name="image-slideshow[]" value="<?=$image["id"]?>">
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php
+                                        }
+                                ?>
+                                    </div>
+                                <?php
+                                    }
+                                ?>
                             </fieldset>
 
                         </div>
@@ -66,9 +91,10 @@
                                             <select name="category" id="category" required="required">
                                                 <option value="">Choose category</option>
                                             <?php
-                                                foreach ($categories as $key => $value) {
+                                                foreach ($constants["categories"] as $key => $value) {
+                                                    $selected = ($contents["article"]["category"] === $value["id"]) ? " selected" : "";
                                             ?>
-                                                <option value="<?=$value['id']?>"><?=$value['name']?></option>
+                                                <option value="<?=$value['id']?>"<?=$selected?>><?=$value['name']?></option>
                                             <?php
                                                 }
                                             ?>
@@ -90,7 +116,7 @@
                                     <div class="subsection">
                                         <label>
                                             <div class="subsection-label">Tags</div>
-                                            <input type="text" name="tags" id="tags" placeholder="HTML5, PHP programming, fun ..." />
+                                            <input type="text" name="tags" id="tags" placeholder="HTML5, PHP programming, fun ..." value="<?=$contents["article"]["tags"]?>"/>
                                         </label>
                                     </div>
 
@@ -98,6 +124,18 @@
                                         <label>
                                             <div class="subsection-label">Internal links</div>
                                         </label>
+                                        <?php
+                                            if (!empty($contents['links'])) {
+                                                foreach ($contents['links'] AS $link) {
+                                        ?>
+                                            <div class="links-container">
+                                                <input type="search" class="links" placeholder="Search for article..." autocomplete="off" value="<?=$link["headline"]?> (id:<?=$link["id"]?>)"/>
+                                                <input type="hidden" name="links[]" value="<?=$link["id"]?>"/>
+                                            </div>
+                                        <?php
+                                                }
+                                            }
+                                        ?>
                                         <div class="links-container">
                                             <input type="search" class="links" placeholder="Search for article..." autocomplete="off" />
                                         </div>
@@ -112,19 +150,41 @@
                             <div class="section">
                                 <fieldset class="dragzone right image-cover" data-type="cover">
                                     <legend class="section-label">cover image</legend>
-                                    <div class="dragzone">
-                                        <div>Upload image by dragging it onto this field, or use the button below.</div>
-                                        <div class="browse-box">
-                                            <input type="file" id="image-cover" />
-                                            <button class="image-event-button" data-type="cover" data-action="upload">Upload</button>
+                                    <?php
+                                        if (!empty($contents["images"]["cover"])) {
+                                    ?>
+                                        <div class="picture-box cover">
+                                            <div class="picture">
+                                                <img src="/public/images/uploads/cover/<?=$contents["images"]["cover"]["image"]["image_name"]?>" />
+                                            </div>
+                                            <div class="caption">
+                                                <div>
+                                                    <input type="text" name="caption-cover" placeholder="Caption" value="<?=$contents["images"]["cover"]["caption"]?>" />
+                                                    <input type="hidden" name="image-cover" value="<?=$contents["images"]["cover"]["image"]["id"]?>" />
+                                                </div>
+                                                <div>
+                                                    <span class="image-event-button" data-type="cover" data-action="remove">Remove image</span>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="gallery-box">
-                                            <span class="gallery">
-                                                <span class="font-icon icon-gallery"></span>Choose from gallery
-                                            </span>
+                                    <?php
+                                        } else {
+                                    ?>
+                                        <div class="dragzone">
+                                            <div>Upload image by dragging it onto this field, or use the button below.</div>
+                                            <div class="browse-box">
+                                                <input type="file" id="image-cover" />
+                                                <button class="image-event-button" data-type="cover" data-action="upload">Upload</button>
+                                            </div>
+                                            <div class="gallery-box">
+                                                <span class="gallery">
+                                                    <span class="font-icon icon-gallery"></span>Choose from gallery
+                                                </span>
+                                            </div>
                                         </div>
-                                    </div>
-
+                                    <?php
+                                        }
+                                    ?>
                                 </fieldset>
                             </div>
 
@@ -134,7 +194,7 @@
                                     <div class="subsection">
                                         <label>
                                             <div class="subsection-label">Fact box</div>
-                                            <textarea name="fact" id="fact"></textarea>
+                                            <textarea name="fact" id="fact"><?=$contents["article"]["fact"]?></textarea>
                                         </label>
                                     </div>
                                 </fieldset>
@@ -146,9 +206,9 @@
                                     <div class="subsection">
                                         <label>
                                             <div class="subsection-label">Publish on</div>
-                                            <input type="date" name="published-date" class="published-date" id="published" placeholder="dd/mm/yyyy"/>
+                                            <input type="date" name="published-date" class="published-date" id="published" placeholder="m/d/yyyy" value="<?=$contents["article"]["published-date"]?>"/>
                                         </label>
-                                        <input type="time" name="published-time" class="published-time" placeholder="00:00"/>
+                                        <input type="time" name="published-time" class="published-time" placeholder="00:00" value="<?=$contents["article"]["published-time"]?>"/>
                                     </div>
                                 </fieldset>
                             </div>
@@ -161,10 +221,10 @@
                                             <select name="author" id="author">
                                                 <option value="">Choose author</option>
                                             <?php
-                                                foreach ($users["users"] as $key => $value) {
-                                                    $selected = ($users["userID"] === $value['id']) ? " selected=\"true\"" : $selected = "";
+                                                foreach ($constants["authors"]["list"] as $key => $value) {
+                                                    $selected = ($constants["authors"]["current"] === $value['id']) ? " selected=\"true\"" : $selected = "";
                                             ?>
-                                                <option value="<?=$value['id']?>"<?=$selected?>><?=$value['firstname'] . " " . $value['lastname']?></option>
+                                                <option value="<?=$value['id']?>"<?=$selected?>><?=$value['author']?></option>
                                             <?php
                                                 }
                                             ?>

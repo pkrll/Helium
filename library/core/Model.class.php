@@ -39,10 +39,11 @@ class Model {
 	 * @param bool $shouldFetchAll
 	 * @return array
 	 */
-	final protected function readFromDatabase ($sqlQuery, $params = NULL, $shouldFetchAll = TRUE) {
+	final protected function readFromDatabase ($sqlQuery = NULL, $params = NULL, $shouldFetchAll = TRUE) {
 		if ($this->database === FALSE)
 			return $this->createErrorMessage("No database");
-		$this->database->prepare($sqlQuery);
+		if ($sqlQuery !== NULL)
+			$this->database->prepare($sqlQuery);
 		$errorMessage = $this->database->execute($params);
 		if ($errorMessage !== NULL)
 			return $this->createErrorMessage($errorMessage);

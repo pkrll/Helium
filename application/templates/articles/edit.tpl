@@ -1,4 +1,4 @@
-                <form id="article" action="/articles/create" method="POST">
+                <form id="article" action="/articles/edit" method="POST">
                     <div class="flex-box flex-header" style="height:10%;">
                         <div class="flex-box-single">
                             Edit article
@@ -10,7 +10,7 @@
                             <fieldset class="left">
                                 <legend>Headline</legend>
                                 <div class="tooltip-container">
-                                    <input maxlength="140" type="text" name="headline" id="headline" autocomplete="off" required="required" value="<?=$article["headline"]?>"/>
+                                    <input maxlength="140" type="text" name="headline" id="headline" autocomplete="off" required="required" value="<?=$contents["article"]["headline"]?>"/>
                                 </div>
                                 <div class="add-input" data-type="text" data-name="small-headline" data-id="smallHeadline" data-remove="true" data-legend="Small headline">
                                     <span class="font-icon icon-plus"></span> Add small headline
@@ -20,14 +20,14 @@
                             <fieldset class="left textarea">
                                 <legend>Preamble</legend>
                                 <div class="tooltip-container">
-                                    <textarea name="preamble" id="preamble" required="required"><?=$article['preamble']?></textarea>
+                                    <textarea name="preamble" id="preamble" required="required"><?=$contents["article"]["preamble"]?></textarea>
                                 </div>
                             </fieldset>
 
                             <fieldset class="left textarea">
                                 <legend>Body</legend>
                                 <div class="tooltip-container">
-                                    <textarea name="body" id="body" required="required"><?=$article['body']?></textarea>
+                                    <textarea name="body" id="body" required="required"><?=$contents["article"]["body"]?></textarea>
                                 </div>
                             </fieldset>
 
@@ -46,22 +46,22 @@
                                     </div>
                                 </div>
                             <?php
-                                if (!empty($images['slide'])) {
+                                if (!empty($contents["images"]["slide"])) {
                             ?>
                                 <div class="picture-box-container">
                             <?php
-                                    foreach ($images['slide'] AS $image) {
-                                        if ($image['type'] === "slideshow") {
+                                    foreach ($contents["images"]["slide"] AS $image) {
+                                        if ($image["type"] === "slideshow") {
                             ?>
-                                <div class="picture-box" data-id="<?=$image['id']?>">
+                                <div class="picture-box" data-id="<?=$image["id"]?>">
                                     <div class="picture">
-                                        <img src="/public/images/uploads/thumbnails/<?=$image['image_name']?>" />
+                                        <img src="/public/images/uploads/thumbnails/<?=$image["image_name"]?>" />
                                     </div>
                                     <div class="caption">
-                                        <span class="image-event-button" data-type="slideshow" data-action="remove" data-id="<?=$image['id']?>"><span class="font-icon icon-cancel-circled"></span>Ta bort bild</span>
+                                        <span class="image-event-button" data-type="slideshow" data-action="remove" data-id="<?=$image["id"]?>" data-edit="true"><span class="font-icon icon-cancel-circled"></span>Ta bort bild</span>
                                         <div>
-                                            <input type="text" name="caption-slideshow[]" placeholder="Caption" value="<?=$image['caption']?>">
-                                            <input type="hidden" name="image-slideshow[]" value="<?=$image['id']?>">
+                                            <input type="text" name="caption-slideshow[]" placeholder="Caption" value="<?=$image["caption"]?>">
+                                            <input type="hidden" name="image-slideshow[]" value="<?=$image["id"]?>">
                                         </div>
                                     </div>
                                 </div>
@@ -93,10 +93,10 @@
                                             <select name="category" id="category" required="required">
                                                 <option value="">Choose category</option>
                                             <?php
-                                                foreach ($categories as $key => $value) {
-                                                    $selected = ($article['category'] == $value['id']) ? " selected" : "";
+                                                foreach ($constants["categories"] as $key => $value) {
+                                                    $selected = ($contents["article"]["category"] == $value["id"]) ? " selected" : "";
                                             ?>
-                                                <option value="<?=$value['id']?>"<?=$selected?>><?=$value['name']?></option>
+                                                <option value="<?=$value["id"]?>"<?=$selected?>><?=$value["name"]?></option>
                                             <?php
                                                 }
                                             ?>
@@ -118,7 +118,7 @@
                                     <div class="subsection">
                                         <label>
                                             <div class="subsection-label">Tags</div>
-                                            <input type="text" name="tags" id="tags" placeholder="HTML5, PHP programming, fun ..." value="<?=$article['tags']?>"/>
+                                            <input type="text" name="tags" id="tags" placeholder="HTML5, PHP programming, fun ..." value="<?=$contents["article"]["tags"]?>"/>
                                         </label>
                                     </div>
 
@@ -127,12 +127,12 @@
                                             <div class="subsection-label">Internal links</div>
                                         </label>
                                     <?php
-                                        if (!empty($links)) {
-                                            foreach ($links AS $link) {
+                                        if (!empty($contents['links'])) {
+                                            foreach ($contents['links'] AS $link) {
                                     ?>
                                         <div class="links-container">
-                                            <input type="search" class="links" placeholder="Search for article..." autocomplete="off" value="<?=$link['headline']?> (id:<?=$link['id']?>)"/>
-                                            <input type="hidden" name="links[]" value="<?=$link['id']?>"/>
+                                            <input type="search" class="links" placeholder="Search for article..." autocomplete="off" value="<?=$link["headline"]?> (id:<?=$link["id"]?>)"/>
+                                            <input type="hidden" name="links[]" value="<?=$link["id"]?>"/>
                                         </div>
                                     <?php
                                             }
@@ -150,16 +150,16 @@
                                 <fieldset class="dragzone right image-cover" data-type="cover">
                                     <legend class="section-label">cover image</legend>
                                 <?php
-                                    if (!empty($images['cover'])) {
+                                    if (!empty($contents["images"]["cover"])) {
                                 ?>
                                     <div class="picture-box cover">
                                         <div class="picture">
-                                            <img src="/public/images/uploads/cover/<?=$images['cover']['image_name']?>" />
+                                            <img src="/public/images/uploads/cover/<?=$contents["images"]["cover"]["image_name"]?>" />
                                         </div>
                                         <div class="caption">
                                             <div>
-                                                <input type="text" name="caption-cover" placeholder="Caption" value="<?=$images['cover']['caption']?>" />
-                                                <input type="hidden" name="image-cover" value="<?=$images['cover']['id']?>" />
+                                                <input type="text" name="caption-cover" placeholder="Caption" value="<?=$contents["images"]["cover"]["caption"]?>" />
+                                                <input type="hidden" name="image-cover" value="<?=$contents["images"]["cover"]["id"]?>" />
                                             </div>
                                             <div>
                                                 <span class="image-event-button" data-type="cover" data-action="remove">Remove image</span>
@@ -193,7 +193,7 @@
                                     <div class="subsection">
                                         <label>
                                             <div class="subsection-label">Fact box</div>
-                                            <textarea name="fact" id="fact"><?=$article['fact']?></textarea>
+                                            <textarea name="fact" id="fact"><?=$contents["article"]["fact"]?></textarea>
                                         </label>
                                     </div>
                                 </fieldset>
@@ -205,9 +205,9 @@
                                     <div class="subsection">
                                         <label>
                                             <div class="subsection-label">Publish on</div>
-                                            <input type="date" name="published-date" class="published-date" id="published" placeholder="dd/mm/yyyy" value="<?=$article['published']['date']?>"/>
+                                            <input type="date" name="published-date" class="published-date" id="published" placeholder="m/d/yyyy" value="<?=$contents["article"]["published"]["date"]?>"/>
                                         </label>
-                                        <input type="time" name="published-time" class="published-time" placeholder="00:00" value="<?=$article['published']['time']?>"/>
+                                        <input type="time" name="published-time" class="published-time" placeholder="00:00" value="<?=$contents["article"]["published"]["time"]?>"/>
                                     </div>
                                 </fieldset>
                             </div>
@@ -220,11 +220,11 @@
                                             <select name="author" id="author">
                                                 <option value="">Choose author</option>
                                             <?php
-                                                foreach ($users["users"] as $key => $value) {
-                                                    $selected = ($article['author_id'] === $value['id']) ? " selected=\"true\"" : "";
-                ?>
-                                                <option value="<?=$value['id']?>"<?=$selected?>><?=$article['author']?></option>
-                <?php } ?>
+                                                foreach ($constants["authors"]["list"] as $key => $value) {
+                                                    $selected = ($contents["article"]["author_id"] === $value["id"]) ? " selected=\"true\"" : "";
+                                            ?>
+                                                <option value="<?=$value["id"]?>"<?=$selected?>><?=$value["author"]?></option>
+                                            <?php } ?>
                                             </select>
                                         </label>
                                     </div>
@@ -236,34 +236,34 @@
                     </div>
                 </form>
                 <script>
-                    CKEDITOR.replace( 'body', {
+                    CKEDITOR.replace( "body", {
                         toolbar: [
-                            ['Bold', 'Italic', 'Underline'],
-                            ['Paste', 'PasteText', 'PasteFromWord'],
-                            ['RemoveFormat'],
-                            ['Link', 'Unlink', 'Image'],
-                            ['Format','Source'],
+                            ["Bold", "Italic", "Underline"],
+                            ["Paste", "PasteText", "PasteFromWord"],
+                            ["RemoveFormat"],
+                            ["Link", "Unlink", "Image"],
+                            ["Format","Source"],
                         ],
                         width:"100%",
                         height:"400px",
                     } );
 
-                    CKEDITOR.replace( 'preamble', {
+                    CKEDITOR.replace( "preamble", {
                         toolbar: [
-                            ['Bold', 'Italic', 'Underline'],
-                            ['Paste', 'PasteText', 'PasteFromWord'],
-                            ['RemoveFormat'],
-                            ['Format','Source'],
+                            ["Bold", "Italic", "Underline"],
+                            ["Paste", "PasteText", "PasteFromWord"],
+                            ["RemoveFormat"],
+                            ["Format","Source"],
                         ],
                         width:"100%",
                         height:"130px",
                     } );
 
-                    CKEDITOR.replace( 'fact', {
+                    CKEDITOR.replace( "fact", {
                         toolbar: [
-                            ['Bold', 'Italic', 'Underline'],
-                            ['Paste', 'PasteText', 'PasteFromWord'],
-                            ['RemoveFormat']
+                            ["Bold", "Italic", "Underline"],
+                            ["Paste", "PasteText", "PasteFromWord"],
+                            ["RemoveFormat"]
                         ],
                         width:"100%",
                         height:"120px",

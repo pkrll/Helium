@@ -24,17 +24,27 @@ class ArticlesModel extends Model {
         if ($articleID === NULL)
             return FALSE;
         $sqlQuery = "SELECT article.id, article.author_id, article.headline, article.preamble, article.body,
-                            article.fact, article.tags, article.theme, article.published, category.id AS category,
-                            CONCAT_WS(' ', user.firstname, user.lastname) AS author
+                            article.fact, article.tags, article.theme, article.published, category.id AS category
                     FROM Articles AS article
                             JOIN Articles_Categories AS category
                                 ON category.id = article.category
-                            JOIN Users AS user
-                                ON user.id = article.author_id
                     WHERE article.id = :id";
         $sqlParam = array("id" => $articleID);
-        $response['article'] = $this->readFromDatabase($sqlQuery, $sqlParam, FALSE);
-        // Get the images
+        $response["article"] = $this->readFromDatabase($sqlQuery, $sqlParam, FALSE);
+        // Get the published date
+        if (!empty($response["article"]["published"])) {
+            $response["article"]["published"] = array(
+                "date" => date("m/d/Y", $response["article"]["published"]),
+                "time" => date("H:i", $response["article"]["published"])
+            );
+        } else {
+            $response["article"]["published"] = array(
+                "date" => NULL,
+                "time" => NULL
+            );
+        }
+        // Retrieve metadata
+        // Images
         $tableName          = "Articles_Images_Metadata AS meta";
         $columns            = array(
             "meta.caption",
@@ -46,10 +56,12 @@ class ArticlesModel extends Model {
         $joins              = array("Articles_Images AS image");
         $joinsCondition     = array("image.id = meta.image_id");
         $tmpArray           = $this->getMetadataOfArticle($tableName, $columns, $condition, $sqlParam, $joins, $joinsCondition);
-
-        $response['slideshow']  = array_filter($tmpArray, function($value) { return $value['type'] === "slideshow"; });
-        $response['cover']      = array_shift(array_filter($tmpArray, function($value) { return $value['type'] === "cover"; }));
-        // Get the linked articles
+        // The images are either of type cover
+        // or slideshow, below code will sort
+        // the types in two different variables.
+        $response["slideshow"]  = array_filter($tmpArray, function($value) { return $value["type"] === "slideshow"; });
+        $response["cover"]      = array_shift(array_filter($tmpArray, function($value) { return $value["type"] === "cover"; }));
+        // Linked articles
         $tableName          = "Articles_Metadata_Links AS meta";
         $columns            = array(
             "meta.linked_article_id AS id",
@@ -90,11 +102,11 @@ class ArticlesModel extends Model {
      * @return  array
      */
     public function getUsers () {
-        $sqlQuery = "SELECT id, firstname, lastname FROM Users";
+        $sqlQuery = "SELECT id, CONCAT_WS(' ', firstname, lastname) AS author FROM Users";
         $response = $this->readFromDatabase($sqlQuery);
         $returnValue = array(
-            "userID" => Session::get("user_id"),
-            "users" => $response
+            "current"   => Session::get("user_id"),
+            "list"      => $response
         );
         return $returnValue;
     }
@@ -121,6 +133,54 @@ class ArticlesModel extends Model {
             $sqlQuery = "SELECT article.id, article.headline, article.created, article.published, article.last_edit, category.name AS category, CONCAT_WS(' ', user.firstname, user.lastname) AS author FROM Articles AS article JOIN Articles_Categories AS category ON category.id = article.category JOIN Users as user ON user.id = article.author_id WHERE headline LIKE :searchString ORDER BY article.created DESC LIMIT 10";
         $sqlParam = array("searchString" => '%' . $searchString . '%');
         $response = $this->readFromDatabase($sqlQuery, $sqlParam);
+        return $response;
+    }
+
+    /**
+     * Retrieve the name of the images
+     * with given ids, as specified in
+     * the parameter.
+     *
+     * @param   array   $imageArray
+     * @return  array
+     */
+    public function getImagesWithID ($imageArray = NULL) {
+        if ($imageArray === NULL)
+            return NULL;
+        // The query will fetch all at once, by
+        // using the exact amount of markers as
+        // the size of the array dictates.
+        $sqlQuery = "SELECT id, image_name FROM Articles_Images WHERE id IN " . $this->createMarkers(count($imageArray));
+        $this->prepare($sqlQuery);
+        // Bind the values = set the IDs
+        $count = 1;
+        foreach ($imageArray AS $value)
+            $this->bindvalue($count++, $value);
+        $response = $this->readFromDatabase();
+        return $response;
+    }
+
+    /**
+     * Retrieve the headline of the articles
+     * with given ids, as specified in the
+     * parameter.
+     *
+     * @param   array   $linksArray
+     * @return  array
+     */
+    public function getLinks ($linksArray = NULL) {
+        if ($linksArray === NULL)
+            return NULL;
+        // The query will fetch all at once, by
+        // using the exact amount of markers as
+        // the size of the array dictates.
+        $sqlQuery = "SELECT id, headline FROM Articles WHERE id IN " . $this->createMarkers(count($linksArray));
+        $this->prepare($sqlQuery);
+        // Bind the values = set the IDs
+        $count = 1;
+        foreach ($linksArray AS $value)
+            $this->bindvalue($count++, $value);
+        $response = $this->readFromDatabase();
         return $response;
     }
 
@@ -217,15 +277,15 @@ class ArticlesModel extends Model {
 
         // Get meta info of the images to be
         // stored in a different database.
-        $response['images']     = $this->mergeImageWithCaption($formData['image-slideshow'], $formData['caption-slideshow']);
-        $response["images"][]   = $this->mergeImageWithCaption($formData['image-cover'], $formData['caption-cover'], "cover");
+        $response["images"]     = $this->mergeImageWithCaption($formData["image-slideshow"], $formData["caption-slideshow"]);
+        $response["images"][]   = $this->mergeImageWithCaption($formData["image-cover"], $formData["caption-cover"], "cover");
         $response["images"]     = array_filter($response["images"]);
         // Check if the post is supposed to
         // be published on a later date.
-        if (empty($formData['published-date'])) {
+        if (empty($formData["published-date"])) {
             $response["published"] = NULL;
         } else {
-            $response['published'] = $this->getUnixTimestamp($formData['published-date'], $formData['published-time']);
+            $response["published"] = $this->getUnixTimestamp($formData["published-date"], $formData["published-time"]);
         }
 
         return $response;
@@ -301,15 +361,14 @@ class ArticlesModel extends Model {
         // The metadata items should all be
         // inserted with one query. Prepare
         // the query, create the parameter
-        // markers based on the count of the
-        // array
+        // markers based on the array size.
         $preQuery = "INSERT INTO " . $tableName . " (" . implode(", ", $columnArray) . ") VALUES ";
         $PDOValue = array_fill(0, count($valueArray), $this->createMarkers(count($valueArray[0])));
         $sqlQuery = $preQuery . implode(",", $PDOValue);
         $this->prepare($sqlQuery);
         $count = 1;
         // Bind the parameters, with $count as
-        // the positions marker. The values array
+        // the positions marker. The value arrays
         // keys must match the columns array, as
         // they are going to fill those columns.
         foreach ($valueArray AS $key => $value) {
@@ -378,7 +437,7 @@ class ArticlesModel extends Model {
      * @param   string $time
      * @return  string  |   null
      */
-    private function getUnixTimestamp($date = NULL, $time = NULL) {
+    private function getUnixTimestamp ($date = NULL, $time = NULL) {
         if (empty($date))
             return NULL;
         return strtotime($date . " " . $time);

@@ -9,36 +9,43 @@
 class ArticlesController extends Controller {
 
     protected function edit () {
-        $includes = INCLUDES . '/' . $this->name() . '/create.inc';
-        $category = $this->model()->getCategories();
-        $users    = $this->model()->getUsers();
-        $response   = $this->model()->getArticle($this->arguments[0]);
-        $article    = $response["article"];
-        $links      = $response["links"];
-        $images['slide']  = $response["slideshow"];
-        $images['cover']  = $response["cover"];
-
+        $articleID = (empty($this->arguments[0])) ? NULL : $this->arguments[0];
+        // Get the users and categories values
+        $constants = array(
+            "categories"    => $this->model()->getCategories(),
+            "authors"       => $this->model()->getUsers()
+        );
+        // The actual content of the post
+        $contents       = $this->model()->getArticle($articleID);
+        $contents       = array(
+            "article"   => $contents["article"],
+            "links"     => $contents["links"],
+            "images"    => array(
+                "slide" => $contents["slideshow"],
+                "cover" => $contents["cover"]
+            )
+        );
+        // Edit can use create.inc, instead of
+        // having its own inc-file.
+        $includes = $this->getIncludes("create");
+        // Render the view
         $this->view()->assign("includes", $includes);
         $this->view()->render("shared/header_admin.tpl");
-
-        $this->view()->assign("article", $article);
-        $this->view()->assign("images", $images);
-        $this->view()->assign("links", $links);
-        $this->view()->assign("categories", $category);
-        $this->view()->assign("users", $users);
+        $this->view()->assign("constants", $constants);
+        $this->view()->assign("contents", $contents);
         $this->view()->render("articles/edit.tpl");
-
         $this->view()->render("shared/footer_admin.tpl");
     }
 
     protected function archive () {
-        if ($_SERVER['REQUEST_METHOD'] == 'GET' && !empty($_GET)) {
-            $articles = $this->model()->search($_GET["search"], FALSE);
-        } else {
-            $articles = $this->model()->getArticles();
-        }
-
-        $includes = INCLUDES . '/' . $this->name() . '/' . __FUNCTION__ . '.inc';
+        // Get the content, depending on if it's
+        // a search (which GET suggests), or not.
+        $articles = ($_SERVER['REQUEST_METHOD'] == 'GET' && !empty($_GET))
+                    ? $this->model()->search($_GET["search"], FALSE)
+                    : $this->model()->getArticles();
+        // Get the includes
+        $includes = $this->getIncludes(__FUNCTION__);
+        // Render the view
         $this->view()->assign("includes", $includes);
         $this->view()->render("shared/header_admin.tpl");
         $this->view()->assign("articles", $articles);
@@ -46,56 +53,58 @@ class ArticlesController extends Controller {
         $this->view()->render("shared/footer_admin.tpl");
     }
 
-    /**
-     * Temporary – write a better one
-     */
-    private function createFail ($error, $data) {
-        $categories = $this->model()->getCategories();
-        $users = $this->model()->getUsers();
-        $includes = INCLUDES . '/' . $this->name() . '/create.inc';
-        $this->view()->assign("includes", $includes);
-        $this->view()->render("shared/header_admin.tpl");
-        $this->view()->assign("categories", $categories);
-        $this->view()->assign("users", $users);
-        $this->view()->assign("data", $users);
-        $this->view()->assign("error", $error);
-        $this->view()->render("articles/new.tpl");
-        $this->view()->render("shared/footer_admin.tpl");
-    }
-
-    protected function create () {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST)) {
+    protected function create ($formData = NULL, $errorMessage = NULL) {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST'
+        && !empty($_POST) && is_null($formData)) {
             $response = $this->model()->createArticle($_POST);
+            // Check if anything went wrong
             if (isset($response["error"])) {
-                $this->createFail($response["error"], $_POST);
+                $this->create($_POST, $response["error"]);
             } else {
-                // header("Location: /articles/" . $response);
-                header("Location: /articles/create");
+                header("Location: /articles/view/{$response}");
             }
         } else {
-            $categories = $this->model()->getCategories();
-            $users = $this->model()->getUsers();
-            $includes = INCLUDES . '/' . $this->name() . '/' . __FUNCTION__ . '.inc';
+            // If the formData is set, that means
+            // something went wrong when adding a
+            // a new post. To keep continuity keep
+            // the values and fill the form with it.
+            if ($formData !== NULL) {
+                // Set the variables
+                // TODO: Perhaps move to model??
+                $contents = array(
+                    "article"   => array_intersect_key($formData, array_flip(array(
+                        "headline", "preamble", "body", "fact", "tags", "category", "theme",  "published-date", "published-time", "author"
+                    ))),
+                    "links"     => $this->model()->getLinks($formData["links"]),
+                    "images"    => array(
+                        "slide" => array(
+                            "caption"  => $formData["caption-slideshow"],
+                            "image"    => $this->model()->getImagesWithID($formData["image-slideshow"]),
+
+                        ),
+                        "cover" => array(
+                            "caption"   => $formData["caption-cover"],
+                            "image"     => array_shift($this->model()->getImagesWithID(array($formData["image-cover"])))
+                        )
+                    )
+                );
+            }
+            // The users and categories values
+            $constants = array(
+                "categories"    => $this->model()->getCategories(),
+                "authors"       => $this->model()->getUsers()
+            );
+            // Get the includes
+            $includes = $this->getIncludes(__FUNCTION__);
+            // Render the view
             $this->view()->assign("includes", $includes);
             $this->view()->render("shared/header_admin.tpl");
-            $this->view()->assign("categories", $categories);
-            $this->view()->assign("users", $users);
+            $this->view()->assign("constants", $constants);
+            $this->view()->assign("contents", $contents);
+            $this->view()->assign("error", $errorMessage);
             $this->view()->render("articles/new.tpl");
             $this->view()->render("shared/footer_admin.tpl");
         }
     }
-
-    protected function search () {
-        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&
-			strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-            $response = $this->model()->search($_POST['searchString']);
-            if (empty($response))
-                echo json_encode("");
-            else
-                echo json_encode($response);
-        }
-    }
-
 }
-
 ?>

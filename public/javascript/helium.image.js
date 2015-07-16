@@ -23,11 +23,12 @@ $(document).ready(function() {
     $.fn.imageEventClick = function (element) {
         var action    = element.attr("data-action") || false,
               type    = element.attr("data-type") || false,
+              edit    = element.attr("data-edit") || false,
                 id    = element.attr("data-id") || false;
         if (type === false || action === false)
 			return null;
         // FIRE!
-    	$.fn.imageHandlerEvent(type, action, id);
+    	$.fn.imageHandlerEvent(type, action, id, edit);
     }
 
     /**
@@ -38,10 +39,11 @@ $(document).ready(function() {
      * @param String Action requested
      * @param Array Contains the path and id of the image
      */
-    $.fn.imageHandlerEvent = function (type, action, image) {
+    $.fn.imageHandlerEvent = function (type, action, image, edit) {
         var action = action || false,
              image = image || false,
-              type = type || false;
+              type = type || false,
+              edit = edit || false;
         if (type === false || action === false)
             return null;
         // On action Upload
@@ -79,19 +81,29 @@ $(document).ready(function() {
             // var remove = $.fn.removeImage(type, image);
             var remove = true;
             if (remove === true) {
-                $.fn.removeImageElements(type, image);
+                $.fn.removeImageElements(type, image, edit);
             }
         }
     }
 
-    $.fn.removeImageElements = function (type, imageID) {
+    $.fn.removeImageElements = function (type, imageID, edit) {
         var imageID = imageID || false,
-               type = type || false;
+               type = type || false,
+               edit = edit || false;
         if (type === false)
             return false;
         if (type === "cover") {
             $.fn.createCoverImageElement(null, "remove");
         } else if (type === "slideshow") {
+            if (edit === "true") {
+                var fieldset        = $("fieldset.image-slideshow");
+                var removedImage    = $("<input>").attr({
+                    "type": "hidden",
+                    "value": imageID,
+                    "name": "image-slideshow-remove[]"
+                }).appendTo(fieldset);
+            }
+
             $("div[data-id='"+imageID+"']").remove();
         }
     }
@@ -122,10 +134,11 @@ $(document).ready(function() {
     }
 
     $.fn.createCoverImageElement = function (image, action) {
-        var image = image || false;
-        var action = action || false
+        var action = action || false,
+             image = image || false;
         if (action !== "remove" && image === false)
             return false;
+
         var fieldset = $("fieldset.image-cover");
 
         if (action === "remove") {

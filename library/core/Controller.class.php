@@ -54,6 +54,22 @@ class Controller {
 	}
 
 	/**
+	 * Returns the necessary includes files.
+	 * If no values are given, the defaults
+	 * are the class name.
+	 *
+	 * @param 	string	$functionName
+	 * @param 	string	$className
+	 * @return	string
+	 */
+	final protected function getIncludes ($functionName = NULL, $className = NULL) {
+		$functionName   = (is_null($functionName)) ? $this->name() : $functionName;
+		$className      = (is_null($className)) ? $this->name() : $className;
+		$includes       = INCLUDES . "/{$className}/{$functionName}.inc";
+		return $includes;
+	}
+
+	/**
 	 * Load the model that belongs to the
 	 * requested controller.
 	 */
