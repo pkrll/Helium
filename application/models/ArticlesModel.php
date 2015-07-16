@@ -6,14 +6,79 @@
  * otherwise manipulation of articles and posts of
  * the Helium Application.
  *
- * @version 1.0.1
+ * @version 1.0
  * @author  Ardalan Samimi
  * @since   Available since 0.10.2
  */
 class ArticlesModel extends Model {
 
+    /**
+     * Get article with specified id
+     * from the database, along with
+     * its metadata.
+     *
+     * @param   integer $articleID
+     * @return  array
+     */
+    public function getArticle ($articleID = NULL) {
+        if ($articleID === NULL)
+            return FALSE;
+        $sqlQuery = "SELECT article.id, article.author_id, article.headline, article.preamble, article.body,
+                            article.fact, article.tags, article.theme, article.published, category.id AS category,
+                            CONCAT_WS(' ', user.firstname, user.lastname) AS author
+                    FROM Articles AS article
+                            JOIN Articles_Categories AS category
+                                ON category.id = article.category
+                            JOIN Users AS user
+                                ON user.id = article.author_id
+                    WHERE article.id = :id";
+        $sqlParam = array("id" => $articleID);
+        $response['article'] = $this->readFromDatabase($sqlQuery, $sqlParam, FALSE);
+        // Get the images
+        $tableName          = "Articles_Images_Metadata AS meta";
+        $columns            = array(
+            "meta.caption",
+            "image.id",
+            "image.image_name",
+            "image.type"
+        );
+        $condition          = array("meta.article_id = :id");
+        $joins              = array("Articles_Images AS image");
+        $joinsCondition     = array("image.id = meta.image_id");
+        $tmpArray           = $this->getMetadataOfArticle($tableName, $columns, $condition, $sqlParam, $joins, $joinsCondition);
+
+        $response['slideshow']  = array_filter($tmpArray, function($value) { return $value['type'] === "slideshow"; });
+        $response['cover']      = array_shift(array_filter($tmpArray, function($value) { return $value['type'] === "cover"; }));
+        // Get the linked articles
+        $tableName          = "Articles_Metadata_Links AS meta";
+        $columns            = array(
+            "meta.linked_article_id AS id",
+            "article.headline"
+        );
+        $joins              = array("Articles AS article");
+        $joinsCondition     = array("article.id = meta.linked_article_id");
+        $response["links"]  = $this->getMetadataOfArticle($tableName, $columns, $condition, $sqlParam, $joins, $joinsCondition);
+
+        return $response;
+    }
+
+    /**
+     * Returns the ten most recent
+     * articles from the database.
+     * TODO: Add paging.
+     *
+     * @return  array
+     */
     public function getArticles () {
-        $sqlQuery = "SELECT article.id, article.headline, article.created, article.published, article.last_edit, category.name AS category, CONCAT_WS(' ', user.firstname, user.lastname) AS author FROM Articles AS article JOIN Articles_Categories AS category ON category.id = article.category JOIN Users as user ON user.id = article.author_id ORDER BY article.created DESC LIMIT 10";
+        $sqlQuery = "SELECT article.id, article.headline, article.created, article.published, article.last_edit,
+                            category.name AS category, CONCAT_WS(' ', user.firstname, user.lastname) AS author
+                    FROM Articles AS article
+                            JOIN Articles_Categories AS category
+                                ON category.id = article.category
+                            JOIN Users AS user
+                                ON user.id = article.author_id
+                    ORDER BY article.created
+                    DESC LIMIT 10";
         $response = $this->readFromDatabase($sqlQuery);
         return $response;
     }
@@ -47,10 +112,13 @@ class ArticlesModel extends Model {
 
     }
 
-    public function search ($searchString = NULL) {
+    public function search ($searchString = NULL, $shortForm = TRUE) {
         if ($searchString === NULL)
             return NULL;
-        $sqlQuery = "SELECT id, headline FROM Articles WHERE headline LIKE :searchString";
+        if ($shortForm)
+            $sqlQuery = "SELECT id, headline FROM Articles WHERE headline LIKE :searchString";
+        else
+            $sqlQuery = "SELECT article.id, article.headline, article.created, article.published, article.last_edit, category.name AS category, CONCAT_WS(' ', user.firstname, user.lastname) AS author FROM Articles AS article JOIN Articles_Categories AS category ON category.id = article.category JOIN Users as user ON user.id = article.author_id WHERE headline LIKE :searchString ORDER BY article.created DESC LIMIT 10";
         $sqlParam = array("searchString" => '%' . $searchString . '%');
         $response = $this->readFromDatabase($sqlQuery, $sqlParam);
         return $response;
@@ -73,12 +141,12 @@ class ArticlesModel extends Model {
         $data = $this->extractFormData($formData);
         // Create a new row for the new
         // post in the Articles table.
-        $sqlQuery = "INSERT INTO Articles (author_id, category, headline, preamble, body, fact, theme, created, published) VALUES (:author, :category, :headline, :preamble, :body, :fact, :theme, :created, :published)";
+        $sqlQuery = "INSERT INTO Articles (author_id, category, headline, preamble, body, fact, tags, theme, created, published) VALUES (:author, :category, :headline, :preamble, :body, :fact, :tags, :theme, :created, :published)";
         // The $data variable will also
         // hold other meta data. Retrieve
         // only the values specific for
         // the Articles table.
-        $tmpArray = array("author", "category", "headline", "preamble", "body", "fact", "theme", "created", "published");
+        $tmpArray = array("author", "category", "headline", "preamble", "body", "fact", "tags", "theme", "created", "published");
         $sqlParam = array_intersect_key($data, array_flip($tmpArray));
         // Insert into database and look
         // for errors before continuing.
@@ -141,6 +209,7 @@ class ArticlesModel extends Model {
             "body"              => $formData["body"],
             "category"          => $formData["category"],
             "fact"              => (empty($formData["fact"])) ? NULL : $formData["fact"],
+            "tags"              => (empty($formData["tags"])) ? NULL : $formData["tags"],
             "theme"             => (empty($formData["theme"])) ? NULL : $formData["theme"],
             "created"           => time(),
             "links"             => (empty($formData["links"])) ? NULL : $formData["links"]
@@ -258,6 +327,33 @@ class ArticlesModel extends Model {
         if (isset($error["error"]))
             return $error;
         return TRUE;
+    }
+
+    /**
+     * Abstract function for retrieving the
+     * metadata of given article.
+     *
+     * @param   string  $tableName
+     * @param   array   $columns
+     * @param   array   $condition
+     * @param   array   $sqlParam
+     * @param   array   $joins
+     * @param   array   $joinsCondition
+     * @return  array
+     */
+    private function getMetadataOfArticle ($tableName, $columns, $condition, $sqlParam, $joins = NULL, $joinsCondition = NULL) {
+        // Create the base of the query.
+        $sqlQuery = "SELECT " . implode(", ", $columns) . " FROM " . $tableName;
+        // Add the JOIN if there are any.
+        if ($joins !== NULL)
+            foreach ($joins AS $key => $table)
+                $sqlQuery .= " JOIN " . $table . " ON " . $joinsCondition[$key];
+        // Continue with the conditions
+        // and then execute the query.
+        $sqlQuery .= " WHERE " . implode (" AND ", $condition);
+        $response = $this->readFromDatabase($sqlQuery, $sqlParam);
+
+        return $response;
     }
 
     /**

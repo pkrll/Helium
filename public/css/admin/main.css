@@ -172,3 +172,35 @@ li.sub-menu {
 fieldset.dragzone.highlight {
 	border: 1px dashed #0B85A1;
 }
+
+.searchbox input {
+    background:            none;
+	background-image:      url('/public/images/system/search.png');
+    background-repeat:     no-repeat;
+	background-size:       19px;
+    background-position:   3px 2px;
+    border:                1px solid rgba(255,255,255,0.4);
+    border-radius:         5px;
+    color:                 #FFFFFF;
+    font-family:           'Numans', 'Raleway', sans-serif;
+	font-size:             14px;
+	padding:               4px 0px 4px 16px;
+    width:                 200px;
+    outline:               none;
+    -webkit-appearance:    textfield;
+       -moz-appearance:    textfield;
+}
+
+.searchbox input:focus {
+  box-shadow: 0 0 2px rgba(255,255,255, 1);
+}
+
+.searchbox input::-webkit-search-decoration { color:#fff; }
+.searchbox input::-webkit-search-cancel-button { background:#fff; }
+.searchbox input::-webkit-search-results-button { display:none; }
+.searchbox input::-webkit-search-results-decoration { color:#fff; }
+.searchbox input::-webkit-input-placeholder { color:#fff; }
+.searchbox input:-moz-placeholder { color:#fff; }
+.searchbox input::-moz-placeholder { color:#fff; }
+.searchbox input:-ms-input-placeholder { color:#fff; }
+.searchbox input::-webkit-input-placeholder { color:#fff; }

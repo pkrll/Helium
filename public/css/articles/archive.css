@@ -24,6 +24,11 @@
             justify-content:    space-between;
 }
 
+.div-table-search {
+    background: #1188BB;
+    -webkit-justify-content:flex-end;
+}
+
 .div-table-header {
     font-size:      15px;
     font-weight:    bold;
@@ -56,6 +61,7 @@
 
 .div-table-content:hover {
     background: rgba(15,165,195,.5);
+    cursor:     pointer;
 }
 
 .div-table-drawer {

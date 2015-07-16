@@ -6,6 +6,13 @@
 
 <div class="flex-box">
     <div class="div-table">
+        <div class="div-table-row div-table-search">
+            <div class="searchbox">
+                <form action="/articles/archive/search/" method="get">
+                    <input type="search" name="search" />
+                </form>
+            </div>
+        </div>
         <div class="div-table-row div-table-header">
             <div class="header-size-2">Article</div>
             <div class="header-size-1">Author</div>

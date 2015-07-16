@@ -8,8 +8,36 @@
  */
 class ArticlesController extends Controller {
 
+    protected function edit () {
+        $includes = INCLUDES . '/' . $this->name() . '/create.inc';
+        $category = $this->model()->getCategories();
+        $users    = $this->model()->getUsers();
+        $response   = $this->model()->getArticle($this->arguments[0]);
+        $article    = $response["article"];
+        $links      = $response["links"];
+        $images['slide']  = $response["slideshow"];
+        $images['cover']  = $response["cover"];
+
+        $this->view()->assign("includes", $includes);
+        $this->view()->render("shared/header_admin.tpl");
+
+        $this->view()->assign("article", $article);
+        $this->view()->assign("images", $images);
+        $this->view()->assign("links", $links);
+        $this->view()->assign("categories", $category);
+        $this->view()->assign("users", $users);
+        $this->view()->render("articles/edit.tpl");
+
+        $this->view()->render("shared/footer_admin.tpl");
+    }
+
     protected function archive () {
-        $articles = $this->model()->getArticles();
+        if ($_SERVER['REQUEST_METHOD'] == 'GET' && !empty($_GET)) {
+            $articles = $this->model()->search($_GET["search"], FALSE);
+        } else {
+            $articles = $this->model()->getArticles();
+        }
+
         $includes = INCLUDES . '/' . $this->name() . '/' . __FUNCTION__ . '.inc';
         $this->view()->assign("includes", $includes);
         $this->view()->render("shared/header_admin.tpl");
