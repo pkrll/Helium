@@ -1,4 +1,4 @@
-                <form id="article" action="/articles/edit" method="POST">
+                <form id="article" action="/articles/edit/<?=$contents["article"]["id"]?>" method="POST">
                     <div class="flex-box flex-header" style="height:10%;">
                         <div class="flex-box-single">
                             Edit article
@@ -138,6 +138,9 @@
                                             }
                                         }
                                     ?>
+                                        <div class="links-container">
+                                            <input type="search" class="links" placeholder="Search for article..." autocomplete="off"/>
+                                        </div>
                                         <div class="add-input" data-type="search" data-class="links" data-placeholder="Search for article...">
                                             <span class="font-icon icon-plus"></span> Add link
                                         </div>

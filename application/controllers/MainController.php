@@ -10,7 +10,7 @@
 class MainController extends Controller {
 
     protected function main () {
-        echo "HEllo WOrld!";
+        header("Location: /user");
     }
 
 }

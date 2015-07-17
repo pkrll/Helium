@@ -8,7 +8,7 @@
 class SettingsController extends Controller {
 
     protected function main () {
-        $includes = INCLUDES . '/' . $this->name() . '/' . __FUNCTION__ . '.inc';
+        $includes = $this->getIncludes(__FUNCTION__);
         $this->view()->assign("includes", $includes);
         $this->view()->render("shared/header_admin.tpl");
         $this->view()->render("settings/main.tpl");

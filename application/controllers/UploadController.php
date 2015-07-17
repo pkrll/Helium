@@ -61,11 +61,11 @@ class UploadController extends Controller {
      * @return array
      */
     protected function remove() {
-		if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&
-			strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' &&
-			isset($this->arguments[0])) {
-				$response = $this->model()->removeImage($this->arguments[0]);
-				echo json_encode($response);
+		if (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])
+        && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'
+        && isset($this->arguments[0])) {
+			$response = $this->model()->removeImage($this->arguments[0]);
+			echo json_encode($response);
 		}
 	}
 

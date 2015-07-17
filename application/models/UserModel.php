@@ -16,7 +16,6 @@ class UserModel extends Model {
 		$sqlParam = array("username" => $username, "password" => md5($password));
 		$response = $this->readFromDatabase ($sqlQuery, $sqlParam, FALSE);
         // Set the session variables
-
         if ($response !== FALSE && !empty($response['id'])) {
             Session::set("user_id", $response['id']);
             Session::set("user_permission", $response['permissionLevel']);

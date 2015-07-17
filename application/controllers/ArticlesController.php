@@ -8,35 +8,6 @@
  */
 class ArticlesController extends Controller {
 
-    protected function edit () {
-        $articleID = (empty($this->arguments[0])) ? NULL : $this->arguments[0];
-        // Get the users and categories values
-        $constants = array(
-            "categories"    => $this->model()->getCategories(),
-            "authors"       => $this->model()->getUsers()
-        );
-        // The actual content of the post
-        $contents       = $this->model()->getArticle($articleID);
-        $contents       = array(
-            "article"   => $contents["article"],
-            "links"     => $contents["links"],
-            "images"    => array(
-                "slide" => $contents["slideshow"],
-                "cover" => $contents["cover"]
-            )
-        );
-        // Edit can use create.inc, instead of
-        // having its own inc-file.
-        $includes = $this->getIncludes("create");
-        // Render the view
-        $this->view()->assign("includes", $includes);
-        $this->view()->render("shared/header_admin.tpl");
-        $this->view()->assign("constants", $constants);
-        $this->view()->assign("contents", $contents);
-        $this->view()->render("articles/edit.tpl");
-        $this->view()->render("shared/footer_admin.tpl");
-    }
-
     protected function archive () {
         // Get the content, depending on if it's
         // a search (which GET suggests), or not.
@@ -104,6 +75,57 @@ class ArticlesController extends Controller {
             $this->view()->assign("error", $errorMessage);
             $this->view()->render("articles/new.tpl");
             $this->view()->render("shared/footer_admin.tpl");
+        }
+    }
+
+    protected function edit ($formData = NULL, $errorMessage = NULL) {
+        $articleID = (empty($this->arguments[0])) ? NULL : $this->arguments[0];
+        if ($_SERVER['REQUEST_METHOD'] === "POST"
+        && !empty($_POST) && is_null($formData)) {
+            $response = $this->model()->updateArticle($articleID, $_POST);
+            if (isset($response["error"])) {
+                $this->edit($_POST, $response["error"]);
+            } else {
+                header("Location: /articles/edit/{$articleID}");
+            }
+        } else {
+            // Get the users and categories values
+            $constants = array(
+                "categories"    => $this->model()->getCategories(),
+                "authors"       => $this->model()->getUsers()
+            );
+            // The actual content of the post
+            $contents       = $this->model()->getArticle($articleID);
+            $contents       = array(
+                "article"   => $contents["article"],
+                "links"     => $contents["links"],
+                "images"    => array(
+                    "slide" => $contents["slideshow"],
+                    "cover" => $contents["cover"]
+                )
+            );
+            // Edit can use create.inc, instead of
+            // having its own inc-file.
+            $includes = $this->getIncludes("create");
+            // Render the view
+            $this->view()->assign("includes", $includes);
+            $this->view()->render("shared/header_admin.tpl");
+            $this->view()->assign("constants", $constants);
+            $this->view()->assign("contents", $contents);
+            $this->view()->assign("error", $errorMessage);
+            $this->view()->render("articles/edit.tpl");
+            $this->view()->render("shared/footer_admin.tpl");
+        }
+    }
+
+    protected function search () {
+        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])
+        && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+            $response = $this->model()->search($_POST['searchString']);
+            if (empty($response))
+                echo json_encode("");
+            else
+                echo json_encode($response);
         }
     }
 }

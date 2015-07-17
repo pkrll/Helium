@@ -6,10 +6,7 @@
  * @since   Available since 0.9.6
  */
  class GalleryModel extends Model {
-	/**
-	 * @access private
-	 * @var integer
-	 */
+
 	const GALLERY_ITEM_LIMIT = 10;
     const IMAGES = "/public/images/uploads/normal/";
     const THUMBS = "/public/images/uploads/thumbnails/";
@@ -33,9 +30,9 @@
 		// and calculate how many pages to create and
 		// which files to show, both depending on the
 		// limit set by GALLERY_ITEM_LIMIT.
-		$totalNumberOfFiles = iterator_count($filesystemIterator);
-		$totalNumberOfPages = ceil($totalNumberOfFiles / self::GALLERY_ITEM_LIMIT);
-		$positionOfFirstFile = ($page - 1) * self::GALLERY_ITEM_LIMIT;
+		$totalNumberOfFiles   = iterator_count($filesystemIterator);
+		$totalNumberOfPages   = ceil($totalNumberOfFiles / self::GALLERY_ITEM_LIMIT);
+		$positionOfFirstFile  = ($page - 1) * self::GALLERY_ITEM_LIMIT;
 		// Set the position to begin iterating
 		$filesystemIterator->seek($positionOfFirstFile);
 		// Set an array that will hold the
@@ -43,18 +40,18 @@
 		// counting how many files are shown
 		// that will tell the while loop when
 		// the hell to quit next-ing.
-		$returnImagesArray = array();
-		$numberOfFilesShown = 0;
+		$returnImagesArray    = array();
+		$numberOfFilesShown   = 0;
 		while ($numberOfFilesShown < self::GALLERY_ITEM_LIMIT) {
 			// If the item is not a file, go break
 			if ($filesystemIterator->isFile() === FALSE)
 				break;
 			$returnImagesArray[] = array(
-				"name" => $filesystemIterator->getFilename(),
-				"path" => self::IMAGES . $filesystemIterator->getFilename(),
+				"name"      => $filesystemIterator->getFilename(),
+				"path"      => self::IMAGES . $filesystemIterator->getFilename(),
 				"thumbnail" => self::THUMBS . $filesystemIterator->getFilename(),
-				"size" => $this->convertBytes ($filesystemIterator->getSize()),
-				"date" => date("Y-m-d H:i", $filesystemIterator->getCTime())
+				"size"      => $this->convertBytes ($filesystemIterator->getSize()),
+				"date"      => date("Y-m-d H:i", $filesystemIterator->getCTime())
 			);
 			// Move on to the next file
 			$filesystemIterator->next();
@@ -66,8 +63,8 @@
 		$returnArray = array(
 			"images" => $returnImagesArray,
 			"paging" => array(
-				"current" => $page,
-				"navigation" => $this->createNumberedPageNavigation ($page, $totalNumberOfPages)
+				"current"       => $page,
+				"navigation"    => $this->createNumberedPageNavigation ($page, $totalNumberOfPages)
 			)
 		);
 
@@ -116,7 +113,7 @@
 
 	/**
 	 * Converts the bytes to a readable format,
-	 * with B, KB, MB, GB, TB suffix.
+	 * with B, KB, MB, GB, TB suffixes.
 	 *
 	 * @param integer $bytes
 	 * @return string
@@ -126,7 +123,7 @@
 			return 0;
 		// Set up the different units
 	    $units = array('B', 'KB', 'MB', 'GB', 'TB');
-		// a = 1024^x => log(a) / log(1024)
+        // bytes = bytes / 1024^( log(bytes) / log(1024) )
 		// The exponent determines the unit, yo.
 		$power = floor(log($bytes) / log(1024));
 		return round($bytes / pow(1024, $power), 2) . $units[$power];

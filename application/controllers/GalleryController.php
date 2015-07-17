@@ -21,7 +21,7 @@ class GalleryController extends Controller {
     }
 
     protected function upload () {
-		$includes = INCLUDES . '/' . $this->name() . '/' . __FUNCTION__ . '.inc';
+        $includes = $this->getIncludes(__FUNCTION__);
         $this->view()->assign("includes", $includes);
         $this->view()->assign("upload", true);
         $this->view()->render("shared/header_gallery.tpl");

@@ -130,7 +130,16 @@ class ArticlesModel extends Model {
         if ($shortForm)
             $sqlQuery = "SELECT id, headline FROM Articles WHERE headline LIKE :searchString";
         else
-            $sqlQuery = "SELECT article.id, article.headline, article.created, article.published, article.last_edit, category.name AS category, CONCAT_WS(' ', user.firstname, user.lastname) AS author FROM Articles AS article JOIN Articles_Categories AS category ON category.id = article.category JOIN Users as user ON user.id = article.author_id WHERE headline LIKE :searchString ORDER BY article.created DESC LIMIT 10";
+            $sqlQuery = "SELECT article.id, article.headline, article.created, article.published, article.last_edit,
+                                category.name AS category, CONCAT_WS(' ', user.firstname, user.lastname) AS author
+                        FROM Articles AS article
+                                JOIN Articles_Categories AS category
+                                    ON category.id = article.category
+                                JOIN Users as user
+                                    ON user.id = article.author_id
+                        WHERE headline LIKE :searchString
+                        ORDER BY article.created
+                        DESC LIMIT 10";
         $sqlParam = array("searchString" => '%' . $searchString . '%');
         $response = $this->readFromDatabase($sqlQuery, $sqlParam);
         return $response;
@@ -155,7 +164,7 @@ class ArticlesModel extends Model {
         // Bind the values = set the IDs
         $count = 1;
         foreach ($imageArray AS $value)
-            $this->bindvalue($count++, $value);
+            $this->bindValue($count++, $value);
         $response = $this->readFromDatabase();
         return $response;
     }
@@ -179,7 +188,7 @@ class ArticlesModel extends Model {
         // Bind the values = set the IDs
         $count = 1;
         foreach ($linksArray AS $value)
-            $this->bindvalue($count++, $value);
+            $this->bindValue($count++, $value);
         $response = $this->readFromDatabase();
         return $response;
     }
@@ -191,7 +200,7 @@ class ArticlesModel extends Model {
      * database table.
      *
      * @param   array   $formData
-     * @return  bool    |   array
+     * @return  bool    |   array   |   integer
      */
     public function createArticle ($formData = NULL) {
         if ($formData === NULL)
@@ -202,11 +211,12 @@ class ArticlesModel extends Model {
         // Create a new row for the new
         // post in the Articles table.
         $sqlQuery = "INSERT INTO Articles (author_id, category, headline, preamble, body, fact, tags, theme, created, published) VALUES (:author, :category, :headline, :preamble, :body, :fact, :tags, :theme, :created, :published)";
-        // The $data variable will also
-        // hold other meta data. Retrieve
-        // only the values specific for
-        // the Articles table.
+        // The $data array will also hold other
+        // metadata. Retrieve only the values
+        // specific for the Articles table.
         $tmpArray = array("author", "category", "headline", "preamble", "body", "fact", "tags", "theme", "created", "published");
+        // This retrieves only the key/value-pairs of
+        // the $data array with the keynames above.
         $sqlParam = array_intersect_key($data, array_flip($tmpArray));
         // Insert into database and look
         // for errors before continuing.
@@ -218,7 +228,7 @@ class ArticlesModel extends Model {
         // separate tables.
         $array["images"] = array_filter($array["images"]);
         if (!empty($data["images"]) && $data["images"] !== array(NULL)) {
-            // Create the columns for the images metadata table
+            // Set the columns for the images metadata table
             $array = array("image_id", "article_id", "caption", "type");
             // Add the article id to the images, otherwise there
             // will be a problem with the insertMetadata method.
@@ -240,6 +250,70 @@ class ArticlesModel extends Model {
         }
         // If all goes according to plan
         return $response;
+    }
+
+    /**
+     * Updates the article in the database,
+     * along with the images and links that
+     * are to be added to or removed from it
+     * or updated with new captions.
+     *
+     * @param   integer $articleID
+     * @param   array   $formData
+     * @return  bool    |   array   |   integer
+     */
+    public function updateArticle ($articleID = NULL, $formData = NULL) {
+        if ($articleID === NULL || $formData === NULL)
+            return FALSE;
+        // Extract and reformat the data
+        // before insertion to database.
+        $data = $this->extractFormData($formData);
+        // Set the query to update the row
+        $sqlQuery = "UPDATE Articles SET author_id = :author, category = :category, headline = :headline, preamble = :preamble, body = :body, fact = :fact, tags = :tags, theme = :theme, published = :published, last_edit = :last_edit WHERE id = :id";
+        // Unlike createArticle(), this time, created
+        // will not be used, and instead last_edit is
+        // utilized to set the update time.
+        $tmpArray = array("author", "category", "headline", "preamble", "body", "fact", "tags", "theme", "published", "last_edit");
+        // This retrieves only the key/value-pairs of
+        // the $data array with the keynames above.
+        $sqlParam = array_intersect_key($data, array_flip($tmpArray));
+        $sqlParam["id"] = $articleID;
+        // Insert into database and look
+        // for errors before continuing.
+        $response = $this->writeToDatabase($sqlQuery, $sqlParam);
+        if (isset($response["error"]))
+            return $response["error"];
+        // The images and internal links
+        // metadata are to be placed in
+        // separate tables.
+        if (!empty($data["images"]) && $data["images"] !== array(NULL)) {
+            // Set the columns for the images metadata table
+            $array = array("image_id", "article_id", "caption", "type");
+            // Add the article id to the images, otherwise there
+            // will be a problem with the insertMetadata method.
+            foreach($data["images"] AS $key => $item) {
+                $data["images"][$key]["article_id"] = $articleID;
+            }
+            // Insert the data. To make sure there will be no
+            // duplicates, pass "caption" as the on duplicate
+            // column to be updated.
+            $error = $this->insertMetadata("Articles_Images_Metadata", $array, $data["images"], $array[2]);
+            if (isset($error["error"]))
+                return $error;
+        }
+
+        if (!empty($data["links"])) {
+            // Create the array for the link metadata.
+            $data["links"] = $this->createMetaLinkArray($data["links"], $articleID);
+            // The columns
+            $array = array("article_id", "linked_article_id");
+            // article_id will be updated on duplicates
+            $error = $this->insertMetadata("Articles_Metadata_Links", $array, $data["links"], $array[0]);
+            if (isset($error["error"]))
+                return $error;
+        }
+        // If all goes according to plan
+        return $articleID;
     }
 
     /**
@@ -272,22 +346,21 @@ class ArticlesModel extends Model {
             "tags"              => (empty($formData["tags"])) ? NULL : $formData["tags"],
             "theme"             => (empty($formData["theme"])) ? NULL : $formData["theme"],
             "created"           => time(),
+            "last_edit"         => time(),
             "links"             => (empty($formData["links"])) ? NULL : $formData["links"]
         );
-
         // Get meta info of the images to be
         // stored in a different database.
         $response["images"]     = $this->mergeImageWithCaption($formData["image-slideshow"], $formData["caption-slideshow"]);
         $response["images"][]   = $this->mergeImageWithCaption($formData["image-cover"], $formData["caption-cover"], "cover");
+        // Remove any empty elements
+        // inside the images array.
         $response["images"]     = array_filter($response["images"]);
         // Check if the post is supposed to
         // be published on a later date.
-        if (empty($formData["published-date"])) {
-            $response["published"] = NULL;
-        } else {
-            $response["published"] = $this->getUnixTimestamp($formData["published-date"], $formData["published-time"]);
-        }
-
+        $response["published"]  = (empty($formData["published-date"]))
+                                ? NULL
+                                : $this->getUnixTimestamp($formData["published-date"], $formData["published-time"]);
         return $response;
     }
 
@@ -350,7 +423,7 @@ class ArticlesModel extends Model {
      * @param   array   $valueArray
      * @return  mixed
      */
-    private function insertMetadata ($tableName = NULL, $columnArray = NULL, $valueArray = NULL) {
+    private function insertMetadata ($tableName = NULL, $columnArray = NULL, $valueArray = NULL, $duplicateColumn = NULL) {
         if ($tableName === NULL || $columnArray === NULL || $valueArray === NULL)
             return NULL;
         // Make sure that the number of columns
@@ -363,12 +436,20 @@ class ArticlesModel extends Model {
         // the query, create the parameter
         // markers based on the array size.
         $preQuery = "INSERT INTO " . $tableName . " (" . implode(", ", $columnArray) . ") VALUES ";
+        // Fill the VALUES portion of query
+        // with as many placeholder markers
+        // as needed, based on size of the
+        // values array and join the array.
         $PDOValue = array_fill(0, count($valueArray), $this->createMarkers(count($valueArray[0])));
         $sqlQuery = $preQuery . implode(",", $PDOValue);
+        // If the duplicate parameter is set.
+        if ($duplicateColumn !== NULL) {
+            $sqlQuery = $sqlQuery . " ON DUPLICATE KEY UPDATE {$duplicateColumn} = VALUES({$duplicateColumn})";
+        }
         $this->prepare($sqlQuery);
-        $count = 1;
-        // Bind the parameters, with $count as
-        // the positions marker. The value arrays
+        $position = 1;
+        // Bind the parameters, with $position as
+        // the markers position. The value arrays
         // keys must match the columns array, as
         // they are going to fill those columns.
         foreach ($valueArray AS $key => $value) {
@@ -376,16 +457,15 @@ class ArticlesModel extends Model {
             // the column arrays makes sure that the
             // right value will fill the right column
             // in the database table.
-            foreach ($columnArray AS $column) {
-                $this->bindvalue($count++, $value[$column]);
+            foreach ($columnArray AS $key => $column) {
+                $this->bindValue($position++, $value[$column]);
             }
         }
         // Insert into table, and
         // check for any errors.
         $error = $this->writeToDatabase();
-        if (isset($error["error"]))
-            return $error;
-        return TRUE;
+
+        return (isset($error["error"])) ? $error : TRUE;
     }
 
     /**
@@ -438,9 +518,8 @@ class ArticlesModel extends Model {
      * @return  string  |   null
      */
     private function getUnixTimestamp ($date = NULL, $time = NULL) {
-        if (empty($date))
-            return NULL;
-        return strtotime($date . " " . $time);
+        $time = (empty($time)) ? "12:00" : $time;
+        return  (empty($date)) ? NULL : strtotime($date . " " . $time);
     }
 }
 ?>
