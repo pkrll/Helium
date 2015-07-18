@@ -92,18 +92,17 @@ $(document).ready(function() {
                edit = edit || false;
         if (type === false)
             return false;
+        if (edit === "true") {
+            var parentElement   = $("form#article");
+            var removedImage    = $("<input>").attr({
+                "type": "hidden",
+                "value": imageID,
+                "name": "image-remove[]"
+            }).appendTo(parentElement);
+        }
         if (type === "cover") {
             $.fn.createCoverImageElement(null, "remove");
         } else if (type === "slideshow") {
-            if (edit === "true") {
-                var fieldset        = $("fieldset.image-slideshow");
-                var removedImage    = $("<input>").attr({
-                    "type": "hidden",
-                    "value": imageID,
-                    "name": "image-slideshow-remove[]"
-                }).appendTo(fieldset);
-            }
-
             $("div[data-id='"+imageID+"']").remove();
         }
     }

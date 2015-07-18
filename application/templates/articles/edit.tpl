@@ -131,7 +131,7 @@
                                             foreach ($contents['links'] AS $link) {
                                     ?>
                                         <div class="links-container">
-                                            <input type="search" class="links" placeholder="Search for article..." autocomplete="off" value="<?=$link["headline"]?> (id:<?=$link["id"]?>)"/>
+                                            <input type="search" class="links" placeholder="Search for article..." autocomplete="off" value="<?=$link["headline"]?> (id:<?=$link["id"]?>)" data-edit="true"/>
                                             <input type="hidden" name="links[]" value="<?=$link["id"]?>"/>
                                         </div>
                                     <?php
@@ -165,7 +165,7 @@
                                                 <input type="hidden" name="image-cover" value="<?=$contents["images"]["cover"]["id"]?>" />
                                             </div>
                                             <div>
-                                                <span class="image-event-button" data-type="cover" data-action="remove">Remove image</span>
+                                                <span class="image-event-button" data-type="cover" data-action="remove" data-edit="true" data-id="<?=$contents["images"]["cover"]["id"]?>">Remove image</span>
                                             </div>
                                         </div>
                                     </div>

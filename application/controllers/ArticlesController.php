@@ -38,7 +38,7 @@ class ArticlesController extends Controller {
             // If the formData is set, that means
             // something went wrong when adding a
             // a new post. To keep continuity keep
-            // the values and fill the form with it.
+            // the values to fill the form with it.
             if ($formData !== NULL) {
                 // Set the variables
                 // TODO: Perhaps move to model??
