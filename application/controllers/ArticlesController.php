@@ -118,6 +118,20 @@ class ArticlesController extends Controller {
         }
     }
 
+    protected function remove () {
+        $articleID = (empty($this->arguments[0])) ? NULL : $this->arguments[0];
+        if ($articleID === NULL)
+            header("Location: /articles/archive");
+        $response = $this->model()->removeArticle($articleID);
+        if (isset($response['error'])) {
+            // TODO: ADD ERROR
+            echo '<pre>';
+            print_r($response["error"]);
+        } else {
+            header("Location: /articles/archive");
+        }
+    }
+
     protected function search () {
         if (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])
         && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {

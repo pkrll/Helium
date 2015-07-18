@@ -13,6 +13,28 @@
 class ArticlesModel extends Model {
 
     /**
+     * Remove an article with the specified
+     * id from the database, along with all
+     * metadata connected to it.
+     *
+     * @param   integer $articleID
+     * @return  array   |   mixed
+     */
+    public function removeArticle ($articleID = NULL) {
+        if ($articleID === NULL)
+            return $this->createErrorMessage("No article id specified");
+        // The Articles_Metadata_* tables should have a foreign key with
+        // cascading delete pointing to the id column in Articles, which
+        // means that they will automatically be removed if the the key
+        // is matched with the ID in Articles. So, only one DELETE query
+        // is needed here.
+        $sqlQuery = "DELETE FROM Articles WHERE id = :id";
+        $sqlParam = array("id"  => $articleID);
+        $response = $this->writeToDatabase($sqlQuery, $sqlParam);
+        return $response;
+    }
+
+    /**
      * Get article with specified id
      * from the database, along with
      * its metadata.
@@ -32,20 +54,18 @@ class ArticlesModel extends Model {
         $sqlParam = array("id" => $articleID);
         $response["article"] = $this->readFromDatabase($sqlQuery, $sqlParam, FALSE);
         // Get the published date
-        if (!empty($response["article"]["published"])) {
-            $response["article"]["published"] = array(
-                "date" => date("m/d/Y", $response["article"]["published"]),
-                "time" => date("H:i", $response["article"]["published"])
-            );
-        } else {
-            $response["article"]["published"] = array(
-                "date" => NULL,
-                "time" => NULL
-            );
-        }
+        $response["article"]["published"] = (!empty($response["article"]["published"]))
+                                            ? array(
+                                                "date" => date("m/d/Y", $response["article"]["published"]),
+                                                "time" => date("H:i", $response["article"]["published"])
+                                            )
+                                            : array(
+                                                "date" => NULL,
+                                                "time" => NULL
+                                            );
         // Retrieve metadata
         // Images
-        $tableName          = "Articles_Images_Metadata AS meta";
+        $tableName          = "Articles_Metadata_Images AS meta";
         $columns            = array(
             "meta.caption",
             "image.id",
@@ -235,7 +255,7 @@ class ArticlesModel extends Model {
                 $data["images"][$key]["article_id"] = $response;
             }
             // Insert the data
-            $error = $this->insertMetadata("Articles_Images_Metadata", $array, $data["images"]);
+            $error = $this->insertMetadata("Articles_Metadata_Images", $array, $data["images"]);
             if (isset($error["error"]))
                 return $error;
         }
@@ -296,7 +316,7 @@ class ArticlesModel extends Model {
             // Insert the data. To make sure there will be no
             // duplicates, pass "caption" as the on duplicate
             // column to be updated.
-            $error = $this->insertMetadata("Articles_Images_Metadata", $columnArray, $data["images"], $columnArray[2]);
+            $error = $this->insertMetadata("Articles_Metadata_Images", $columnArray, $data["images"], $columnArray[2]);
             if (isset($error["error"]))
                 return $error;
         }
@@ -330,7 +350,7 @@ class ArticlesModel extends Model {
                 // Free the whales
                 unset($data["delete"]["images"]);
                 // Remove the metadata
-                $error = $this->removeMetadata("Articles_Images_Metadata", $columnArray, $valueArray);
+                $error = $this->removeMetadata("Articles_Metadata_Images", $columnArray, $valueArray);
                 if (isset($error["error"]))
                     return $error;
             }

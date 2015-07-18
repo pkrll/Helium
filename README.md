@@ -13,7 +13,7 @@ Clone a copy of the Helium repository
 ### Installation
 * Set up a virtual host in Apache, pointing to the Helium directory.
 * Create a MySQL database and supply the database constants in the file /library/Config.php with the appropriate values.
-    * MySQL database schema to be added later.
+    * See MySQL Database Scheme in file Helium.sql (Will be updated).
 
 ### Usage
 * Create your controllers, models and views and templates as per the folder structure below.
