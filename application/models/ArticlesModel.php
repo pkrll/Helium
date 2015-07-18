@@ -96,6 +96,19 @@ class ArticlesModel extends Model {
     }
 
     /**
+     * Returns the articles categories
+     * fetched from the database.
+     *
+     * @return  array
+     */
+    public function getCategories () {
+        $sqlQuery = "SELECT id, name FROM Articles_Categories";
+        $response = $this->readFromDatabase($sqlQuery);
+        return $response;
+
+    }
+
+    /**
      * Returns all the users (authors)
      * from the database.
      *
@@ -109,19 +122,6 @@ class ArticlesModel extends Model {
             "list"      => $response
         );
         return $returnValue;
-    }
-
-    /**
-     * Returns the articles categories
-     * fetched from the database.
-     *
-     * @return  array
-     */
-    public function getCategories () {
-        $sqlQuery = "SELECT id, name FROM Articles_Categories";
-        $response = $this->readFromDatabase($sqlQuery);
-        return $response;
-
     }
 
     public function search ($searchString = NULL, $shortForm = TRUE) {
@@ -210,11 +210,11 @@ class ArticlesModel extends Model {
         $data = $this->extractFormData($formData);
         // Create a new row for the new
         // post in the Articles table.
-        $sqlQuery = "INSERT INTO Articles (author_id, category, headline, preamble, body, fact, tags, theme, created, published) VALUES (:author, :category, :headline, :preamble, :body, :fact, :tags, :theme, :created, :published)";
+        $sqlQuery = "INSERT INTO Articles (author_id, category, headline, preamble, body, fact, tags, theme, created, published, last_edit) VALUES (:author, :category, :headline, :preamble, :body, :fact, :tags, :theme, :created, :published, :last_edit)";
         // The $data array will also hold other
         // metadata. Retrieve only the values
         // specific for the Articles table.
-        $tmpArray = array("author", "category", "headline", "preamble", "body", "fact", "tags", "theme", "created", "published");
+        $tmpArray = array("author", "category", "headline", "preamble", "body", "fact", "tags", "theme", "created", "published", "last_edit");
         // This retrieves only the key/value-pairs of
         // the $data array with the keynames above.
         $sqlParam = array_intersect_key($data, array_flip($tmpArray));
@@ -226,7 +226,6 @@ class ArticlesModel extends Model {
         // The images and internal links
         // metadata are to be placed in
         // separate tables.
-        $array["images"] = array_filter($array["images"]);
         if (!empty($data["images"]) && $data["images"] !== array(NULL)) {
             // Set the columns for the images metadata table
             $array = array("image_id", "article_id", "caption", "type");
@@ -287,8 +286,8 @@ class ArticlesModel extends Model {
         // metadata are to be placed in
         // separate tables.
         if (!empty($data["images"]) && $data["images"] !== array(NULL)) {
-            // Set the columns for the images metadata table
-            $array = array("image_id", "article_id", "caption", "type");
+            // Set the columns to fill for the images metadata table
+            $columnArray = array("image_id", "article_id", "caption", "type");
             // Add the article id to the images, otherwise there
             // will be a problem with the insertMetadata method.
             foreach($data["images"] AS $key => $item) {
@@ -297,7 +296,7 @@ class ArticlesModel extends Model {
             // Insert the data. To make sure there will be no
             // duplicates, pass "caption" as the on duplicate
             // column to be updated.
-            $error = $this->insertMetadata("Articles_Images_Metadata", $array, $data["images"], $array[2]);
+            $error = $this->insertMetadata("Articles_Images_Metadata", $columnArray, $data["images"], $columnArray[2]);
             if (isset($error["error"]))
                 return $error;
         }
@@ -305,12 +304,55 @@ class ArticlesModel extends Model {
         if (!empty($data["links"])) {
             // Create the array for the link metadata.
             $data["links"] = $this->createMetaLinkArray($data["links"], $articleID);
-            // The columns
-            $array = array("article_id", "linked_article_id");
-            // article_id will be updated on duplicates
-            $error = $this->insertMetadata("Articles_Metadata_Links", $array, $data["links"], $array[0]);
+            // Set the columns to fill for the links metadata table
+            $columnArray = array("article_id", "linked_article_id");
+            // Insert the data. To make sure there will be no
+            // duplicates, pass "article_id" as the on duplicate
+            // column to be updated.
+            $error = $this->insertMetadata("Articles_Metadata_Links", $columnArray, $data["links"], $columnArray[0]);
             if (isset($error["error"]))
                 return $error;
+        }
+        // The delete array holds all the images
+        // and links to be deleted.
+        if (!empty($data["delete"])) {
+            if (!empty($data["delete"]["images"])
+            && $data["delete"]["images"] !== array(NULL)) {
+                // Set the columns to check the values with.
+                $columnArray = array("image_id", "article_id");
+                // Set the values with the with the right column name as keys
+                foreach($data["delete"]["images"] AS $key => $image) {
+                    $valueArray[] = array(
+                        $columnArray[0]   => $image,
+                        $columnArray[1]   => $articleID
+                    );
+                }
+                // Free the whales
+                unset($data["delete"]["images"]);
+                // Remove the metadata
+                $error = $this->removeMetadata("Articles_Images_Metadata", $columnArray, $valueArray);
+                if (isset($error["error"]))
+                    return $error;
+            }
+
+            if (!empty($data["delete"]["links"])
+            && $data["delete"]["links"] !== array(NULL)) {
+                // Set the columns to check the values with.
+                $columnArray = array("article_id", "linked_article_id");
+                // Set the values with the with the right column name as keys
+                foreach($data["delete"]["links"] AS $key => $link) {
+                    $valueArray[] = array(
+                        $columnArray[1]   => $link,
+                        $columnArray[0]   => $articleID
+                    );
+                }
+                // Free the whales
+                unset($data["delete"]["links"]);
+                // Remove the metadata
+                $error = $this->removeMetadata("Articles_Metadata_Links", $columnArray, $valueArray);
+                if (isset($error["error"]))
+                    return $error;
+            }
         }
         // If all goes according to plan
         return $articleID;
@@ -324,9 +366,8 @@ class ArticlesModel extends Model {
      * @return  array
      */
     private function extractFormData ($formData) {
-        // Required fields: Headline, preamble,
-        // body text and category. If one of
-        // these are missing, do not continue.
+        // Required fields: Headline, preamble, body text and category.
+        // If one of these are missing, do not continue.
         if (empty($formData["headline"]))
             return $response["error"]["message"] = "Headline required";
         if (empty($formData["preamble"]))
@@ -349,15 +390,22 @@ class ArticlesModel extends Model {
             "last_edit"         => time(),
             "links"             => (empty($formData["links"])) ? NULL : $formData["links"]
         );
-        // Get meta info of the images to be
-        // stored in a different database.
+        // Get meta info of the images to be stored in a different database.
         $response["images"]     = $this->mergeImageWithCaption($formData["image-slideshow"], $formData["caption-slideshow"]);
         $response["images"][]   = $this->mergeImageWithCaption($formData["image-cover"], $formData["caption-cover"], "cover");
-        // Remove any empty elements
-        // inside the images array.
+        // Check if any images are to be removed (only edit mode)
+        $response["delete"]     = array(
+            "images"            => (empty($formData["image-remove"]))
+                                ?   NULL
+                                :   $formData["image-remove"],
+            "links"             => (empty($formData["link-remove"]))
+                                ?   NULL
+                                :   $formData["link-remove"],
+        );
+        // Remove any empty elements from the images and delete.
         $response["images"]     = array_filter($response["images"]);
-        // Check if the post is supposed to
-        // be published on a later date.
+        $response["delete"]     = array_filter($response["delete"]);
+        // Check if the post is supposed to be published on a later date.
         $response["published"]  = (empty($formData["published-date"]))
                                 ? NULL
                                 : $this->getUnixTimestamp($formData["published-date"], $formData["published-time"]);
@@ -414,61 +462,6 @@ class ArticlesModel extends Model {
     }
 
     /**
-     * Creates multiple rows in a given
-     * table, with the given columns and
-     * values.
-     *
-     * @param   string  $tableName
-     * @param   array   $columnArray
-     * @param   array   $valueArray
-     * @return  mixed
-     */
-    private function insertMetadata ($tableName = NULL, $columnArray = NULL, $valueArray = NULL, $duplicateColumn = NULL) {
-        if ($tableName === NULL || $columnArray === NULL || $valueArray === NULL)
-            return NULL;
-        // Make sure that the number of columns
-        // match the number of values supplied.
-        if (count($columnArray) !== count($valueArray[0])) {
-            return $this->createErrorMessage("Invalid parameter number: number of bound variables does not match number of tokens");
-        }
-        // The metadata items should all be
-        // inserted with one query. Prepare
-        // the query, create the parameter
-        // markers based on the array size.
-        $preQuery = "INSERT INTO " . $tableName . " (" . implode(", ", $columnArray) . ") VALUES ";
-        // Fill the VALUES portion of query
-        // with as many placeholder markers
-        // as needed, based on size of the
-        // values array and join the array.
-        $PDOValue = array_fill(0, count($valueArray), $this->createMarkers(count($valueArray[0])));
-        $sqlQuery = $preQuery . implode(",", $PDOValue);
-        // If the duplicate parameter is set.
-        if ($duplicateColumn !== NULL) {
-            $sqlQuery = $sqlQuery . " ON DUPLICATE KEY UPDATE {$duplicateColumn} = VALUES({$duplicateColumn})";
-        }
-        $this->prepare($sqlQuery);
-        $position = 1;
-        // Bind the parameters, with $position as
-        // the markers position. The value arrays
-        // keys must match the columns array, as
-        // they are going to fill those columns.
-        foreach ($valueArray AS $key => $value) {
-            // Matching the values by keynames from
-            // the column arrays makes sure that the
-            // right value will fill the right column
-            // in the database table.
-            foreach ($columnArray AS $key => $column) {
-                $this->bindValue($position++, $value[$column]);
-            }
-        }
-        // Insert into table, and
-        // check for any errors.
-        $error = $this->writeToDatabase();
-
-        return (isset($error["error"])) ? $error : TRUE;
-    }
-
-    /**
      * Abstract function for retrieving the
      * metadata of given article.
      *
@@ -496,16 +489,107 @@ class ArticlesModel extends Model {
     }
 
     /**
+     * Creates multiple rows in a given table,
+     * with the given columns and values.
+     *
+     * @param   string  $tableName
+     * @param   array   $columnArray
+     * @param   array   $valueArray
+     * @param   string  $duplicateColumn
+     * @return  mixed
+     */
+    private function insertMetadata ($tableName = NULL, $columnArray = NULL, $valueArray = NULL, $duplicateColumn = NULL) {
+        // Make sure all the parameters are set and that the number
+        // of columns match the number of values supplied.
+        if ($tableName === NULL || $columnArray === NULL || $valueArray === NULL)
+            return NULL;
+        if (count($columnArray) !== count($valueArray[0]))
+            return $this->createErrorMessage("Invalid parameter number: number of bound variables does not match number of tokens");
+        // The items should all be inserted with one query. Create the
+        // query and set the parameter markers based on the array size.
+        // 'INSERT INTO X (Col1, Col2, Col3 ...) VALUES (?,?,? ...), (?,?,? ...)'
+        $preQuery = "INSERT INTO " . $tableName . " (" . implode(", ", $columnArray) . ") VALUES ";
+        // Fill the VALUES portion of query with as many placeholder markers
+        // as needed, based on size of the values array and join the array.
+        $PDOValue = array_fill(0, count($valueArray), $this->createMarkers(count($valueArray[0])));
+        $sqlQuery = $preQuery . implode(",", $PDOValue);
+        // If the duplicate parameter is set.
+        if ($duplicateColumn !== NULL)
+            $sqlQuery = $sqlQuery . " ON DUPLICATE KEY UPDATE {$duplicateColumn} = VALUES({$duplicateColumn})";
+        // Prepare the query and replace the placeholders with the
+        // actual vales with function bindParameters.
+        $this->prepare($sqlQuery);
+        $this->bindParameters($columnArray, $valueArray);
+        // Insert into table, and check for any errors.
+        $error = $this->writeToDatabase();
+        return (isset($error["error"])) ? $error : TRUE;
+    }
+
+    /**
+     * Deletes multiple rows in a given table,
+     * with the given columns and values.
+     *
+     * @param   string  $tableName
+     * @param   array   $columnArray
+     * @param   array   $valueArray
+     * @return  mixed
+     */
+    private function removeMetadata ($tableName = NULL, $columnArray = NULL, $valueArray = NULL) {
+        // Make sure all the parameters are set and that the number
+        // of columns match the number of values supplied.
+        if ($tableName === NULL || $columnArray === NULL || $valueArray === NULL)
+            return NULL;
+        if (count($columnArray) !== count($valueArray[0]))
+            return $this->createErrorMessage("Invalid parameter number: number of bound variables does not match number of tokens");
+        // Create the query as per the design below, with the columns
+        // represented by columnArray and values by the valueArray:
+        // 'DELETE FROM X  WHERE (Z, Y) IN ( (?,?), (?,?) ... )'
+        $sqlQuery = "DELETE FROM {$tableName} WHERE (" . implode(", ", $columnArray) . ") IN ";
+        $PDOValue = array_fill(0, count($valueArray), $this->createMarkers(count($valueArray[0])));
+        $sqlQuery = $sqlQuery . "(" . implode(", ", $PDOValue) . ")";
+        // Prepare the query and replace the placeholders with the
+        // actual vales with function bindParameters.
+        $this->prepare($sqlQuery);
+        $this->bindParameters($columnArray, $valueArray);
+        // Insert into table, and check for any errors.
+        $error = $this->writeToDatabase();
+        return (isset($error["error"])) ? $error : TRUE;
+    }
+
+    /**
+     * Binds the parameters in a PDO statement,
+     * with position as markers position. Uses
+     * the columns array to match the values.
+     *
+     * @param   array   $columnArray
+     * @param   array   $valueArray
+     */
+    private function bindParameters ($columnArray, $valueArray) {
+        // Position always starts at 1
+        $position = 1;
+        foreach ($valueArray AS $key => $value) {
+            // Matching the values by keynames from
+            // the column arrays makes sure that the
+            // right value will fill the right column
+            // in the database table.
+            foreach ($columnArray AS $key => $column) {
+                $this->bindValue($position++, $value[$column]);
+            }
+        }
+    }
+
+    /**
      * Returns a string representing a
      * question mark parameters marker
      * with n number of parameters.
      *
      * @param   integer $count
+     * @param   bool    $withBrackets
      * @return  string
      */
-    private function createMarkers ($count = 0) {
+    private function createMarkers ($count = 0, $withBrackets = TRUE) {
         $markers = array_fill(0, $count, '?');
-        $markers = '(' . implode(", ", $markers) . ')';
+        $markers = ($withBrackets) ? '(' . implode(", ", $markers) . ')' : implode(", ", $markers);
         return $markers;
     }
 

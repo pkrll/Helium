@@ -26,7 +26,7 @@
             <div class="header-size-1"><?=$article['author']?></div>
             <div class="header-size-1"><?=$article['category']?></div>
             <div class="header-size-1"><?=date("Y-m-d H:i", $article['created'])?></div>
-            <div class="header-size-1"><?=date("Y-m-d H:i", $article['created'])?></div>
+            <div class="header-size-1"><?=date("Y-m-d H:i", $article['last_edit'])?></div>
         </div>
 <?php   } ?>
     </div>

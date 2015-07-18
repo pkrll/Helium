@@ -120,14 +120,23 @@ $(document).ready(function() {
                 // the linked item.
                 $("div.suggestions").remove();
                 var hiddenInput = self.parent().find("input[type='hidden']");
-                if (hiddenInput.length > 0)
+                if (hiddenInput.length > 0) {
+                    if (self.attr("data-edit") === "true") {
+                        var id = hiddenInput.val();
+                        var parentElement   = $("form#article");
+                        var removedLink     = $("<input>").attr({
+                            "type": "hidden",
+                            "value": id,
+                            "name": "link-remove[]"
+                        }).appendTo(parentElement);
+                    }
                     hiddenInput.remove();
+                }
             }
         } else {
+            var keyCode = event.keyCode;
             // Keys like arrows up, left, right and
             // enter and others should not be counted.
-            var keyCode = event.keyCode;
-
             if (keyCode !== 91 && keyCode !== 38 &&
                 keyCode !== 37 && keyCode !== 39 &&
                 keyCode !== 20 && keyCode !== 16 &&
@@ -160,7 +169,6 @@ $(document).ready(function() {
                 if ($("div.suggestions").length)
                     $.fn.selectFocusedDiv($(this));
             }
-
         }
     }
 
