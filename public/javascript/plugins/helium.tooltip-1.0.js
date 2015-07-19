@@ -53,10 +53,9 @@
             // Set it to fadeout
             if ($.isNumeric(this.settings.fadeOut))
                 container.fadeOut(this.settings.fadeOut);
-            else
-                label.click(function () {
-                    $(this).parent().remove();
-                });
+            label.click(function () {
+                $(this).parent().remove();
+            });
         },
         resetTooltip: function () {
             $(".error-label-container").remove();
