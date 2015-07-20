@@ -58,7 +58,7 @@ Clone a copy of the Helium repository
 
 #### ExampleController.php
 ```php
-class ExampleController {
+class ExampleController extends Controller {
     public function main () {
        // Calling the model:
        $someVariable = $this->model()->doSomething();
@@ -70,15 +70,15 @@ class ExampleController {
     }
     // helium.dev/example/foo/bar
     public function foo() {
-       // To access 
-       $argument = $this->arguments[0]; // set $argument to the parameter ("bar")
+       // set $argument to the parameter ("bar")
+       $argument = $this->arguments[0]; 
        ...
     }
 }
 ```
 #### ExampleModel.php
 ```php
-class ExampleModel {
+class ExampleModel extends Model {
     public function doSomething () {
        // This is where the app logic goes
        // ...
