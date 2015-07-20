@@ -1,10 +1,9 @@
 
 #article {
-    font-family: "Verdana" sans-serif;
+    font-family: "Helvetica", "Verdana", sans-serif;
 }
 
 .flex-box-left {
-    /*background: rgba(238, 238, 238,.1);*/
     background: #FFF;
     color:      #000;
     padding:    20px 35px 0 35px;
@@ -13,8 +12,8 @@
 }
 
 .flex-box-right {
-    /*background:     rgba(238, 238, 238,.1);*/
     background:     #FFF;
+    /*background:     rgba(238, 238, 238,.5);*/
     border-left:    1px solid rgba(0,0,0,.3);
     width:          35%;
     min-width:      290px;

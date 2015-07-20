@@ -2,17 +2,24 @@
 /**
  * Gallery Controller
  *
+ * Handles the gallery, but not uploads (see uploadController).
  *
+ * @version 1.0
  * @author  Ardalan Samimi
  * @since   Available since 0.9.6
  */
 class GalleryController extends Controller {
 
-    protected function main () {
+    public function main () {
 
     }
 
-    protected function browse () {
+    /**
+     * Browse the gallery
+     *
+     * @param   string  $_GET['page']
+     */
+    public function browse () {
         $gallery = $this->model()->getDirectoryContents($_GET['page']);
         $this->view()->render("shared/header_gallery.tpl");
         $this->view()->assign("gallery", $gallery);
@@ -20,7 +27,11 @@ class GalleryController extends Controller {
         $this->view()->render("shared/footer_gallery.tpl");
     }
 
-    protected function upload () {
+    /**
+     * Display the upload dialog
+     *
+     */
+    public function upload () {
         $includes = $this->getIncludes(__FUNCTION__);
         $this->view()->assign("includes", $includes);
         $this->view()->assign("upload", true);

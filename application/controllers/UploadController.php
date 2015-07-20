@@ -2,23 +2,23 @@
 /**
  * Upload Controller
  *
- * Tunnels request to the Upload model
- * regarding.
+ * Handles the uploads of images.
  *
+ * @version 1.0
  * @author  Ardalan Samimi
  * @since   Available since 0.9.6
  */
 class UploadController extends Controller {
 
-    protected function main () { }
+    public function main () { }
 
     /**
      * Upload image.
      *
-     * @param array $_FILES Http file upload variable
-     * @return array (See UploadModel.php)
+     * @param   array   $_FILES Http file upload variable
+     * @return  array   (See UploadModel.php)
      */
-    protected function image () {
+    public function image () {
         if (isset($_FILES)) {
             // Stream = drag and drop
             if (isset($this->arguments[1])
@@ -57,10 +57,10 @@ class UploadController extends Controller {
     /**
      * Remove requested image.
      *
-     * @param integer
-     * @return array
+     * @param   integer
+     * @return  array
      */
-    protected function remove() {
+    public function remove() {
 		if (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])
         && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'
         && isset($this->arguments[0])) {

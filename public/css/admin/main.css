@@ -13,7 +13,6 @@ body {
     background-repeat:      repeat;
     font-size:              100%;
     margin:                 0;
-    /* FF75D1 3399FF 66CCFF 996633 */
 }
 
 #page-container {
@@ -30,14 +29,7 @@ body {
             flex-wrap: nowrap;
 }
 
-#page-container > div {
-    /*-webkit-align-self:stretch;*/
-}
-
 #menu-bar-container {
-    /*background:         rgba(0,0,0,0.8);*/
-    /*border-right:       1px solid rgba(230,230,230,1);*/
-    /*border-right:       1px solid #444444;*/
     width:              15%;
     max-width:          250px;
     min-width:          190px;
@@ -46,8 +38,6 @@ body {
 
 
 #menu-bar-header {
-    /*border-bottom:  1px solid rgba(230,230,230,1);*/
-    /*border-bottom:  1px solid #444444;*/
     border-bottom:  1px solid rgba(255,255,255,.1);
     color:          #FFFFFF;
     padding:        10px 0 20px 0px;
@@ -63,7 +53,7 @@ body {
 .appname {
     color:              #FFFFFF;
     display:            block;
-    font-family:        "Dosis", "Raleway" sans-serif;
+    font-family:        "Dosis", "Raleway", serif;
     font-weight:        700;
     font-size:          64px;
     font-weight:        600;
@@ -156,7 +146,7 @@ li.sub-menu {
 
 .flex-box-single {
     color:          #FFF;
-    font-family:    'Dosis' sans-serif;
+    font-family:    'Dosis', sans-serif;
     font-size:      44px;
     text-align:     center;
     padding:        10px;
@@ -168,7 +158,8 @@ li.sub-menu {
     color:          #000;
     padding:        10px 0;
     width:          100%;
-    -webkit-flex:   100%;
+    -webkit-flex:   auto;
+           -flex:   100%;
 }
 
 fieldset.dragzone.highlight {

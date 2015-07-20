@@ -3,12 +3,11 @@
  * Articles Model
  *
  * Handles all the data regarding the creation and
- * otherwise manipulation of articles and posts of
- * the Helium Application.
+ * manipulation of articles and posts.
  *
  * @version 1.0
  * @author  Ardalan Samimi
- * @since   Available since 0.10.2
+ * @since   Available since 0.10
  */
 class ArticlesModel extends Model {
 
@@ -599,9 +598,8 @@ class ArticlesModel extends Model {
     }
 
     /**
-     * Returns a string representing a
-     * question mark parameters marker
-     * with n number of parameters.
+     * Returns a string containing N number of
+     * parameters markers, i.e (?,? ...)
      *
      * @param   integer $count
      * @param   bool    $withBrackets

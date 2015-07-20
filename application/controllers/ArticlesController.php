@@ -2,13 +2,22 @@
 /**
  * Articles Controller
  *
+ * Handles everything related to Articles.
  *
+ * @version 1.0
  * @author  Ardalan Samimi
  * @since   Available since 0.9.6
  */
 class ArticlesController extends Controller {
 
-    protected function archive () {
+    public function main() {  }
+
+    /**
+     * Display the articles archive
+     *
+     * @param   string  $_GET['search']
+     */
+    public function archive () {
         // Get the content, depending on if it's
         // a search (which GET suggests), or not.
         $articles = ($_SERVER['REQUEST_METHOD'] == 'GET' && !empty($_GET))
@@ -24,7 +33,15 @@ class ArticlesController extends Controller {
         $this->view()->render("shared/footer_admin.tpl");
     }
 
-    protected function create ($formData = NULL, $errorMessage = NULL) {
+    /**
+     * Display the article add page, or, if $_POST is
+     * set, add it article to database.
+     *
+     * @param   array   $formData
+     * @param   array   $errorMessage
+     * @param   array   $_POST
+     */
+    public function create ($formData = NULL, $errorMessage = NULL) {
         if ($_SERVER['REQUEST_METHOD'] == 'POST'
         && !empty($_POST) && is_null($formData)) {
             $response = $this->model()->createArticle($_POST);
@@ -78,7 +95,15 @@ class ArticlesController extends Controller {
         }
     }
 
-    protected function edit ($formData = NULL, $errorMessage = NULL) {
+    /**
+     * Display the article edit page, or, if $_POST is
+     * set, update article in the database.
+     *
+     * @param   array   $formData
+     * @param   array   $errorMessage
+     * @param   array   $_POST
+     */
+    public function edit ($formData = NULL, $errorMessage = NULL) {
         $articleID = (empty($this->arguments[0])) ? NULL : $this->arguments[0];
         if ($_SERVER['REQUEST_METHOD'] === "POST"
         && !empty($_POST) && is_null($formData)) {
@@ -118,7 +143,12 @@ class ArticlesController extends Controller {
         }
     }
 
-    protected function remove () {
+    /**
+     * Remove article from database
+     *
+     * @param   string
+     */
+    public function remove () {
         $articleID = (empty($this->arguments[0])) ? NULL : $this->arguments[0];
         if ($articleID === NULL)
             header("Location: /articles/archive");
@@ -132,6 +162,11 @@ class ArticlesController extends Controller {
         }
     }
 
+    /**
+     * Search for article in database
+     *
+     * @param   string  $_POST['searchString']
+     */
     protected function search () {
         if (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])
         && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {

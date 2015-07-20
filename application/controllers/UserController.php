@@ -2,13 +2,20 @@
 /**
  * User Controller
  *
+ * Handles everything user related.
  *
+ * @version 1.0
  * @author  Ardalan Samimi
  * @since   Available since 0.10
  */
 class UserController extends Controller {
 
-    protected function add () {
+    /**
+     * Add user to the database
+     *
+     * @param   array   $_POST
+     */
+    public function add () {
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST)) {
             $response = $this->model()->addUser($_POST);
             if (isset($response["error"])) {
@@ -28,14 +35,16 @@ class UserController extends Controller {
         }
     }
 
-    protected function edit () {
-    }
+    public function edit () { /* TODO: ADD THIS SHIT */ }
 
+    /**
+     * Login function
+     *
+     * @param   array   $_POST
+     */
     protected function login () {
         if (!empty($_POST)) {
-            $username = $_POST['username'];
-            $password = $_POST['password'];
-            $login = $this->model()->login($username, $password);
+            $login = $this->model()->login($_POST);
             if ($login === TRUE) {
                 header("Location: /admin/");
             } else {
@@ -46,6 +55,10 @@ class UserController extends Controller {
         }
     }
 
+    /**
+     * Logout function
+     *
+     */
     protected function logout() {
         $this->model()->logout();
         header("Location: /");
@@ -57,13 +70,22 @@ class UserController extends Controller {
         $this->view()->render("user/main.tpl");
     }
 
-    protected function rights () {
+    public function rights () {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST)) {
+            $this->model()->changePermission($_POST);
+        }
+
+        $resources  = $this->model()->getMethods();
+        $roles      = $this->model()->getRoles();
+        $includes   = $this->getIncludes('add');
+
+        $this->view()->assign("includes", $includes);
         $this->view()->render("shared/header_admin.tpl");
+        $this->view()->assign("resources", $resources);
+        $this->view()->assign("roles", $roles);
         $this->view()->render("user/permission_list.tpl");
         $this->view()->render("shared/footer_admin.tpl");
     }
-
 }
-
 
 ?>

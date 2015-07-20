@@ -2,6 +2,10 @@
 /**
  * Gallery Model
  *
+ * Retrieves the contents of the image uploads directories,
+ * also creates a page navigation for the gallery browser.
+ *
+ * @version 1.0
  * @author  Ardalan Samimi
  * @since   Available since 0.9.6
  */

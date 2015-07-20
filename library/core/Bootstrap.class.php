@@ -102,7 +102,7 @@ final class Bootstrap {
 		// Get the permissions for
 		// the requested page.
 		$nodePermission = $this->getNodePermissions();
-		if ($nodePermission === FALSE)
+		if ($nodePermission === FALSE || $nodePermission == 0)
 			return FALSE;
 		// Check if user is logged in.
 		$userID = Session::get("user_id");
@@ -123,10 +123,10 @@ final class Bootstrap {
 		// method has a permission set, or if
 		// not whether the controller has a
 		// general permission set.
-		$sqlQuery = "SELECT permissionLevel FROM Resources WHERE name = IF (EXISTS(SELECT permissionLevel FROM Resources WHERE name = :name LIMIT 1), :name, :wild)";
+		$sqlQuery = "SELECT permissionLevel FROM Resources WHERE name = :name";
+		$method	  = (isset($this->method)) ? $this->method : DEFAULT_METHOD;
 		$sqlParam = array(
-			"name" => $this->controller . ":" . $this->method,
-			"wild" => $this->controller . ":*"
+			"name" => $this->controller . ":" . $method
 		);
 		// Run the query and return results
 		$this->database->prepare($sqlQuery);

@@ -1,7 +1,10 @@
 <?php
 /**
- * The base Model, where all the logic happens, baby.
- * All other models inherits Model.
+ * Model
+ *
+ * Base Model class. All other models should inherit
+ * Model, that includes database connection methods,
+ * and a standard array error creation method.
  *
  * @author Ardalan Samimi
  */

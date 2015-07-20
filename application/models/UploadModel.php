@@ -7,6 +7,7 @@
  * files that are to be uploaded to server,
  * and also acting as access to the database.
  *
+ * @version 1.0
  * @author	Ardalan Samimi
  * @since	Available since 0.9.6
  */

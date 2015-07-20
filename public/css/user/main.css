@@ -12,7 +12,7 @@ body {
     background:         #E0E0E0;
     background-image:   -webkit-linear-gradient(top, #E0E0E0 50%, #DDDDDD 100%);
     border-radius:      8px;
-    font-family:        'Raleway' sans-serif;
+    font-family:        'Raleway', sans-serif;
     margin:             200px auto;
     opacity:            0.9;
     width:              400px;
