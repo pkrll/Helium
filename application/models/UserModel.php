@@ -59,7 +59,7 @@ class UserModel extends Model {
 
     /**
      * Returns a string containing N number of
-     * parameters markers, i.e (?,? ...)
+     * unnamed placeholders, i.e (?,? ...)
      *
      * @param   integer $count
      * @param   bool    $withBrackets
@@ -172,15 +172,18 @@ class UserModel extends Model {
                 "permissionLevel" => $data['permission'][$key]
             );
         }
-        // Create the parameter markers for an individual row
-        // that is to be manipulated, based on the number of
-        // values the row will take, i.e. (?,?,...).
+        // Create the unnamed palceholders, based on the
+        // number of values the row will take, (?,?...);
         $markers = $this->createMarkers(count($resource[0]));
-        // The VALUES clause will hold as many parameter markers
-        // as there are elements in the array to be inserted.
+        // The amount of placeholders must match the amount
+        // of values that are to be inserted in the VALUES-
+        // clause. Create the array with array_fill() and
+        // join the array with the query-string.
         $sqlClause = array_fill(0, count($resource), $markers);
         $sqlQuery = "INSERT INTO Resources (name, permissionLevel) VALUES " . implode(", ", $sqlClause) . " ON DUPLICATE KEY UPDATE permissionLevel = VALUES(permissionLevel)";
+        // Prepare for take-off
         $this->prepare($sqlQuery);
+        // Bind the values
         $position = 1;
         $columns = array_keys($resource[0]);
         foreach ($resource AS $key => $item)
@@ -224,8 +227,5 @@ class UserModel extends Model {
         Session::clear("user_permission");
         Session::clear("username");
     }
-
 }
-
-
 ?>

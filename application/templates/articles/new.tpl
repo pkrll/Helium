@@ -151,7 +151,7 @@
                                 <fieldset class="dragzone right image-cover" data-type="cover">
                                     <legend class="section-label">cover image</legend>
                                     <?php
-                                        if (!empty($contents["images"]["cover"])) {
+                                        if (!empty($contents["images"]["cover"]) && $contents["images"]["cover"]['image'] !== NULL) {
                                     ?>
                                         <div class="picture-box cover">
                                             <div class="picture">

@@ -12,204 +12,273 @@
 class ArticlesModel extends Model {
 
     /**
-     * Remove an article with the specified
-     * id from the database, along with all
-     * metadata connected to it.
+     * Retrieves rows from given table that
+     * matches the supplied conditions.
      *
-     * @param   integer $articleID
-     * @return  array   |   mixed
-     */
-    public function removeArticle ($articleID = NULL) {
-        if ($articleID === NULL)
-            return $this->createErrorMessage("No article id specified");
-        // The Articles_Metadata_* tables should have a foreign key with
-        // cascading delete pointing to the id column in Articles, which
-        // means that they will automatically be removed if the the key
-        // is matched with the ID in Articles. So, only one DELETE query
-        // is needed here.
-        $sqlQuery = "DELETE FROM Articles WHERE id = :id";
-        $sqlParam = array("id"  => $articleID);
-        $response = $this->writeToDatabase($sqlQuery, $sqlParam);
-        return $response;
-    }
-
-    /**
-     * Get article with specified id
-     * from the database, along with
-     * its metadata.
-     *
-     * @param   integer $articleID
+     * @param   string  $tableName
+     * @param   array   $columnArray
+     * @param   array   $valueArray
      * @return  array
      */
-    public function getArticle ($articleID = NULL) {
-        if ($articleID === NULL)
-            return FALSE;
-        $sqlQuery = "SELECT article.id, article.author_id, article.headline, article.preamble, article.body,
-                            article.fact, article.tags, article.theme, article.published, category.id AS category
-                    FROM Articles AS article
-                            JOIN Articles_Categories AS category
-                                ON category.id = article.category
-                    WHERE article.id = :id";
-        $sqlParam = array("id" => $articleID);
-        $response["article"] = $this->readFromDatabase($sqlQuery, $sqlParam, FALSE);
-        // Get the published date
-        $response["article"]["published"] = (!empty($response["article"]["published"]))
-                                            ? array(
-                                                "date" => date("m/d/Y", $response["article"]["published"]),
-                                                "time" => date("H:i", $response["article"]["published"])
-                                            )
-                                            : array(
-                                                "date" => NULL,
-                                                "time" => NULL
-                                            );
-        // Retrieve metadata
-        // Images
-        $tableName          = "Articles_Metadata_Images AS meta";
-        $columns            = array(
-            "meta.caption",
-            "image.id",
-            "image.image_name",
-            "image.type"
-        );
-        $condition          = array("meta.article_id = :id");
-        $joins              = array("Articles_Images AS image");
-        $joinsCondition     = array("image.id = meta.image_id");
-        $tmpArray           = $this->getMetadataOfArticle($tableName, $columns, $condition, $sqlParam, $joins, $joinsCondition);
-        // The images are either of type cover
-        // or slideshow, below code will sort
-        // the types in two different variables.
-        $response["slideshow"]  = array_filter($tmpArray, function($value) { return $value["type"] === "slideshow"; });
-        $response["cover"]      = array_shift(array_filter($tmpArray, function($value) { return $value["type"] === "cover"; }));
-        // Linked articles
-        $tableName          = "Articles_Metadata_Links AS meta";
-        $columns            = array(
-            "meta.linked_article_id AS id",
-            "article.headline"
-        );
-        $joins              = array("Articles AS article");
-        $joinsCondition     = array("article.id = meta.linked_article_id");
-        $response["links"]  = $this->getMetadataOfArticle($tableName, $columns, $condition, $sqlParam, $joins, $joinsCondition);
-
-        return $response;
-    }
-
-    /**
-     * Returns the ten most recent
-     * articles from the database.
-     * TODO: Add paging.
-     *
-     * @return  array
-     */
-    public function getArticles () {
-        $sqlQuery = "SELECT article.id, article.headline, article.created, article.published, article.last_edit,
-                            category.name AS category, CONCAT_WS(' ', user.firstname, user.lastname) AS author
-                    FROM Articles AS article
-                            JOIN Articles_Categories AS category
-                                ON category.id = article.category
-                            JOIN Users AS user
-                                ON user.id = article.author_id
-                    ORDER BY article.created
-                    DESC LIMIT 10";
-        $response = $this->readFromDatabase($sqlQuery);
-        return $response;
-    }
-
-    /**
-     * Returns the articles categories
-     * fetched from the database.
-     *
-     * @return  array
-     */
-    public function getCategories () {
-        $sqlQuery = "SELECT id, name FROM Articles_Categories";
-        $response = $this->readFromDatabase($sqlQuery);
-        return $response;
-
-    }
-
-    /**
-     * Returns all the users (authors)
-     * from the database.
-     *
-     * @return  array
-     */
-    public function getUsers () {
-        $sqlQuery = "SELECT id, CONCAT_WS(' ', firstname, lastname) AS author FROM Users";
-        $response = $this->readFromDatabase($sqlQuery);
-        $returnValue = array(
-            "current"   => Session::get("user_id"),
-            "list"      => $response
-        );
-        return $returnValue;
-    }
-
-    public function search ($searchString = NULL, $shortForm = TRUE) {
-        if ($searchString === NULL)
-            return NULL;
-        if ($shortForm)
-            $sqlQuery = "SELECT id, headline FROM Articles WHERE headline LIKE :searchString";
-        else
-            $sqlQuery = "SELECT article.id, article.headline, article.created, article.published, article.last_edit,
-                                category.name AS category, CONCAT_WS(' ', user.firstname, user.lastname) AS author
-                        FROM Articles AS article
-                                JOIN Articles_Categories AS category
-                                    ON category.id = article.category
-                                JOIN Users as user
-                                    ON user.id = article.author_id
-                        WHERE headline LIKE :searchString
-                        ORDER BY article.created
-                        DESC LIMIT 10";
-        $sqlParam = array("searchString" => '%' . $searchString . '%');
-        $response = $this->readFromDatabase($sqlQuery, $sqlParam);
-        return $response;
-    }
-
-    /**
-     * Retrieve the name of the images
-     * with given ids, as specified in
-     * the parameter.
-     *
-     * @param   array   $imageArray
-     * @return  array
-     */
-    public function getImagesWithID ($imageArray = NULL) {
-        if ($imageArray === NULL)
+    private function fetchRows ($tableName = NULL, $columnArray = NULL, $valueArray = NULL) {
+        if ($tableName === NULL || $columnArray === NULL || $valueArray === NULL)
             return NULL;
         // The query will fetch all at once, by
         // using the exact amount of markers as
         // the size of the array dictates.
-        $sqlQuery = "SELECT id, image_name FROM Articles_Images WHERE id IN " . $this->createMarkers(count($imageArray));
+        $sqlQuery = "SELECT " . implode(", ", $columnArray) . " FROM {$tableName} WHERE id IN " . $this->createMarkers(count($valueArray));
         $this->prepare($sqlQuery);
-        // Bind the values = set the IDs
         $count = 1;
-        foreach ($imageArray AS $value)
+        foreach ($valueArray AS $value)
             $this->bindValue($count++, $value);
         $response = $this->readFromDatabase();
         return $response;
     }
 
     /**
-     * Retrieve the headline of the articles
-     * with given ids, as specified in the
-     * parameter.
+     * Extracts and reformats if necessary
+     * the information inside $formData.
+     *
+     * @param   array   $formData
+     * @return  array
+     */
+    private function extractFormData ($formData) {
+        // Required fields: Headline, preamble, body text and category.
+        // If one of these are missing, do not continue.
+        if (empty($formData["headline"]))
+            return $response["error"]["message"] = "Headline required";
+        if (empty($formData["preamble"]))
+            return $response["error"]["message"] = "Preamble required";
+        if (empty($formData["body"]))
+            return $response["error"]["message"] = "Body text required";
+        if (empty($formData["category"]))
+            return $response["error"]["message"] = "Category required";
+        // Set the return array
+        $response = array(
+            "author"            => (empty($formData["author"])) ? 0 : $formData["author"],
+            "headline"          => $formData["headline"],
+            "preamble"          => $formData["preamble"],
+            "body"              => $formData["body"],
+            "category"          => $formData["category"],
+            "fact"              => (empty($formData["fact"])) ? NULL : $formData["fact"],
+            "tags"              => (empty($formData["tags"])) ? NULL : $formData["tags"],
+            "theme"             => (empty($formData["theme"])) ? NULL : $formData["theme"],
+            "created"           => time(),
+            "last_edit"         => time(),
+            "links"             => (empty($formData["links"])) ? NULL : $formData["links"]
+        );
+        // Get meta info of the images to be stored in a different database.
+        $response["images"]     = $this->mergeImageWithCaption($formData["image-slideshow"], $formData["caption-slideshow"]);
+        $response["images"][]   = $this->mergeImageWithCaption($formData["image-cover"], $formData["caption-cover"], "cover");
+        // Check if any images are to be removed (only edit mode)
+        $response["delete"]     = array(
+            "images"            => (empty($formData["image-remove"]))
+                                ?   NULL
+                                :   $formData["image-remove"],
+            "links"             => (empty($formData["link-remove"]))
+                                ?   NULL
+                                :   $formData["link-remove"],
+        );
+        // Remove any empty elements from the images and delete.
+        $response["images"]     = array_filter($response["images"]);
+        $response["delete"]     = array_filter($response["delete"]);
+        // Check if the post is supposed to be published on a later date.
+        $response["published"]  = (empty($formData["published-date"]))
+                                ? NULL
+                                : $this->getUnixTimestamp($formData["published-date"], $formData["published-time"]);
+        return $response;
+    }
+
+    /**
+     * Create an array out of the two separate
+     * images and captions arrays.
+     *
+     * @param   mixed   $image
+     * @param   mixed   $caption
+     * @param   string  $type
+     * @return  array   |   null
+     */
+    private function mergeImageWithCaption ($image = NULL, $caption = NULL, $type = "normal") {
+        if (empty($image))
+            return NULL;
+        if (is_array($image)) {
+            foreach ($image AS $key => $image) {
+                $response[] = array(
+                    "image_id"  => $image,
+                    "caption"   => (empty($caption[$key])) ? NULL : $caption[$key],
+                    "type"      => $type
+                );
+            }
+        } else {
+            $response = array(
+                "image_id"  => $image,
+                "caption"   => (empty($caption)) ? NULL : $caption,
+                "type"      => $type
+            );
+        }
+
+        return $response;
+    }
+
+    /**
+     * Format the internal links array
+     * and add the article id to it.
      *
      * @param   array   $linksArray
+     * @param   integer $articleID
      * @return  array
      */
-    public function getLinks ($linksArray = NULL) {
-        if ($linksArray === NULL)
-            return NULL;
-        // The query will fetch all at once, by
-        // using the exact amount of markers as
-        // the size of the array dictates.
-        $sqlQuery = "SELECT id, headline FROM Articles WHERE id IN " . $this->createMarkers(count($linksArray));
-        $this->prepare($sqlQuery);
-        // Bind the values = set the IDs
-        $count = 1;
-        foreach ($linksArray AS $value)
-            $this->bindValue($count++, $value);
-        $response = $this->readFromDatabase();
+    private function createMetaLinkArray ($linksArray, $articleID) {
+        foreach ($linksArray AS $key => $link) {
+            $links[] = array(
+                "article_id" => $articleID,
+                "linked_article_id" => $link
+            );
+        }
+        return $links;
+    }
+
+    /**
+     * Abstract function for retrieving the
+     * metadata of given article.
+     *
+     * @param   string  $tableName
+     * @param   array   $columns
+     * @param   array   $condition
+     * @param   array   $sqlParam
+     * @param   array   $joins
+     * @param   array   $joinsCondition
+     * @return  array
+     */
+    private function getMetadata ($tableName, $columns, $condition, $sqlParam, $joins = NULL, $joinsCondition = NULL) {
+        // Create the base of the query.
+        $sqlQuery = "SELECT " . implode(", ", $columns) . " FROM " . $tableName;
+        // Add the JOIN if there are any.
+        if ($joins !== NULL)
+            foreach ($joins AS $key => $table)
+                $sqlQuery .= " JOIN " . $table . " ON " . $joinsCondition[$key];
+        // Continue with the conditions
+        // and then execute the query.
+        $sqlQuery .= " WHERE " . implode (" AND ", $condition);
+        $response = $this->readFromDatabase($sqlQuery, $sqlParam);
+
         return $response;
+    }
+
+    /**
+     * Creates multiple rows in a given table,
+     * with the given columns and values.
+     *
+     * @param   string  $tableName
+     * @param   array   $columnArray
+     * @param   array   $valueArray
+     * @param   string  $duplicateColumn
+     * @return  mixed
+     */
+    private function insertMetadata ($tableName = NULL, $columnArray = NULL, $valueArray = NULL, $duplicateColumn = NULL) {
+        // Make sure all the parameters are set and that the number
+        // of columns match the number of values supplied.
+        if ($tableName === NULL || $columnArray === NULL || $valueArray === NULL)
+            return NULL;
+        if (count($columnArray) !== count($valueArray[0]))
+            return $this->createErrorMessage("Invalid parameter number: number of bound variables does not match number of tokens");
+        // The items should all be inserted with one query. Create the query
+        // and create the unnamed placeholders based on the array size.
+        // 'INSERT INTO X (Col1, Col2, Col3 ...) VALUES (?,?,? ...), (?,?,? ...)'
+        $preQuery = "INSERT INTO " . $tableName . " (" . implode(", ", $columnArray) . ") VALUES ";
+        // Fill the VALUES clause with as many placeholders as needed,
+        // based on size of the values array and join the array.
+        $PDOValue = array_fill(0, count($valueArray), $this->createMarkers(count($valueArray[0])));
+        $sqlQuery = $preQuery . implode(",", $PDOValue);
+        // If the duplicate parameter is set.
+        if ($duplicateColumn !== NULL)
+            $sqlQuery = $sqlQuery . " ON DUPLICATE KEY UPDATE {$duplicateColumn} = VALUES({$duplicateColumn})";
+        // Prepare the query and replace the placeholders with the
+        // actual vales with function bindParameters.
+        $this->prepare($sqlQuery);
+        $this->bindParameters($columnArray, $valueArray);
+        // Insert into table, and check for any errors.
+        $error = $this->writeToDatabase();
+        return (isset($error["error"])) ? $error : TRUE;
+    }
+
+    /**
+     * Deletes multiple rows in a given table,
+     * with the given columns and values.
+     *
+     * @param   string  $tableName
+     * @param   array   $columnArray
+     * @param   array   $valueArray
+     * @return  mixed
+     */
+    private function removeMetadata ($tableName = NULL, $columnArray = NULL, $valueArray = NULL) {
+        // Make sure all the parameters are set and that the number
+        // of columns match the number of values supplied.
+        if ($tableName === NULL || $columnArray === NULL || $valueArray === NULL)
+            return NULL;
+        if (count($columnArray) !== count($valueArray[0]))
+            return $this->createErrorMessage("Invalid parameter number: number of bound variables does not match number of tokens");
+        // Create the query as per the design below, with the columns
+        // represented by columnArray and values by the valueArray:
+        // 'DELETE FROM X  WHERE (Z, Y) IN ( (?,?), (?,?) ... )'
+        $sqlQuery = "DELETE FROM {$tableName} WHERE (" . implode(", ", $columnArray) . ") IN ";
+        $PDOValue = array_fill(0, count($valueArray), $this->createMarkers(count($valueArray[0])));
+        $sqlQuery = $sqlQuery . "(" . implode(", ", $PDOValue) . ")";
+        // Prepare the query and replace the placeholders with the
+        // actual vales with function bindParameters.
+        $this->prepare($sqlQuery);
+        $this->bindParameters($columnArray, $valueArray);
+        // Insert into table, and check for any errors.
+        $error = $this->writeToDatabase();
+        return (isset($error["error"])) ? $error : TRUE;
+    }
+
+    /**
+     * Binds the parameters in the SQL statement.
+     * Uses columns array to match the values.
+     *
+     * @param   array   $columnArray
+     * @param   array   $valueArray
+     */
+    private function bindParameters ($columnArray, $valueArray) {
+        // Position always starts at 1
+        $position = 1;
+        foreach ($valueArray AS $key => $value) {
+            // Matching the values by keynames from
+            // the column arrays makes sure that the
+            // right value will fill the right column
+            // in the database table.
+            foreach ($columnArray AS $key => $column) {
+                $this->bindValue($position++, $value[$column]);
+            }
+        }
+    }
+
+    /**
+     * Returns a string containing N number of
+     * unnamed placeholders, i.e (?,? ...)
+     *
+     * @param   integer $count
+     * @param   bool    $withBrackets
+     * @return  string
+     */
+    private function createMarkers ($count = 0, $withBrackets = TRUE) {
+        $markers = array_fill(0, $count, '?');
+        $markers = ($withBrackets) ? '(' . implode(", ", $markers) . ')' : implode(", ", $markers);
+        return $markers;
+    }
+
+    /**
+     * Converts a string date
+     * to unix timestamp.
+     *
+     * @param   string $date
+     * @param   string $time
+     * @return  string  |   null
+     */
+    private function getUnixTimestamp ($date = NULL, $time = NULL) {
+        $time = (empty($time)) ? "12:00" : $time;
+        return  (empty($date)) ? NULL : strtotime($date . " " . $time);
     }
 
     /**
@@ -378,250 +447,206 @@ class ArticlesModel extends Model {
     }
 
     /**
-     * Extracts and reformats if necessary
-     * the information inside $formData.
+     * Remove an article with the specified
+     * id from the database, along with all
+     * metadata connected to it.
      *
-     * @param   array   $formData
-     * @return  array
+     * @param   integer $articleID
+     * @return  array   |   mixed
      */
-    private function extractFormData ($formData) {
-        // Required fields: Headline, preamble, body text and category.
-        // If one of these are missing, do not continue.
-        if (empty($formData["headline"]))
-            return $response["error"]["message"] = "Headline required";
-        if (empty($formData["preamble"]))
-            return $response["error"]["message"] = "Preamble required";
-        if (empty($formData["body"]))
-            return $response["error"]["message"] = "Body text required";
-        if (empty($formData["category"]))
-            return $response["error"]["message"] = "Category required";
-        // Set the return array
-        $response = array(
-            "author"            => (empty($formData["author"])) ? 0 : $formData["author"],
-            "headline"          => $formData["headline"],
-            "preamble"          => $formData["preamble"],
-            "body"              => $formData["body"],
-            "category"          => $formData["category"],
-            "fact"              => (empty($formData["fact"])) ? NULL : $formData["fact"],
-            "tags"              => (empty($formData["tags"])) ? NULL : $formData["tags"],
-            "theme"             => (empty($formData["theme"])) ? NULL : $formData["theme"],
-            "created"           => time(),
-            "last_edit"         => time(),
-            "links"             => (empty($formData["links"])) ? NULL : $formData["links"]
-        );
-        // Get meta info of the images to be stored in a different database.
-        $response["images"]     = $this->mergeImageWithCaption($formData["image-slideshow"], $formData["caption-slideshow"]);
-        $response["images"][]   = $this->mergeImageWithCaption($formData["image-cover"], $formData["caption-cover"], "cover");
-        // Check if any images are to be removed (only edit mode)
-        $response["delete"]     = array(
-            "images"            => (empty($formData["image-remove"]))
-                                ?   NULL
-                                :   $formData["image-remove"],
-            "links"             => (empty($formData["link-remove"]))
-                                ?   NULL
-                                :   $formData["link-remove"],
-        );
-        // Remove any empty elements from the images and delete.
-        $response["images"]     = array_filter($response["images"]);
-        $response["delete"]     = array_filter($response["delete"]);
-        // Check if the post is supposed to be published on a later date.
-        $response["published"]  = (empty($formData["published-date"]))
-                                ? NULL
-                                : $this->getUnixTimestamp($formData["published-date"], $formData["published-time"]);
+    public function removeArticle ($articleID = NULL) {
+        if ($articleID === NULL)
+            return $this->createErrorMessage("No article id specified");
+        // The Articles_Metadata_* tables should have a foreign key with
+        // cascading delete pointing to the id column in Articles, which
+        // means that they will automatically be removed if the the key
+        // is matched with the ID in Articles. So, only one DELETE query
+        // is needed here.
+        $sqlQuery = "DELETE FROM Articles WHERE id = :id";
+        $sqlParam = array("id"  => $articleID);
+        $response = $this->writeToDatabase($sqlQuery, $sqlParam);
         return $response;
     }
 
     /**
-     * Create an array out of the two separate
-     * images and captions arrays.
+     * Get article with specified id
+     * from the database, along with
+     * its metadata.
      *
-     * @param   mixed   $image
-     * @param   mixed   $caption
-     * @param   string  $type
-     * @return  array   |   null
-     */
-    private function mergeImageWithCaption ($image = NULL, $caption = NULL, $type = "normal") {
-        if (empty($image))
-            return NULL;
-        if (is_array($image)) {
-            foreach ($image AS $key => $image) {
-                $response[] = array(
-                    "image_id"  => $image,
-                    "caption"   => (empty($caption[$key])) ? NULL : $caption[$key],
-                    "type"      => $type
-                );
-            }
-        } else {
-            $response = array(
-                "image_id"  => $image,
-                "caption"   => (empty($caption)) ? NULL : $caption,
-                "type"      => $type
-            );
-        }
-
-        return $response;
-    }
-
-    /**
-     * Format the internal links array
-     * and add the article id to it.
-     *
-     * @param   array   $linksArray
      * @param   integer $articleID
      * @return  array
      */
-    private function createMetaLinkArray ($linksArray, $articleID) {
-        foreach ($linksArray AS $key => $link) {
-            $links[] = array(
-                "article_id" => $articleID,
-                "linked_article_id" => $link
-            );
-        }
-        return $links;
-    }
-
-    /**
-     * Abstract function for retrieving the
-     * metadata of given article.
-     *
-     * @param   string  $tableName
-     * @param   array   $columns
-     * @param   array   $condition
-     * @param   array   $sqlParam
-     * @param   array   $joins
-     * @param   array   $joinsCondition
-     * @return  array
-     */
-    private function getMetadataOfArticle ($tableName, $columns, $condition, $sqlParam, $joins = NULL, $joinsCondition = NULL) {
-        // Create the base of the query.
-        $sqlQuery = "SELECT " . implode(", ", $columns) . " FROM " . $tableName;
-        // Add the JOIN if there are any.
-        if ($joins !== NULL)
-            foreach ($joins AS $key => $table)
-                $sqlQuery .= " JOIN " . $table . " ON " . $joinsCondition[$key];
-        // Continue with the conditions
-        // and then execute the query.
-        $sqlQuery .= " WHERE " . implode (" AND ", $condition);
-        $response = $this->readFromDatabase($sqlQuery, $sqlParam);
+    public function getArticle ($articleID = NULL) {
+        if ($articleID === NULL)
+            return FALSE;
+        $sqlQuery = "SELECT article.id, article.author_id, article.headline, article.preamble, article.body,
+                            article.fact, article.tags, article.theme, article.published, category.id AS category
+                    FROM Articles AS article
+                            JOIN Articles_Categories AS category
+                                ON category.id = article.category
+                    WHERE article.id = :id";
+        $sqlParam = array("id" => $articleID);
+        $response["article"] = $this->readFromDatabase($sqlQuery, $sqlParam, FALSE);
+        // Get the published date
+        $response["article"]["published"] = (!empty($response["article"]["published"]))
+                                            ? array(
+                                                "date" => date("m/d/Y", $response["article"]["published"]),
+                                                "time" => date("H:i", $response["article"]["published"])
+                                            )
+                                            : array(
+                                                "date" => NULL,
+                                                "time" => NULL
+                                            );
+        // Get the images
+        $tableName          = "Articles_Metadata_Images AS meta";
+        $columns            = array(
+            "meta.caption",
+            "image.id",
+            "image.image_name",
+            "image.type"
+        );
+        $condition          = array("meta.article_id = :id");
+        $joins              = array("Articles_Images AS image");
+        $joinsCondition     = array("image.id = meta.image_id");
+        $tmpArray           = $this->getMetadata($tableName, $columns, $condition, $sqlParam, $joins, $joinsCondition);
+        // The images are either of type cover
+        // or slideshow, below code will sort
+        // the types in two different variables.
+        $response["slideshow"]  = array_filter($tmpArray, function($value) { return $value["type"] === "slideshow"; });
+        // There should be only one cover image,
+        // so "array_shift" to flatten the multi-
+        // dimensional array.
+        $response["cover"]      = array_shift(array_filter($tmpArray, function($value) { return $value["type"] === "cover"; }));
+        // Get linked articles
+        $tableName          = "Articles_Metadata_Links AS meta";
+        $columns            = array(
+            "meta.linked_article_id AS id",
+            "article.headline"
+        );
+        $joins              = array("Articles AS article");
+        $joinsCondition     = array("article.id = meta.linked_article_id");
+        $response["links"]  = $this->getMetadata($tableName, $columns, $condition, $sqlParam, $joins, $joinsCondition);
 
         return $response;
     }
 
     /**
-     * Creates multiple rows in a given table,
-     * with the given columns and values.
+     * Returns the ten most recent
+     * articles from the database.
+     * TODO: Add paging.
      *
-     * @param   string  $tableName
-     * @param   array   $columnArray
-     * @param   array   $valueArray
-     * @param   string  $duplicateColumn
-     * @return  mixed
+     * @return  array
      */
-    private function insertMetadata ($tableName = NULL, $columnArray = NULL, $valueArray = NULL, $duplicateColumn = NULL) {
-        // Make sure all the parameters are set and that the number
-        // of columns match the number of values supplied.
-        if ($tableName === NULL || $columnArray === NULL || $valueArray === NULL)
+    public function getArticles () {
+        $sqlQuery = "SELECT article.id, article.headline, article.created, article.published, article.last_edit,
+                            category.name AS category, CONCAT_WS(' ', user.firstname, user.lastname) AS author
+                    FROM Articles AS article
+                            JOIN Articles_Categories AS category
+                                ON category.id = article.category
+                            JOIN Users AS user
+                                ON user.id = article.author_id
+                    ORDER BY article.created
+                    DESC LIMIT 10";
+        $response = $this->readFromDatabase($sqlQuery);
+        return $response;
+    }
+
+    /**
+     * Returns the articles categories
+     * fetched from the database.
+     *
+     * @return  array
+     */
+    public function getCategories () {
+        $sqlQuery = "SELECT id, name FROM Articles_Categories";
+        $response = $this->readFromDatabase($sqlQuery);
+        return $response;
+    }
+
+    /**
+     * Returns all the users (authors)
+     * from the database.
+     *
+     * @return  array
+     */
+    public function getUsers () {
+        $sqlQuery = "SELECT id, CONCAT_WS(' ', firstname, lastname) AS author FROM Users";
+        $response = $this->readFromDatabase($sqlQuery);
+        $returnValue = array(
+            "current"   => Session::get("user_id"),
+            "list"      => $response
+        );
+        return $returnValue;
+    }
+
+    /**
+     * Retrieve the name of the images
+     * with the IDs specified in the
+     * parameter. Calls fetchRows().
+     *
+     * @param   array   $imageArray
+     * @return  array   |   bool
+     */
+    public function getImagesWithID ($imageArray = NULL) {
+        if ($imageArray === NULL)
             return NULL;
-        if (count($columnArray) !== count($valueArray[0]))
-            return $this->createErrorMessage("Invalid parameter number: number of bound variables does not match number of tokens");
-        // The items should all be inserted with one query. Create the
-        // query and set the parameter markers based on the array size.
-        // 'INSERT INTO X (Col1, Col2, Col3 ...) VALUES (?,?,? ...), (?,?,? ...)'
-        $preQuery = "INSERT INTO " . $tableName . " (" . implode(", ", $columnArray) . ") VALUES ";
-        // Fill the VALUES portion of query with as many placeholder markers
-        // as needed, based on size of the values array and join the array.
-        $PDOValue = array_fill(0, count($valueArray), $this->createMarkers(count($valueArray[0])));
-        $sqlQuery = $preQuery . implode(",", $PDOValue);
-        // If the duplicate parameter is set.
-        if ($duplicateColumn !== NULL)
-            $sqlQuery = $sqlQuery . " ON DUPLICATE KEY UPDATE {$duplicateColumn} = VALUES({$duplicateColumn})";
-        // Prepare the query and replace the placeholders with the
-        // actual vales with function bindParameters.
-        $this->prepare($sqlQuery);
-        $this->bindParameters($columnArray, $valueArray);
-        // Insert into table, and check for any errors.
-        $error = $this->writeToDatabase();
-        return (isset($error["error"])) ? $error : TRUE;
+        // Set the tablename and columns to fetch
+        // before calling fetchRows()
+        $tableName      = "Articles_Images";
+        $columnArray    = array("id", "image_name");
+        // Make the call and return
+        $response = $this->fetchRows($tableName, $columnArray, $imageArray);
+        return (isset($response)) ? $response : NULL;
     }
 
     /**
-     * Deletes multiple rows in a given table,
-     * with the given columns and values.
+     * Retrieve the headline of the articles
+     * with given ids, as specified in the
+     * parameter. Calls fetchRows().
      *
-     * @param   string  $tableName
-     * @param   array   $columnArray
-     * @param   array   $valueArray
-     * @return  mixed
+     * @param   array   $linksArray
+     * @return  array   |   bool
      */
-    private function removeMetadata ($tableName = NULL, $columnArray = NULL, $valueArray = NULL) {
-        // Make sure all the parameters are set and that the number
-        // of columns match the number of values supplied.
-        if ($tableName === NULL || $columnArray === NULL || $valueArray === NULL)
+    public function getArticlesWithID ($linksArray = NULL) {
+        if ($linksArray === NULL)
             return NULL;
-        if (count($columnArray) !== count($valueArray[0]))
-            return $this->createErrorMessage("Invalid parameter number: number of bound variables does not match number of tokens");
-        // Create the query as per the design below, with the columns
-        // represented by columnArray and values by the valueArray:
-        // 'DELETE FROM X  WHERE (Z, Y) IN ( (?,?), (?,?) ... )'
-        $sqlQuery = "DELETE FROM {$tableName} WHERE (" . implode(", ", $columnArray) . ") IN ";
-        $PDOValue = array_fill(0, count($valueArray), $this->createMarkers(count($valueArray[0])));
-        $sqlQuery = $sqlQuery . "(" . implode(", ", $PDOValue) . ")";
-        // Prepare the query and replace the placeholders with the
-        // actual vales with function bindParameters.
-        $this->prepare($sqlQuery);
-        $this->bindParameters($columnArray, $valueArray);
-        // Insert into table, and check for any errors.
-        $error = $this->writeToDatabase();
-        return (isset($error["error"])) ? $error : TRUE;
+        // Set the tablename and columns to fetch
+        // before calling fetchRows()
+        $tableName      = "Articles";
+        $columnArray    = array("id", "headline");
+        // Make the call and return
+        $response = $this->fetchRows($tableName, $columnArray, $linksArray);
+        return $response;
     }
 
     /**
-     * Binds the parameters in a PDO statement,
-     * with position as markers position. Uses
-     * the columns array to match the values.
+     * Search for an article. If shortForm param
+     * is set to true, only the id and headline
+     * should be return (for in-article linking).
      *
-     * @param   array   $columnArray
-     * @param   array   $valueArray
+     * @param   string  $searchString
+     * @param   bool    $shortForm
+     * @return  array   |   bool
      */
-    private function bindParameters ($columnArray, $valueArray) {
-        // Position always starts at 1
-        $position = 1;
-        foreach ($valueArray AS $key => $value) {
-            // Matching the values by keynames from
-            // the column arrays makes sure that the
-            // right value will fill the right column
-            // in the database table.
-            foreach ($columnArray AS $key => $column) {
-                $this->bindValue($position++, $value[$column]);
-            }
-        }
-    }
-
-    /**
-     * Returns a string containing N number of
-     * parameters markers, i.e (?,? ...)
-     *
-     * @param   integer $count
-     * @param   bool    $withBrackets
-     * @return  string
-     */
-    private function createMarkers ($count = 0, $withBrackets = TRUE) {
-        $markers = array_fill(0, $count, '?');
-        $markers = ($withBrackets) ? '(' . implode(", ", $markers) . ')' : implode(", ", $markers);
-        return $markers;
-    }
-
-    /**
-     * Converts a string date
-     * to unix timestamp.
-     *
-     * @param   string $date
-     * @param   string $time
-     * @return  string  |   null
-     */
-    private function getUnixTimestamp ($date = NULL, $time = NULL) {
-        $time = (empty($time)) ? "12:00" : $time;
-        return  (empty($date)) ? NULL : strtotime($date . " " . $time);
+    public function search ($searchString = NULL, $shortForm = TRUE) {
+        if ($searchString === NULL)
+            return NULL;
+        if ($shortForm)
+            $sqlQuery = "SELECT id, headline FROM Articles WHERE headline LIKE :searchString";
+        else
+            $sqlQuery = "SELECT article.id, article.headline, article.created, article.published, article.last_edit,
+                                category.name AS category, CONCAT_WS(' ', user.firstname, user.lastname) AS author
+                        FROM Articles AS article
+                                JOIN Articles_Categories AS category
+                                    ON category.id = article.category
+                                JOIN Users as user
+                                    ON user.id = article.author_id
+                        WHERE headline LIKE :searchString
+                        ORDER BY article.created
+                        DESC LIMIT 10";
+        $sqlParam = array("searchString" => '%' . $searchString . '%');
+        $response = $this->readFromDatabase($sqlQuery, $sqlParam);
+        return $response;
     }
 }
 ?>

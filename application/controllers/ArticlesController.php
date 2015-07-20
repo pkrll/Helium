@@ -63,7 +63,7 @@ class ArticlesController extends Controller {
                     "article"   => array_intersect_key($formData, array_flip(array(
                         "headline", "preamble", "body", "fact", "tags", "category", "theme",  "published-date", "published-time", "author"
                     ))),
-                    "links"     => $this->model()->getLinks($formData["links"]),
+                    "links"     => $this->model()->getArticlesWithID($formData["links"]),
                     "images"    => array(
                         "slide" => array(
                             "caption"  => $formData["caption-slideshow"],
