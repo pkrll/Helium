@@ -1,9 +1,11 @@
 # Helium
-## What is it?
+**What is it?**
 Helium is a web application (written in PHP5, JavaScript/jQuery) for content management.
-## Why not done?
+
+**Why not done?**
 It will be, eventually, someday.
-## Will it really?
+
+**Will it really?**
 Maybe. Probably. Maybe.
 ## How to use?
 ### Download
@@ -12,10 +14,13 @@ Clone a copy of the Helium repository
 
 ### Installation
 * Set up a virtual host in Apache, pointing to the Helium directory.
-* Create a MySQL database and supply the database constants in the file /library/Config.php with the appropriate values.
+* Create a MySQL database and set the database constants in the file /library/Config.php to values appropriate to your config.
     * See MySQL Database Scheme in file Helium.sql (Will be updated).
 
 ### Usage
+* Log in to the Helium admin panel by navigating to *yoursite.io/user* and providing the default username and password (*admin*/*admin*). (You can change the default password by selecting Users > edit in the menu bar.)
+* Before you can start adding new articles/posts, you need to add Categories to the system.
+* Don't forget the front end!
 * Create your controllers, models and views and templates as per the folder structure below.
 ```
 - application/
