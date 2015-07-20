@@ -12,7 +12,9 @@
                             </div>
                             <div class="content-window-float-body">
                                 <fieldset class="content-window-fieldset">
-                                    <div style="padding:10px;">Set the permission level for resource:</div>
+                                    <div class="content-window-fieldset-label">
+                                        <span>Beware:</span> Changing permissions on a resource could have unintended consequences. Change with care.
+                                    </div>
                                     <?php
                                         foreach ($resources AS $resource) {
                                     ?>

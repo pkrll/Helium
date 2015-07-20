@@ -58,6 +58,17 @@
     padding:    0 10px 10px 10px;
 }
 
+.content-window-fieldset-label {
+    color:      #000;
+    font-style: italic;
+    padding:    10px 10px 15px 10px;
+}
+
+.content-window-fieldset-label > span {
+    color:          #DE1212;
+    font-weight:    bold;
+}
+
 input[type="text"],
 input[type="password"] {
     border:             1px solid rgba(0,0,0,0.3);

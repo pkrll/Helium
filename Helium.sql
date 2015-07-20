@@ -81,10 +81,32 @@ CREATE TABLE IF NOT EXISTS `Articles_Metadata_Links` (
 --
 
 CREATE TABLE IF NOT EXISTS `Resources` (
-`id` int(11) NOT NULL,
   `name` varchar(30) NOT NULL,
   `permissionLevel` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `Resources`
+--
+
+INSERT INTO `Resources` (`name`, `permissionLevel`) VALUES
+('Admin:main', 1),
+('Articles:archive', 1),
+('Articles:create', 1),
+('Articles:edit', 1),
+('Articles:main', 0),
+('Articles:remove', 2),
+('Gallery:browse', 1),
+('Gallery:main', 1),
+('Gallery:upload', 1),
+('Settings:main', 3),
+('Upload:image', 1),
+('Upload:main', 1),
+('Upload:remove', 2),
+('User:add', 3),
+('User:edit', 3),
+('User:main', 0),
+('User:rights', 4);
 
 --
 -- Table structure for table `Roles`
@@ -95,6 +117,16 @@ CREATE TABLE IF NOT EXISTS `Roles` (
   `name` varchar(20) NOT NULL,
   `description` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `Roles`
+--
+
+INSERT INTO `Roles` (`id`, `name`, `description`) VALUES
+(1, 'Writer', 'Can write and edit own posts.'),
+(2, 'Editor', 'Can write and edit own and other posts, also edit front page.'),
+(3, 'Supereditor', 'Same permissions as editor, but can also manage and add users up to level Editor.'),
+(4, 'Owner', 'Has access to everything.');
 
 -- --------------------------------------------------------
 
@@ -149,7 +181,7 @@ ALTER TABLE `Articles_Metadata_Links`
 -- Indexes for table `Resources`
 --
 ALTER TABLE `Resources`
- ADD PRIMARY KEY (`id`);
+ ADD PRIMARY KEY (`name`);
 
 --
 -- Indexes for table `Roles`
@@ -181,11 +213,6 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `Articles_Images`
 --
 ALTER TABLE `Articles_Images`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `Resources`
---
-ALTER TABLE `Resources`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `users`
