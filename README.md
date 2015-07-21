@@ -102,5 +102,7 @@ class ExampleModel extends Model {
    </body>
 </html>
 ```
+### Adding new articles
+![screenshot](https://raw.githubusercontent.com/pkrll/Helium/master/helium-screenshot-1.png "Helium 0.10.2")
 ## License
 This project is licensed under the **GNU General Public License v2.0**. All fonts and font icons in this project are licensed under the **SIL Open Font License 1.1**. The font **Numans** was created by **Jovanny Lemonad**. The font **Dosis** was created by **Pablo Impallari**. Fonts icons were created by **Dave Gandy** and **Daniel Bruce**.
