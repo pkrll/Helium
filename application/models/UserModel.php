@@ -111,6 +111,66 @@ class UserModel extends Model {
     }
 
     /**
+     * Edit a users information.
+     *
+     * @param   array   $data
+     * @return  mixed
+     */
+    public function updateUser ($data = NULL) {
+        // Make sure all the necessary and required
+        // fields are set before continuing.
+        if ($data === NULL)
+            return $this->createErrorMessage("No data given");
+        if ($this->isElementEmpty($data, array("id", "firstname", "username", "permissionLevel")))
+            return $this->createErrorMessage("Field empty");
+        // To make the query more flexibel, base the
+        // set-clause on the fields not empty.
+        // Set the the values that will be bound
+        // to the parameters in the setclause,
+        // except for ID (in the where-clause).
+        foreach ($data AS $key => $value) {
+            if (!empty($value)) {
+                if ($key === "password")
+                    $value = md5($value);
+                if ($key !== "id")
+                    $setClause[] = "{$key} = :{$key}";
+                $sqlParam[$key] = $value;
+            }
+        }
+        // Create the query, and execute
+        $sqlQuery = "UPDATE Users SET " . implode(", ", $setClause) . " WHERE id = :id";
+        $response = $this->writeToDatabase($sqlQuery, $sqlParam);
+        return $response;
+    }
+
+    /**
+     * Retrieve a specific user
+     * from the database.
+     *
+     * @param   int     $userID
+     * @return  mixed
+     */
+    public function getUser ($userID = NULL) {
+        if ($userID === NULL)
+            return FALSE;
+        $sqlQuery = "SELECT id, username, firstname, lastname, permissionLevel FROM Users WHERE id = :id";
+        $sqlParam = array("id" => $userID);
+        $response = $this->readFromDatabase($sqlQuery, $sqlParam, FALSE);
+        return $response;
+    }
+
+    /**
+     * Fetch all users from database.
+     *
+     * @return  array
+     */
+    public function getUsers () {
+        $sqlQuery = "SELECT id, username, CONCAT_WS(' ', firstname, lastname) AS name, permissionLevel FROM Users";
+        $response = $this->readFromDatabase($sqlQuery);
+        return $response;
+    }
+
+    /**
      * Fetch Roles from database.
      *
      * @return  array

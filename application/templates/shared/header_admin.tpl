@@ -33,7 +33,7 @@
                         <li class="menu-bar-li sub-menu hidden" data-href="/admin/front/add" style=""><span class="font-icon menu icon-tools"></span><span class="menu-title">Modules</span></li>
                         <li class="menu-bar-li"><span class="font-icon menu icon-gallery"></span><span class="menu-title">Gallery</span></li>
                         <li class="menu-bar-li" data-href="open:sub-menu"><span class="font-icon menu icon-users"></span><span class="menu-title">Users</span></li>
-                        <li class="menu-bar-li sub-menu hidden" data-href="/user/edit" style=""><span class="font-icon menu icon-user"></span><span class="menu-title">Edit</span></li>
+                        <li class="menu-bar-li sub-menu hidden" data-href="/user/all" style=""><span class="font-icon menu icon-user"></span><span class="menu-title">Edit</span></li>
                         <li class="menu-bar-li sub-menu hidden" data-href="/user/add" style=""><span class="font-icon menu icon-user-add"></span><span class="menu-title">Add</span></li>
                         <li class="menu-bar-li" data-href="/user/rights"><span class="font-icon menu icon-eye"></span><span class="menu-title">Permission</span></li>
                         <li class="menu-bar-li"><span class="font-icon menu icon-calendar"></span><span class="menu-title">Calendar</span></li>
