@@ -59,7 +59,7 @@ Clone a copy of the Helium repository
 - .htaccess
 ```
 * Below is an example of how the controller, model, view and templates interact.
-    * Note: All controllers must have the default main-method, which will be called if the URL does not specify any method (i.e. *helium.dev/example*). Method foo() is an example of when the URL path is set and a parameter is passed along (i.e. *helium.dev/example/foo/bar*).
+    * Note: All controllers must have the default main-method, which will be called if the URL request does not specify any action (i.e. *helium.dev/example*). Method foo() is an example of when the URL request path is set and a parameter is passed along (i.e. *helium.dev/example/foo/bar*).
 
 #### ExampleController.php
 ```php
@@ -76,7 +76,8 @@ class ExampleController extends Controller {
     // helium.dev/example/foo/bar
     public function foo() {
        // set $argument to the parameter ("bar")
-       $argument = $this->arguments[0]; 
+       $argument = $this->arguments[0];
+       // Use $this->arguments[n] if there are more parameters
        ...
     }
 }
