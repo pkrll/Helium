@@ -4,32 +4,17 @@
                     </div>
                 </div>
                 <div class="content-window">
-                    <div class="pad-18">
-                        <form>
-                            <fieldset class="fieldset-naked pad-18-top-bottom">
-                                <div>
-                                    <div class="font-16 bold pad-18-bottom">
-                                        Appearance
-                                    </div>
-                                    <div>
-                                        <label>
-                                            <input type="checkbox" />
-                                            Transparent backgrounds
-                                        </label>
-                                    </div>
 
-                                    <div class="font-16 bold pad-18-bottom">
-                                        Content
-                                    </div>
-                                    <div>
-                                        <label>
-                                            <input type="checkbox" />
-                                            Enable themes
-                                        </label>
-                                    </div>
-
-                                </div>
-                            </fieldset>
-                        </form>
+                    <div style="padding:10px;">
+                        <div style="border-bottom:1px solid #000;width:40%;padding:10px;">
+                            <div class="font-icon icon-settings"> Categories</div>
+                            <div>
+                                <ul>
+                                    <li>Add</li>
+                                    <li>Edit</li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
+
                 </div>

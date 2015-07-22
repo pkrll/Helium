@@ -18,8 +18,8 @@ class ArticlesController extends Controller {
      * @param   string  $_GET['search']
      */
     public function archive () {
-        // Get the content, depending on if it's
-        // a search (which GET suggests), or not.
+        // Get the content, depending on if it's a search
+        // (which GET suggests), or not.
         $articles = ($_SERVER['REQUEST_METHOD'] == 'GET' && !empty($_GET))
                     ? $this->model()->search($_GET["search"], FALSE)
                     : $this->model()->getArticles();
@@ -52,10 +52,8 @@ class ArticlesController extends Controller {
                 header("Location: /articles/view/{$response}");
             }
         } else {
-            // If the formData is set, that means
-            // something went wrong when adding a
-            // a new post. To keep continuity keep
-            // the values to fill the form with it.
+            // If the formData is set, that means something went wrong when adding a
+            // a new post. To keep continuity keep the values to fill the form with it.
             if ($formData !== NULL) {
                 // Set the variables
                 // TODO: Perhaps move to model??
@@ -129,8 +127,7 @@ class ArticlesController extends Controller {
                     "cover" => $contents["cover"]
                 )
             );
-            // Edit can use create.inc, instead of
-            // having its own inc-file.
+            // Edit can use create.inc, instead of having its own inc-file.
             $includes = $this->getIncludes("create");
             // Render the view
             $this->view()->assign("includes", $includes);

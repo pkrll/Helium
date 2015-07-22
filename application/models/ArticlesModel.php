@@ -23,9 +23,7 @@ class ArticlesModel extends Model {
     private function fetchRows ($tableName = NULL, $columnArray = NULL, $valueArray = NULL) {
         if ($tableName === NULL || $columnArray === NULL || $valueArray === NULL)
             return NULL;
-        // The query will fetch all at once, by
-        // using the exact amount of markers as
-        // the size of the array dictates.
+        // Use unnamed parameters to fetch all the rows at once
         $sqlQuery = "SELECT " . implode(", ", $columnArray) . " FROM {$tableName} WHERE id IN " . $this->createMarkers(count($valueArray));
         $this->prepare($sqlQuery);
         $count = 1;
@@ -157,8 +155,7 @@ class ArticlesModel extends Model {
         if ($joins !== NULL)
             foreach ($joins AS $key => $table)
                 $sqlQuery .= " JOIN " . $table . " ON " . $joinsCondition[$key];
-        // Continue with the conditions
-        // and then execute the query.
+        // Continue with the conditions and then execute the query.
         $sqlQuery .= " WHERE " . implode (" AND ", $condition);
         $response = $this->readFromDatabase($sqlQuery, $sqlParam);
 
@@ -293,35 +290,29 @@ class ArticlesModel extends Model {
     public function createArticle ($formData = NULL) {
         if ($formData === NULL)
             return FALSE;
-        // Extract and reformat the data
-        // before insertion to database.
+        // Extract and reformat the data before insertion to database.
         $data = $this->extractFormData($formData);
-        // Create a new row for the new
-        // post in the Articles table.
+        // Create a new row for the new post in the Articles table.
         $sqlQuery = "INSERT INTO Articles (author_id, category, headline, preamble, body, fact, tags, theme, created, published, last_edit) VALUES (:author, :category, :headline, :preamble, :body, :fact, :tags, :theme, :created, :published, :last_edit)";
-        // The $data array will also hold other
-        // metadata. Retrieve only the values
-        // specific for the Articles table.
+        // The $data array will also hold other metadata. Retrieve
+        // only the values specific for the Articles table.
         $tmpArray = array("author", "category", "headline", "preamble", "body", "fact", "tags", "theme", "created", "published", "last_edit");
-        // This retrieves only the key/value-pairs of
-        // the $data array with the keynames above.
+        // This retrieves only the key/value-pairs of the $data
+        // array with the keynames above.
         $sqlParam = array_intersect_key($data, array_flip($tmpArray));
-        // Insert into database and look
-        // for errors before continuing.
+        // Insert into database and look for errors before continuing.
         $response = $this->writeToDatabase($sqlQuery, $sqlParam);
         if (isset($response["error"]))
             return $response["error"];
-        // The images and internal links
-        // metadata are to be placed in
+        // The images and internal links metadata are to be placed in
         // separate tables.
         if (!empty($data["images"]) && $data["images"] !== array(NULL)) {
             // Set the columns for the images metadata table
             $array = array("image_id", "article_id", "caption", "type");
             // Add the article id to the images, otherwise there
             // will be a problem with the insertMetadata method.
-            foreach($data["images"] AS $key => $item) {
+            foreach($data["images"] AS $key => $item)
                 $data["images"][$key]["article_id"] = $response;
-            }
             // Insert the data
             $error = $this->insertMetadata("Articles_Metadata_Images", $array, $data["images"]);
             if (isset($error["error"]))
@@ -352,26 +343,21 @@ class ArticlesModel extends Model {
     public function updateArticle ($articleID = NULL, $formData = NULL) {
         if ($articleID === NULL || $formData === NULL)
             return FALSE;
-        // Extract and reformat the data
-        // before insertion to database.
+        // Extract and reformat the data before insertion to database.
         $data = $this->extractFormData($formData);
         // Set the query to update the row
         $sqlQuery = "UPDATE Articles SET author_id = :author, category = :category, headline = :headline, preamble = :preamble, body = :body, fact = :fact, tags = :tags, theme = :theme, published = :published, last_edit = :last_edit WHERE id = :id";
-        // Unlike createArticle(), this time, created
-        // will not be used, and instead last_edit is
-        // utilized to set the update time.
+        // Unlike createArticle(), this time, created will not be used,
+        // and instead last_edit is utilized to set the update time.
         $tmpArray = array("author", "category", "headline", "preamble", "body", "fact", "tags", "theme", "published", "last_edit");
-        // This retrieves only the key/value-pairs of
-        // the $data array with the keynames above.
+        // Retrieve only the key/value-pairs of the $data array with the keynames above.
         $sqlParam = array_intersect_key($data, array_flip($tmpArray));
         $sqlParam["id"] = $articleID;
-        // Insert into database and look
-        // for errors before continuing.
+        // Insert into database and look for errors before continuing.
         $response = $this->writeToDatabase($sqlQuery, $sqlParam);
         if (isset($response["error"]))
             return $response["error"];
-        // The images and internal links
-        // metadata are to be placed in
+        // The images and internal links metadata are to be placed in
         // separate tables.
         if (!empty($data["images"]) && $data["images"] !== array(NULL)) {
             // Set the columns to fill for the images metadata table
@@ -509,13 +495,11 @@ class ArticlesModel extends Model {
         $joins              = array("Articles_Images AS image");
         $joinsCondition     = array("image.id = meta.image_id");
         $tmpArray           = $this->getMetadata($tableName, $columns, $condition, $sqlParam, $joins, $joinsCondition);
-        // The images are either of type cover
-        // or slideshow, below code will sort
-        // the types in two different variables.
+        // The images are either of type cover or slideshow,
+        // below code will sort the types in two different variables.
         $response["slideshow"]  = array_filter($tmpArray, function($value) { return $value["type"] === "slideshow"; });
-        // There should be only one cover image,
-        // so "array_shift" to flatten the multi-
-        // dimensional array.
+        // There should be only one cover image, so "array_shift"
+        // to flatten the multi-dimensional array.
         $response["cover"]      = array_shift(array_filter($tmpArray, function($value) { return $value["type"] === "cover"; }));
         // Get linked articles
         $tableName          = "Articles_Metadata_Links AS meta";
@@ -622,7 +606,7 @@ class ArticlesModel extends Model {
     /**
      * Search for an article. If shortForm param
      * is set to true, only the id and headline
-     * should be return (for in-article linking).
+     * should be returned (for in-article linking).
      *
      * @param   string  $searchString
      * @param   bool    $shortForm

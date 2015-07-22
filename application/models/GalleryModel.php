@@ -83,20 +83,23 @@
 	 * @param integer $totalNumberOfPages
 	 * @return array
 	 */
-	private function createNumberedPageNavigation ($page, $totalNumberOfPages) {
+	private function createNumberedPageNavigation ($currentPage, $totalNumberOfPages) {
 		$pageArray = array();
 		if ($totalNumberOfPages > 10) {
-			if ($page > 5) {
-				if ($page < ($totalNumberOfPages-2)) {
+			if ($currentPage > 5) {
+				if ($currentPage < ($totalNumberOfPages-2)) {
+                    // [ 1, 2, ... , N-1, N, N+1, ... , 98, 99]
 					$pageArray = [
-						1, 2, FALSE, $page-1, $page, $page+1, FALSE, $totalNumberOfPages-1, $totalNumberOfPages
+						1, 2, FALSE, $currentPage-1, $currentPage, $currentPage+1, FALSE, $totalNumberOfPages-1, $totalNumberOfPages
 					];
 				} else {
+                    // [ 1, 2, ... 96, 97, 98, 99]
 					$pageArray = [
 						1, 2, FALSE, $totalNumberOfPages-3, $totalNumberOfPages-2, $totalNumberOfPages-1, $totalNumberOfPages
 					];
 				}
 			} else {
+                // [ 1, 2, 3, 4, 5, 6, ... ,98, 99]
 				$pageArray = [
 					1, 2, 3, 4, 5, 6, FALSE, $totalNumberOfPages-2, $totalNumberOfPages-1, $totalNumberOfPages
 				];
@@ -106,10 +109,11 @@
 			while ($x < $totalNumberOfPages)
 				$pageArray[] = ++$x;
 		}
-
-		if ($page > 1)
+        // Set the double right and left angle quote marks
+        // symbolizing navigating forward/backwards.
+		if ($currentPage > 1)
 			array_unshift($pageArray, "&laquo;");
-		if ($page < $totalNumberOfPages)
+		if ($currentPage < $totalNumberOfPages)
 			array_push($pageArray, "&raquo;");
 
 		return $pageArray;

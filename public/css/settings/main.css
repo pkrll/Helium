@@ -1,4 +1,7 @@
 
+.content-window {
+    background: none;
+}
 
 .fieldset-naked {
     border:     none;

@@ -29,18 +29,15 @@ class UploadModel extends Model {
 		// Check if the file is set
 		if ($file === NULL)
 			return $this->createErrorMessage (ERROR_UPLOAD_NO_FILE);
-		// Extract the variables
-		// from the $file array.
+		// Extract the variables from the $file array.
 		extract($file);
-		// Check if the image
-		// is too big.
+		// Check if the image is too big.
 		if ($size > MAX_IMAGE_SIZE)
 			return $this->createErrorMessage (ERROR_UPLOAD_SIZE);
 		// Create a unique file name
 		$imageName = $this->generatePathFromName ($name);
-		// If the image is a cover
-		// then width and save path
-		// should be different.
+		// If the image is a cover then width and save
+		// path should be different.
 		if ($option === "cover") {
 			try {
 				$image = new Image ($tmp_name, MAX_WIDTH_COVER, 0, IM_SIZE_WIDTH);
@@ -69,36 +66,28 @@ class UploadModel extends Model {
 					)
 				);
 			}
-			// Regular images should also
-			// get a thumbnail partner.
+			// Regular images should also get a thumbnail partner.
 			$image->resize (MAX_WIDTH_THUMBNAIL, MAX_WIDTH_THUMBNAIL, IM_SIZE_CROP);
 			if ($image->save (THUMBNAILS . $imageName) !== TRUE)
 				return $image->getErrorMessage();
-			// Option should be normal
-			// for database purposes.
+			// Option should be normal for database purposes.
 			if ($option === "ckeditor") {
 				$returnPath = "/public/images/uploads/normal/" . $imageName;
 				$option = "normal";
 			} else {
 				$returnPath = "/public/images/uploads/thumbnails/" . $imageName;
 			}
-
-			// Set the path to return
-
 		}
 		// Memory clean up
 		$image->cleanUp();
-		// Add the newly uploaded
-		// image to the database.
+		// Add the newly uploaded image to the database.
 		$sqlQuery = "INSERT INTO Articles_Images (image_name, type) VALUES (:image_name, :type)";
 		$sqlParam = array("image_name" => $imageName, "type" => $option);
 		$response = $this->writeToDatabase ($sqlQuery, $sqlParam);
-		// Check for errors while writing
-		// to the database, otherwise return
-		// the id and path of the image.
+		// Check for errors while writing to the database,
+		// otherwise return the id and path of the image.
 		if (isset($response["error"]))
 			return $error;
-			// $id = $response;
 		return array("path" => $returnPath, "id" => $response);
 	}
 
@@ -127,7 +116,6 @@ class UploadModel extends Model {
 		$fileName = pathinfo($name);
 		return uniqid($fileName["filename"] . "_") . "." . $fileName["extension"];
 	}
-
 }
 
 ?>
