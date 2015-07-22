@@ -16,42 +16,24 @@
     </head>
     <body>
         <div id="window">
-            <div id="window-side-bar">
-                <div id="window-side-bar-header">
-                    <span class="appname long"><?=APP_NAME?></span>
-                    <span class="appname short"><?=APP_NAME_SHORT?></span>
-                    <span class="version">version <?=APP_VERSION?></span>
+
+            <div id="window-header">
+                <div class="appname"><?=APP_NAME?></div>
+                <div class="quick-button">
+                    <span class="font-icon icon-plus"></span> <span class="quick-button-text">Add post</span>
                 </div>
-                <nav id="menu-bar">
-                    <ul class="menu-bar-ul">
-                        <li class="menu-bar-li" data-href="/admin">
-                            <span class="font-icon menu icon-home"></span><span class="menu-title"><a href="/admin">Dashboard</a></span>
-                        </li>
-                        <li class="menu-bar-li" data-href="/articles/admin">
-                            <span class="font-icon menu icon-document"></span><span class="menu-title"><a href="/articles/admin">Articles</a></span>
-                        </li>
-                        <li class="menu-bar-li" data-href="/admin/frontpage">
-                            <span class="font-icon menu icon-front"></span><span class="menu-title"><a href="/admin/frontpage">Front page</a></span>
-                        </li>
-                        <li class="menu-bar-li">
-                            <span class="font-icon menu icon-gallery"></span><span class="menu-title">Gallery</span>
-                        </li>
-                        <li class="menu-bar-li" data-href="/user/admin">
-                            <span class="font-icon menu icon-users"></span><span class="menu-title"><a href="/user/admin">Users</a></span>
-                            </li>
-                        <li class="menu-bar-li" data-href="/user/rights">
-                            <span class="font-icon menu icon-eye"></span><span class="menu-title"><a href="/user/rights">Permissions</a></span>
-                        </li>
-                        <li class="menu-bar-li">
-                            <span class="font-icon menu icon-calendar"></span><span class="menu-title">Calendar</span>
-                        </li>
-                        <li class="menu-bar-li" data-href="/admin/settings">
-                            <span class="font-icon menu icon-settings"></span><span class="menu-title"><a href="/admin/settings">Settings</a></span>
-                        </li>
-                        <li class="menu-bar-li" data-href="/user/logout">
-                            <span class="font-icon menu icon-logout"></span><span class="menu-title"><a href="/user/logout">Logout</a></span>
-                        </li>
-                    </ul>
-                </nav>
+                <div class="user-center">
+                    <div class="notification"><span class="font-icon icon-bell"></span> <span class="notification-bubble" style="background:#eee;">0</span></div>
+                    <div class="user-menu">John Appleseed</div>
+                </div>
             </div>
-            <div id="window-content">
+
+            <nav id="menu">
+                <div>Dashboard</div>
+                <div>Articles</div>
+                <div>Front page</div>
+                <div>Users</div>
+                <div>Calendar</div>
+                <div>Settings</div>
+            </nav>
+            <div id="work-area">
