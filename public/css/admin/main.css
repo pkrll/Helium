@@ -1,21 +1,12 @@
-html, body {
-    font-family:    'Raleway', sans-serif;
-    width:          100%;
-    height:         100%;
-}
-
 
 body {
-    background:             #FAFAFA;
     background-image:       url("/public/images/system/backgrounds/4.png");
     background-size:        100% 100%;
     background-attachment:  fixed;
     background-repeat:      repeat;
-    font-size:              100%;
-    margin:                 0;
 }
 
-#page-container {
+#window {
     display:        -webkit-box;
     display:        -moz-box;
     display:        -ms-flexbox;
@@ -27,38 +18,34 @@ body {
     width:          100%;
     -webkit-flex-wrap: nowrap;
             flex-wrap: nowrap;
+    border-radius: 4px;
 }
 
-#menu-bar-container {
-    width:              15%;
-    max-width:          250px;
-    min-width:          190px;
-    background:         #1188BB;
+#window > div {
 }
 
+#window-side-bar {
+    background: rgba(43,47,62,1);
+    width:30%;
+}
 
-#menu-bar-header {
-    border-bottom:  1px solid rgba(255,255,255,.1);
-    color:          #FFFFFF;
-    padding:        10px 0 20px 0px;
+#window-side-bar-header {
+    color:          rgba(240,240,247,1);
+    font-family:    "Dosis";
+    padding:        10px 10px 25px 10px;
     text-align:     center;
-    width:          100%;
 }
 
-#menu-bar-header a {
-    color:              #FFF;
-    text-decoration:    none;
+#window-side-bar-header:hover {
+    color: #DE1212;
+    cursor: pointer;
 }
 
 .appname {
-    color:              #FFFFFF;
-    display:            block;
-    font-family:        "Dosis", "Raleway", serif;
-    font-weight:        700;
-    font-size:          64px;
-    font-weight:        600;
-    line-height:        64px;
-
+    display:        block;
+    font-size:      72px;
+    font-weight:    600;
+    line-height:    60px;
 }
 
 .long {
@@ -67,100 +54,119 @@ body {
 }
 
 .short {
-    display:none;
+    display:        none;
 }
 
-#menu-bar-header:hover {
-    background: rgba(255,255,255,1);
-    cursor:     pointer;
-}
-
-#menu-bar-header:hover a, #menu-bar-header:hover span {
-    color: #000000;
+.version {
+    font-size:      25px;
 }
 
 #menu-bar {
-    padding: 28px 0 0 0;
+
 }
 
 .menu-bar-ul {
-    color:              #FFFFFF;
+    color:              rgba(255,255,255,1);
     list-style-type:    none;
     margin:             0;
     padding:            0;
+    font-family: 'Raleway';
 }
 
 .menu-bar-ul li {
     border-bottom:  1px solid rgba(255,255,255,.1);
     cursor:         pointer;
-    font-size:      18px;
-    padding:        28px;
+    font-size:      29px;
+    font-variant:   small-caps;
+    padding:        28px 28px 28px 40px;
+    text-transform: lowercase;
 }
 
 .menu-bar-ul li:hover {
-    background: #FFF;
-    color: #000;
+    background: #1188BB;
 }
 
-.menu-active {
-    background: rgba(0,0,0,0.2);
-    color: #FFF;
+.menu-title a {
+    color:              rgba(255,255,255,1);
+    text-decoration:    none;
 }
 
-li.sub-menu {
-    padding-left: 52px;
+#window-content {
+    background: #EEE;
+    width:70%;
+    box-shadow: -4px 0px 10px #000;
 }
 
-.hidden {
-    display: none;
+#content-header {
+    background:                 rgba(225,225,225,1);
+    border-top:                 5px solid #1188bb;
+    border-bottom:              1px solid #CCCCCC;
+    color:                      rgba(50,50,50,1);
+    display:                    -webkit-box;
+    display:                    -moz-box;
+    display:                    -ms-flexbox;
+    display:                    -moz-flex;
+    display:                    flex;
+    display:                    -webkit-flex;
+    font-family:                'Raleway', sans-serif;
+    font-size:                  40px;
+    font-variant:               small-caps;
+    height:                     100px;
+    padding:                    0px 10px 10px 10px;
+    -webkit-align-items:        center;
+    -webkit-justify-content:    center;
+    -webkit-flex-wrap:          nowrap;
+            flex-wrap:          nowrap;
 }
 
-.content-container {
-    margin:     0;
-    padding:    0px;
-    width:      100%;
-    box-shadow: -1px 0px 8px #111;
-    display: -webkit-flex;
-    -webkit-flex-direction: column;
+.content-flex {
+    display:                    -webkit-box;
+    display:                    -moz-box;
+    display:                    -ms-flexbox;
+    display:                    -moz-flex;
+    display:                    flex;
+    display:                    -webkit-flex;
+    -webkit-flex-wrap:          wrap;
+            flex-wrap:          wrap;
 }
 
-.flex-box {
-    display:            -webkit-box;
-    display:            -moz-box;
-    display:            -ms-flexbox;
-    display:            -moz-flex;
-    display:            flex;
-    display:            -webkit-flex;
-    width:              100%;
-    -webkit-flex-wrap:  nowrap;
-            flex-wrap:  nowrap;
-    height:             auto;
-    min-height:         auto;
+.box {
+    border:         2px solid #bbb;
+    border-radius:  4px;
+    height:         100%;
+    width:          90%;
+    margin-bottom:  20px;
 }
 
-.flex-header {
-    border-bottom:  1px solid rgba(255,255,255,.1);
-    padding:        10px 0 20px 0;
-    line-height:    63px;
-}
-
-.flex-box-single {
-    color:          #FFF;
-    font-family:    'Dosis', sans-serif;
-    font-size:      44px;
-    text-align:     center;
+.flex-box-header {
+    background:     rgba(225,225,225,1);
+    border-bottom:  2px solid #de1212;
+    font-family:    'Raleway', sans-serif;
+    font-variant:   small-caps;
+    font-size:      25px;
     padding:        10px;
-    width:          100%;
+    text-align:     center;
 }
 
-.content-window {
-    background:     rgba(255,255,255,1);
-    color:          #000;
-    padding:        10px 0;
-    width:          100%;
-    -webkit-flex:   auto;
-           -flex:   100%;
+.ul-naked {
+    list-style-type:    none;
+    margin:             0px;
+    padding:            0px;
 }
+
+.feed-list li {
+    font-family: 'Noto Sans',"Raleway";
+    font-size: 14px;
+    padding: 10px 10px 10px 15px;
+
+}
+
+.feed-list li:hover {
+    border-left:5px solid #1188BB;
+    cursor: pointer;
+    padding: 10px 10px 10px 10px;
+}
+
 
 fieldset.dragzone.highlight {
 	border: 1px dashed #0B85A1;

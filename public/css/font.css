@@ -54,8 +54,13 @@
 
 .menu.font-icon {
     font-size:                  24px;
-    margin-right:               0.5em;
+    margin-right:               0.8em;
     width:                      1em;
+}
+
+.feed-list .font-icon {
+    margin-right:   0.5em;
+    width:          1em;
 }
 
 .gallery > .font-icon, .image-event-button > .font-icon, .add-input .font-icon {

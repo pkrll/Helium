@@ -1,7 +1,20 @@
-@media all and (max-width: 1050px) {
+@media all and (max-width: 800px) {
+
+    .menu-bar-ul li {
+        font-size:      25px;
+        padding:        15px 15px 15px 15px;
+    }
+
+}
+
+@media all and (max-width: 650px) {
 
     .menu.font-icon {
         font-size: 18px;
+    }
+
+    .appname {
+        line-height: 68px;
     }
 
     .long {
@@ -13,24 +26,21 @@
         font-variant:   normal;
     }
 
-    #menu-bar-container {
-        min-width:  140px;
+    .version {
+        font-size: 20px;
+    }
+
+    #menu-bar {
+        min-width:  170px;
         width:      15%;
     }
 
-    .menu-title {
-        /*display:block;
-        padding-top:10px;*/
-    }
-
     .menu-bar-ul li {
-        font-size:      15px;
-        padding:        15px 15px 15px 15px;
-        /*text-align:   center;*/
+        font-size:20px;
     }
 
-    li.sub-menu {
+    /*li.sub-menu {
         padding-left:   25px;
-    }
+    }*/
 
 }
