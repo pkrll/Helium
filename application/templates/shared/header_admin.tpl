@@ -20,17 +20,19 @@
             <div id="window-header">
                 <div class="appname"><?=APP_NAME?></div>
                 <div class="quick-button">
-                    <span class="font-icon icon-plus"></span> <span class="quick-button-text">Add post</span>
+                    <a href="/articles/create"><span class="font-icon icon-plus"></span> <span class="quick-button-text">Add post</span></a>
+                </div>
+                <div class="notification-center">
+                    <div class="notification"><span class="font-icon icon-bell"></span> <span class="notification-bubble" style="background:#ddd;">0</span></div>
                 </div>
                 <div class="user-center">
-                    <div class="notification"><span class="font-icon icon-bell"></span> <span class="notification-bubble" style="background:#eee;">0</span></div>
                     <div class="user-menu">John Appleseed</div>
                 </div>
             </div>
 
             <nav id="menu">
-                <div>Dashboard</div>
-                <div>Articles</div>
+                <a href="/admin/"><div>Dashboard</div></a>
+                <a href="/articles/archive"><div>Posts</div></a>
                 <div>Front page</div>
                 <div>Users</div>
                 <div>Calendar</div>

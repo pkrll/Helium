@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="/public/css/articles/main.css" media="screen" title="no title" charset="utf-8">
+<link rel="stylesheet" href="/public/css/articles/form.css" media="screen" title="no title" charset="utf-8">
 <link rel="stylesheet" href="/public/css/articles/responsive.css" media="screen" title="no title" charset="utf-8">
 <link rel="stylesheet" href="/public/css/plugins/tooltip-1.0.css" media="screen">
 <link rel="stylesheet" href="/public/css/plugins/progressbar-1.0.css" media="screen">

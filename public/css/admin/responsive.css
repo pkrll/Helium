@@ -1,4 +1,4 @@
-@media all and (max-width: 740px) {
+@media all and (max-device-width: 480px), screen and (min-device-width : 320px) and (max-device-width : 568px), screen and (min-device-width : 375px) and (max-device-width : 667px), screen and (max-width: 740px) {
 
     #window {
         margin:     0;
@@ -22,6 +22,8 @@
 
 }
 
-@media all and (max-width: 750px) {
+@media all and (max-device-width: 480px), screen and (min-device-width : 320px) and (max-device-width : 568px), screen and (min-device-width : 375px) and (max-device-width : 667px) {
+
+    
 
 }

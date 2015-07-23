@@ -33,7 +33,7 @@
                         </div>
 
                     </div>
-                    <div style="-webkit-flex-grow: 1;padding:10px; min-width:170px;">
+                    <div class="right-view">
                         World
                     </div>
                 </div>
