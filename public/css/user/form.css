@@ -1,0 +1,152 @@
+.split-view {
+    width: 100%;
+    margin:0;
+    padding:0;
+    background: #FFF;
+}
+
+.quick-menu {
+    padding: 14px 4px 12px 2px;
+}
+
+.stylized-form {
+    background: #FFF;
+    margin:     20px auto;
+    width:      90%;
+}
+
+.stylized-form-header {
+    color:          #333;
+    font-size:      24px;
+    font-family:    'Numans', sans-serif;
+    text-align:     center;
+}
+
+.stylized-form-row {
+    border-bottom:          1px solid #ddd;
+    display:                -webkit-box;
+    display:                -moz-box;
+    display:                -ms-flexbox;
+    display:                -moz-flex;
+    display:                flex;
+    display:                -webkit-flex;
+    font-family:            'Numans', sans-serif;
+    margin:                 auto;
+    padding:                25px 10px 25px 10px;
+    width:                  80%;
+    -webkit-align-items:    center;
+            align-items:    center;
+
+}
+
+.last-row {
+    border-bottom:          none;
+}
+
+.stylized-form-row div.label {
+    color:          #444;
+    font-size:      15px;
+    text-transform: uppercase;
+    width:          30%;
+    -webkit-align-self: flex-start;
+    padding-top:10px;
+}
+
+.stylized-form-row div.input {
+    width:59%;
+}
+
+.stylized-form-row div.select {
+    width:61%;
+}
+
+.last-row div.input {
+    text-align: right;
+    width: 91%;
+}
+
+
+.stylized-form-row input, .stylized-form-row textarea {
+    border: 1px solid #ccc;
+    background: rgba(245,248,249,1);
+    color:      #444;
+    font-size:  16px;
+    padding:    5px 2px 5px 2px;
+    width:      100%;
+}
+
+.stylized-form-row input[type=file] {
+    background: none;
+    border: none;
+}
+
+.stylized-form-row input[type=submit] {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background:     rgba(80,170,80,1);
+    color: #fff;
+    cursor: pointer;
+    font-family: "Raleway";
+    padding: 10px 20px;
+    width: auto;
+}
+
+.stylized-form-row input[type=submit]:active {
+    position: relative;
+    top:1px;
+}
+
+.stylized-form-row input:focus {
+    border:         1px solid rgba(15,120,165,.6);
+    box-shadow:     0 0 10px rgba(15,120,165,.3);
+    padding:        4px 0px 4px 7px;
+    margin:         3px 0px;
+}
+
+.stylized-form-row select {
+    background:         rgba(245,248,249,1);
+    border:             1px solid #ccc;
+    border-radius:      4px;
+    color:              #444;
+    display:            inline-block;
+    cursor:             pointer;
+    font-size:          12px;
+    width:              100%;
+    padding:            8px 0 8px 8px;
+    outline:            none;
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+}
+
+.stylized-form-row select:focus {
+    border:         1px solid rgba(15,120,165,.6);
+    box-shadow:     0 0 10px rgba(15,120,165,.3);
+    padding:        8px 0px 8px 8px;
+    margin:         2px 0px;
+}
+
+label.select {
+    font-size:  15px;
+    position:   relative;
+}
+
+label.select::after {
+    border-bottom:      1px solid rgba(0,0,0,0.5);
+    color:              rgba(0,0,0,0.8);
+    content:            "< >";
+    font-size:          11px;
+    font-family:        "Raleway", "Consolas", sans-serif;
+    padding:            3px 0 3px 0;
+    position:           absolute;
+    top:                1px;
+    right:              4px;
+    -webkit-transform:  rotate(90deg);
+       -moz-transform:  rotate(90deg);
+        -ms-transform:  rotate(90deg);
+            transform:  rotate(90deg);
+}
+
+.error-label {
+    font-size: 14px;
+}

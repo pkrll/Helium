@@ -66,7 +66,7 @@ class ArticlesModel extends Model {
             "links"             => (empty($formData["links"])) ? NULL : $formData["links"]
         );
         // Get meta info of the images to be stored in a different database.
-        $response["images"]     = $this->mergeImageWithCaption($formData["image-slideshow"], $formData["caption-slideshow"]);
+        $response["images"]     = $this->mergeImageWithCaption($formData["image"], $formData["caption-image"]);
         $response["images"][]   = $this->mergeImageWithCaption($formData["image-cover"], $formData["caption-cover"], "cover");
         // Check if any images are to be removed (only edit mode)
         $response["delete"]     = array(
@@ -495,9 +495,9 @@ class ArticlesModel extends Model {
         $joins              = array("Articles_Images AS image");
         $joinsCondition     = array("image.id = meta.image_id");
         $tmpArray           = $this->getMetadata($tableName, $columns, $condition, $sqlParam, $joins, $joinsCondition);
-        // The images are either of type cover or slideshow,
+        // The images are either of type cover or regular images,
         // below code will sort the types in two different variables.
-        $response["slideshow"]  = array_filter($tmpArray, function($value) { return $value["type"] === "slideshow"; });
+        $response["image"]  = array_filter($tmpArray, function($value) { return $value["type"] === "normal"; });
         // There should be only one cover image, so "array_shift"
         // to flatten the multi-dimensional array.
         $response["cover"]      = array_shift(array_filter($tmpArray, function($value) { return $value["type"] === "cover"; }));

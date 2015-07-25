@@ -32,9 +32,9 @@
 
             <nav id="menu">
                 <a href="/admin/"><div>Dashboard</div></a>
-                <a href="/articles/archive"><div>Posts</div></a>
+                <a href="/articles/archive"><div<?php if($articles) echo " class='active'";?>>Posts</div></a>
                 <div>Front page</div>
-                <div>Users</div>
+                <a href="/user/admin"><div>Users</div></a>
                 <div>Calendar</div>
                 <div>Settings</div>
             </nav>

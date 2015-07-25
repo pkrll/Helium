@@ -1,84 +1,18 @@
+.quick-menu {
+
+}
+
 .split-view {
     width: 100%;
 }
 
 .left-view {
-    width:80%;
-    padding: 10px 0 0px 0;
+    width:70%;
+
 }
 
 .right-view {
-    width:20%;
-}
 
-.div-table {
-    background:     #FFFFFF;
-    border-radius:  8px 8px 0 0;
-    width:          100%;
-}
-
-.div-table-row {
-    display:                    -webkit-box;
-    display:                    -moz-box;
-    display:                    -ms-flexbox;
-    display:                    -moz-flex;
-    display:                    -webkit-flex;
-    display:                    flex;
-    font-family:                "Noto Sans", "Helvetica", "Verdana", "Arial", sans-serif;
-    font-size:                  13px;
-    padding:                    8px 5px 8px 10px;
-    -webkit-align-items:        center;
-            align-items:        center;
-    -webkit-box-orient:         vertical;
-       -moz-box-orient:         vertical;
-    -webkit-box-pack:           center;
-       -moz-box-pack:           center;
-       -ms-flex-pack:           center;
-    -webkit-justify-content:    space-between;
-            justify-content:    space-between;
-}
-
-.div-table-header {
-    background:     #1188BB;
-    border-bottom:  1px solid rgba(0,0,0,0.2);
-    border-radius:  6px 6px 0 0;
-    color:          #FFF;
-    font-size:      14px;
-    padding-bottom: 8px;
-}
-
-.div-table-row div:not(:first-of-type) {
-    text-align: center;
-}
-
-.header-size-2 {
-    -webkit-flex: 2;
-}
-
-.header-size-1 {
-    -webkit-flex: 1;
-}
-
-.div-table-content {
-    border-right:   1px solid #ccc;
-    border-left:    1px solid #ccc;
-}
-
-.div-table-content:last-of-type {
-    border-bottom: 1px solid #ccc;
-}
-
-.div-table-content:nth-child(odd) {
-    background: rgba(255,255,255,1)
-}
-
-.div-table-content:nth-child(even) {
-    background: rgba(245,245,245,1);
-}
-
-.div-table-content:hover {
-    background: rgba(15,165,195,.5);
-    cursor:     pointer;
 }
 
 .div-table-drawer {
@@ -107,20 +41,3 @@
 .div-table-drawer .font-icon {
     font-size:19px;
 }
-
-.searchbox input {
-    background:            #FFF;
-	background-image:      url('/public/images/system/search-black.png');
-    background-repeat:     no-repeat;
-	background-size:       19px;
-    background-position:   3px 2px;
-    border:                1px solid #ccc;
-    color:                 #000;
-	font-size:             13px;
-    width:                 100%;
-}
-
-.searchbox input:-moz-placeholder { color:#aaa; }
-.searchbox input::-moz-placeholder { color:#aaa; }
-.searchbox input:-ms-input-placeholder { color:#aaa; }
-.searchbox input::-webkit-input-placeholder { color:#aaa; }

@@ -1,7 +1,7 @@
                 <div class="split-view">
                     <div class="left-view">
 
-                        <div style="background:#fff;border-radius:6px; padding:8px; border:1px solid #eee;margin-bottom:18px;">
+                        <div style="background:#fff;border-radius:6px; padding:8px; border:1px solid #eee;margin-bottom:8px;box-shadow: 1px 1px 14px 1px #aaa;">
 
                             <div style="color: #317692; font-family: 'Noto Sans', 'Numans'; border-bottom:1px solid #eee;width:100%;padding:4px 0 8px 0; margin: 0 0 8px 0;">Someone left a comment on <b>Headline of an article</b></div>
                             <div style="font-size: 14px; font-family: 'Noto Sans', sans-serif;">
@@ -12,7 +12,7 @@
                             </div>
                         </div>
 
-                        <div style="background:#fff;border-radius:6px; padding:8px; border:1px solid #eee;margin-bottom:18px;">
+                        <div style="background:#fff;border-radius:6px; padding:8px; border:1px solid #eee;margin-bottom:8px; box-shadow: 1px 1px 14px 1px #aaa;">
                             <div style="color: #317692; font-family: 'Noto Sans', 'Numans'; border-bottom:1px solid #eee;width:100%;padding:4px 0 8px 0; margin: 0 0 8px 0;">Someone left a comment on <b>Another article with a much longer headline that extends all the way here</b></div>
                             <div style="font-size: 14px; font-family: 'Noto Sans', sans-serif;">
                                 <b>Pusher</b> wrote:
@@ -22,7 +22,7 @@
                             </div>
                         </div>
 
-                        <div style="background:#fff;border-radius:6px; padding:8px; border:1px solid #eee;margin-bottom:18px;">
+                        <div style="background:#fff;border-radius:6px; padding:8px; border:1px solid #eee;margin-bottom:8px; box-shadow: 1px 1px 14px 1px #aaa;">
                             <div style="color: #317692; font-family: 'Noto Sans', 'Numans'; border-bottom:1px solid #eee;width:100%;padding:4px 0 8px 0; margin: 0 0 8px 0;"><b>John Appleseed</b> published a new article</div>
                             <div style="font-size: 14px; font-family: 'Noto Sans', sans-serif;">
                                 <b>Headline of article</b>

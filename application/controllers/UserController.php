@@ -35,13 +35,13 @@ class UserController extends Controller {
         }
     }
 
-    public function all () {
+    public function admin () {
         $users    = $this->model()->getUsers();
-        $includes = $this->getIncludes('add');
+        $includes = $this->getIncludes(__FUNCTION__);
         $this->view()->assign("includes", $includes);
         $this->view()->render("shared/header_admin.tpl");
         $this->view()->assign("users", $users);
-        $this->view()->render("user/all.tpl");
+        $this->view()->render("user/admin.tpl");
         $this->view()->render("shared/footer_admin.tpl");
     }
 

@@ -1,13 +1,13 @@
 /**
  * Javascript plugin
- * Progress bar 1.0
+ * Progress bar 1.1
  *
  * A simple Javascript plugin for implementing a
  * HTML5 progress bar element that will display
  * the progress of tasks like uploads, downloads
  * and other functions involving progress.
  *
- * @version 1.0
+ * @version 1.1
  * @author Ardalan Samimi
  */
 (function($) {
@@ -110,8 +110,7 @@
 		// 	this.
 		// }
 		remove: function () {
-			this.progressBar.remove();
-			this.progress-bar-label.remove();
+			this.settings.parentElement.remove();
 		},
 		createErrorMessage: function (errorMessage) {
 			var errorMessageElement = $("<div>").attr({

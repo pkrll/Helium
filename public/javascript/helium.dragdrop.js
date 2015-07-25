@@ -1,99 +1,24 @@
+
 $(document).ready(function($) {
 
     /**
      * Small plugin function that binds
      * the drag events to an element.
      */
-    $.fn.bindDragEvents = function () {
-        this.on("dragenter", function (event) { $.fn.dragEnter(event, $(this)); });
-        this.on("dragover", function (event) { $.fn.dragOver(event); });
-        this.on("drop", function (event) { $.fn.drop(event, $(this)); });
-        this.on("dragleave", function (event) { $.fn.dragLeave (event); });
-    }
+    // $.fn.bindDragEvents = function () {
+    //     this.on("dragenter", function (event) { $.fn.dragEnter(event, $(this)); });
+    //     this.on("dragover", function (event) { $.fn.dragOver(event); });
+    //     this.on("drop", function (event) { $.fn.drop(event, $(this)); });
+    //     this.on("dragleave", function (event) { $.fn.dragLeave (event); });
+    // }
 
     // Run the below function on start
-    $("fieldset.dragzone").bindDragEvents();
+//    $("fieldset.dragzone").bindDragEvents();
 
-    /**
-     * This function will fire when a
-     * dragged object enters the valid
-     * drop zone. The drop target will
-     * get highlighted through css.
-     *
-     * @param eventObject
-     * @param Element
-     */
-    $.fn.dragEnter = function (event, element) {
-        var element = element || false;
-        if (element !== false)
-            element.addClass("highlight");
-        $.fn.dragAndDrop(event);
-    }
 
-    /**
-     * This function will fire when an
-     * object is being dragged over the
-     * valid drop zone. If an element is
-     * provided, it will be stripped of
-     * the class highlight. This is for
-     * when the drag leaves the valid drop
-     * target and enters the document body.
-     *
-     * @param eventObject
-     * @param Element
-     */
-    $.fn.dragOver = function (event, element) {
-        var element = element || false;
-        if (element !== false)
-            element.removeClass("highlight");
-        $.fn.dragAndDrop(event);
-    }
 
-    /**
-     * This function will fire when a
-     * dragged object leaves the valid
-     * drop target. If an element is
-     * provided, it will be stripped of
-     * the class highlight.
-     *
-     * @param eventObject
-     * @param Element
-     */
-    $.fn.dragLeave = function (event, element) {
-        var element = element || false;
-        if (element !== false)
-            element.removeClass("highlight");
-        $.fn.dragOver(event);
-    }
 
-    /**
-     * This function will fire when a
-     * dragged object is dropped on a
-     * valid target zone. It will call
-     * the function dragAndDrop with
-     * the drop targets type (cover or
-     * slideshow) as one of the params.
-     *
-     * @param eventObject
-     * @param Element
-     */
-    $.fn.drop = function (event, element) {
-        var element = element || false;
-        if (element !== false)
-            var type = element.attr("data-type");
-		$("fieldset.dragzone").removeClass("highlight");
-		$.fn.dragAndDrop(event, "upload", type);
-    }
 
-    /**
-     * Binds the drag events to the DOM.
-     * This will make sure the highlights
-     * dissapear on the valid drop targets
-     * when the dragging exists those areas.
-     */
-    $(document).on("dragenter", function (event) { $.fn.dragEnter(event); });
-	$(document).on("drop", function (event) { $.fn.drop(event); });
-	$(document).on("dragover", function (event) { $.fn.dragOver(event, $("fieldset.dragzone")); });
 
     /**
      * Determines if the drag/drop was valid
