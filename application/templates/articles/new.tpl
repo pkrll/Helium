@@ -318,15 +318,15 @@
                         });
                     </script>
                     <?php if (isset($error)) { ?>
-                    <div id="dropify-window">
-                        <div class="dropify-window-header">
+                    <div class="modal-window">
+                        <div class="modal-window-header">
                             <div class="font-icon icon-attention"></div>
                         </div>
-                        <div class="dropify-window-body">
+                        <div class="modal-window-body">
                             Could not add post. An error occured: asd aasdasda asdasd <?$error['message'];?>
                         </div>
-                        <div class="dropify-window-footer">
-                            <div class="dropify-window-button dismiss">OK</div>
+                        <div class="modal-window-footer">
+                            <div class="modal-window-button dismiss">OK</div>
                         </div>
                     </div>
                     <?php } ?>

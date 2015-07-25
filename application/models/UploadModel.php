@@ -39,38 +39,22 @@ class UploadModel extends Model {
 		// If the image is a cover then width and save
 		// path should be different.
 		if ($option === "cover") {
-			try {
-				$image = new Image ($tmp_name, MAX_WIDTH_COVER, 0, IM_SIZE_WIDTH);
-				$imagePath = COVERS . $imageName;
-				if ($image->save ($imagePath) !== TRUE)
-					return $image->getErrorMessage();
-			} catch (Exception $e) {
-				return array(
-					"error" => array(
-						"message" => $e->getMessage()
-					)
-				);
-			}
-			// Set the path to return
-			$returnPath = "/public/images/uploads/cover/" . $imageName;
+			$imageWidth 	= MAX_WIDTH_COVER;
+			$imageHeight	= 0;
+			$resizeOption	= IM_SIZE_WIDTH;
+			$imagePath		= COVERS . $imageName;
+			$returnPath 	= "/public/images/uploads/cover/" . $imageName;
+		} else if ($option === "profile") {
+			$imageWidth 	= MAX_WIDTH_PROFILE;
+			$imageHeight	= MAX_WIDTH_PROFILE;
+			$resizeOption	= IM_SIZE_CROP;
+			$imagePath		= PROFILES . $imageName;
+			$returnPath 	= "/public/images/uploads/profile/" . $imageName;
 		} else {
-			try {
-				$image = new Image ($tmp_name, MAX_WIDTH_IMAGE, 0, IM_SIZE_WIDTH);
-				$imagePath = IMAGES . $imageName;
-				if ($image->save ($imagePath) !== TRUE)
-					return $image->getErrorMessage();
-			} catch (Exception $e) {
-				return array(
-					"error" => array(
-						"message" => $e->getMessage()
-					)
-				);
-			}
-			// Regular images should also get a thumbnail partner.
-			$image->resize (MAX_WIDTH_THUMBNAIL, MAX_WIDTH_THUMBNAIL, IM_SIZE_CROP);
-			if ($image->save (THUMBNAILS . $imageName) !== TRUE)
-				return $image->getErrorMessage();
-			// Option should be normal for database purposes.
+			$imageWidth 	= MAX_WIDTH_IMAGE;
+			$imageHeight	= 0;
+			$resizeOption	= IM_SIZE_WIDTH;
+			$imagePath		= IMAGES . $imageName;
 			if ($option === "ckeditor") {
 				$returnPath = "/public/images/uploads/normal/" . $imageName;
 				$option = "normal";
@@ -78,16 +62,36 @@ class UploadModel extends Model {
 				$returnPath = "/public/images/uploads/thumbnails/" . $imageName;
 			}
 		}
+		// Resize the image
+		try {
+			$image = new Image ($tmp_name, $imageWidth, $imageHeight, $resizeOption);
+			if ($image->save ($imagePath) !== TRUE)
+				return $image->getErrorMessage();
+		} catch (Exception $e) {
+			return $this->createErrorMessage($e->getMessage());
+		}
+		// Create a thumbnail if it is a normal image
+		if ($option === "normal") {
+			$image->resize (MAX_WIDTH_THUMBNAIL, MAX_WIDTH_THUMBNAIL, IM_SIZE_CROP);
+			if ($image->save (THUMBNAILS . $imageName) !== TRUE)
+				return $image->getErrorMessage();
+		}
 		// Memory clean up
 		$image->cleanUp();
 		// Add the newly uploaded image to the database.
-		$sqlQuery = "INSERT INTO Articles_Images (image_name, type) VALUES (:image_name, :type)";
-		$sqlParam = array("image_name" => $imageName, "type" => $option);
+		if ($option === "profile") {
+			$sqlQuery = "INSERT INTO Users_Images (image_name) VALUES (:image_name)";
+			$sqlParam = array("image_name" => $imageName);
+		} else {
+			$sqlQuery = "INSERT INTO Articles_Images (image_name, type) VALUES (:image_name, :type)";
+			$sqlParam = array("image_name" => $imageName, "type" => $option);
+		}
+		// Run the query
 		$response = $this->writeToDatabase ($sqlQuery, $sqlParam);
 		// Check for errors while writing to the database,
 		// otherwise return the id and path of the image.
 		if (isset($response["error"]))
-			return $error;
+			return $response;
 		return array("path" => $returnPath, "id" => $response);
 	}
 

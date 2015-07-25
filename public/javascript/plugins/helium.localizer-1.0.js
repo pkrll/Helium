@@ -1,6 +1,6 @@
 /**
  * Javascript plugin
- * Localize
+ * Localizer
  *
  * Localization for JS Strings.
  *
@@ -9,15 +9,19 @@
  */
 (function($) {
 
-    Localize = function(settings) {
-        this.settings = jQuery.extend({
-            "lang": "en"
-        }, settings || false);
+    Localizer = function(settings) {
+        if (this instanceof Localizer) {
+            this.settings = $.extend({
+                "lang": "en"
+            }, settings || {});
 
-        this.setLocaleString(this.settings.lang);
-    };
+            this.setLocaleString(this.settings.lang);
+        } else {
+            return new Localizer (settings);
+        }
+    }
 
-    Localize.prototype = {
+    Localizer.prototype = {
         getLocaleString: function (params) {
             var string = this.localizedStrings[params];
             if (string)

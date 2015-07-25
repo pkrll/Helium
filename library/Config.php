@@ -7,7 +7,7 @@ define('DEFAULT_METHOD', 'main');
 define(APP_NAME, "Helium");
 define(APP_NAME_SHORT, "He");
 define(APP_DESCRIPTION, "");
-define(APP_VERSION, "0.10.2");
+define(APP_VERSION, "0.10.5");
 
 // DATABASE CONSTANTS
 define(HOSTNAME, "localhost");
@@ -19,6 +19,7 @@ define(DATABASE, "Helium");
 define(MAX_WIDTH_COVER, 700);
 define(MAX_WIDTH_IMAGE, 560);
 define(MAX_WIDTH_THUMBNAIL, 90);
+define(MAX_WIDTH_PROFILE, 150);
 define(MAX_IMAGE_SIZE, 2097152);
 define(IM_SIZE_EXACT, 1);
 define(IM_SIZE_WIDTH, 2);

@@ -14,7 +14,21 @@ $(document).ready(function() {
         } else if (href !== false) {
             window.location.href = href;
         }
+    });
 
+    $(".sub-menu-item").on("click", function () {
+        var href = $(this).attr("data-href") || false;
+        if (href !== false)
+            window.location.href = href;
+    });
+
+
+    $(".user-center").on("click", function () {
+        var subMenu = $(".sub-menu");
+        subMenu.toggle();
+        $(this).on("mouseleave", function () {
+            subMenu.hide();
+        });
     });
 
 });

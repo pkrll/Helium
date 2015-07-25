@@ -10,7 +10,7 @@
  */
 class GalleryController extends Controller {
 
-    public function main () {
+    protected function main () {
 
     }
 
@@ -19,7 +19,7 @@ class GalleryController extends Controller {
      *
      * @param   string  $_GET['page']
      */
-    public function browse () {
+    protected function browse () {
         $gallery = $this->model()->getDirectoryContents($_GET['page']);
         $this->view()->render("shared/header_gallery.tpl");
         $this->view()->assign("gallery", $gallery);
@@ -31,7 +31,7 @@ class GalleryController extends Controller {
      * Display the upload dialog
      *
      */
-    public function upload () {
+    protected function upload () {
         $includes = $this->getIncludes(__FUNCTION__);
         $this->view()->assign("includes", $includes);
         $this->view()->assign("upload", true);

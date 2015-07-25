@@ -18,7 +18,7 @@ class UploadController extends Controller {
      * @param   array   $_FILES Http file upload variable
      * @return  array   (See UploadModel.php)
      */
-    public function image () {
+    protected function image () {
         if (isset($_FILES)) {
             if (isset($this->arguments[1])
             && $this->arguments[1] === "stream") {
@@ -55,7 +55,7 @@ class UploadController extends Controller {
      * @param   integer
      * @return  array
      */
-    public function remove() {
+    protected function remove() {
 		if (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])
         && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'
         && isset($this->arguments[0])) {

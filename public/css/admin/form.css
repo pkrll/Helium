@@ -42,13 +42,20 @@
     border-bottom:          none;
 }
 
+.next-to-last-row {
+    border-bottom:  none;
+    padding:        15px 10px 0px 10px;
+    width:          100%;
+}
+
 .stylized-form-row div.label {
     color:          #444;
     font-size:      15px;
+    padding-top:    10px;
     text-transform: uppercase;
     width:          30%;
     -webkit-align-self: flex-start;
-    padding-top:10px;
+            align-self: flex-start;
 }
 
 .stylized-form-row div.input {
@@ -64,6 +71,11 @@
     width: 91%;
 }
 
+.next-to-last-row div.input {
+    text-align: center;
+    width: 100%;
+}
+
 .stylized-form-row input,
 .stylized-form-row textarea {
     border: 1px solid #ccc;
@@ -72,10 +84,6 @@
     font-size:  16px;
     padding:    5px;
     width:      100%;
-}
-
-.stylized-form-row button {
-
 }
 
 .stylized-form-row input[type=file] {
@@ -105,7 +113,8 @@
     top:1px;
 }
 
-.stylized-form-row input:focus {
+.stylized-form-row input[type='text']:focus,
+.stylized-form-row input[type='file']:focus {
     border:         1px solid rgba(15,120,165,.6);
     box-shadow:     0 0 10px rgba(15,120,165,.3);
     padding:        4px 0px 4px 10px;
@@ -158,4 +167,14 @@ label.select::after {
 
 .error-label {
     font-size: 14px;
+}
+
+.dropify-highlight {
+    background:     rgba(15,120,165,0.1);
+}
+
+.submit-error {
+    color:          #DE1212;
+    font-size:      14px;
+    margin-right:   24px;
 }

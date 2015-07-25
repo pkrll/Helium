@@ -44,10 +44,6 @@
     width:80%;
 }
 
-.dropify-highlight {
-    background:     rgba(15,120,165,0.1);
-}
-
 .dragzone .input {
     display:                    -webkit-box;
     display:                    -moz-box;
@@ -229,10 +225,4 @@ input.published-date {
 
 input.published-time {
     width: 29%;
-}
-
-.submit-error {
-    color:          #DE1212;
-    font-size:      14px;
-    margin-right:   24px;
 }

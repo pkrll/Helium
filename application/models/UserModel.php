@@ -98,13 +98,14 @@ class UserModel extends Model {
             return $this->createErrorMessage("No data given");
         if ($this->isElementEmpty($data, array("firstname", "username", "password", "permission")))
             return $this->createErrorMessage("Field empty");
-        $sqlQuery = "INSERT INTO Users (username, password, firstname, lastname, permissionLevel) VALUES (:username, :password, :firstname, :lastname, :permission)";
+        $sqlQuery = "INSERT INTO Users (username, password, firstname, lastname, permission, image_id) VALUES (:username, :password, :firstname, :lastname, :permission, :image)";
         $sqlParam = array(
             "username"      => $data["username"],
             "password"      => md5($data["password"]),
             "firstname"     => $data["firstname"],
             "lastname"      => (empty($data["lastname"])) ? NULL : $data["lastname"],
-            "permission"    => $data["permission"]
+            "permission"    => $data["permission"],
+            "image"         => $data["image_id"]
         );
         $response = $this->writeToDatabase($sqlQuery, $sqlParam);
         return $response;
@@ -121,7 +122,7 @@ class UserModel extends Model {
         // fields are set before continuing.
         if ($data === NULL)
             return $this->createErrorMessage("No data given");
-        if ($this->isElementEmpty($data, array("id", "firstname", "username", "permissionLevel")))
+        if ($this->isElementEmpty($data, array("id", "firstname", "username", "permission")))
             return $this->createErrorMessage("Field empty");
         // To make the query more flexibel, base the
         // set-clause on the fields not empty.
@@ -153,7 +154,7 @@ class UserModel extends Model {
     public function getUser ($userID = NULL) {
         if ($userID === NULL)
             return FALSE;
-        $sqlQuery = "SELECT id, username, firstname, lastname, permissionLevel FROM Users WHERE id = :id";
+        $sqlQuery = "SELECT user.id, user.username, user.firstname, user.lastname, user.permission, user.image_id, image.image_name FROM Users AS user LEFT JOIN Users_Images AS image ON image.id = user.image_id WHERE user.id = :id";
         $sqlParam = array("id" => $userID);
         $response = $this->readFromDatabase($sqlQuery, $sqlParam, FALSE);
         return $response;
@@ -165,7 +166,7 @@ class UserModel extends Model {
      * @return  array
      */
     public function getUsers () {
-        $sqlQuery = "SELECT id, username, CONCAT_WS(' ', firstname, lastname) AS name, permissionLevel FROM Users";
+        $sqlQuery = "SELECT id, username, CONCAT_WS(' ', firstname, lastname) AS name, permission FROM Users";
         $response = $this->readFromDatabase($sqlQuery);
         return $response;
     }
@@ -182,7 +183,7 @@ class UserModel extends Model {
     }
 
     /**
-     * Fetch all the public controller functions.
+     * Fetch all the protected controller functions.
      *
      * @return  $array;
      */
@@ -194,7 +195,7 @@ class UserModel extends Model {
         // List all the controller methods using reflection
         foreach ($controllers as $controller) {
             $Reflection     = new ReflectionClass($controller);
-            $classMethods   = $Reflection->getMethods(ReflectionMethod::IS_PUBLIC);
+            $classMethods   = $Reflection->getMethods(ReflectionMethod::IS_PROTECTED);
             // Remove the Controller suffix from class name.
             $className = substr($controller, 0, -strlen($suffix));
             // Add the class methods to the return array, but remove any
@@ -263,14 +264,15 @@ class UserModel extends Model {
         if ($data['username'] === NULL || $data['password'] === NULL)
             return $array["error"]["message"] = "Login credentials";
 
-        $sqlQuery = "SELECT id, permissionLevel from Users WHERE username = :username AND password = :password LIMIT 1";
+        $sqlQuery = "SELECT id, CONCAT_WS(' ', firstname, lastname) AS name, permission from Users WHERE username = :username AND password = :password LIMIT 1";
 		$sqlParam = array("username" => $data['username'], "password" => md5($data['password']));
 		$response = $this->readFromDatabase ($sqlQuery, $sqlParam, FALSE);
         // Set the session variables
         if ($response !== FALSE && !empty($response['id'])) {
             Session::set("user_id", $response['id']);
-            Session::set("user_permission", $response['permissionLevel']);
+            Session::set("user_permission", $response['permission']);
             Session::set("username", $data['username']);
+            Session::set("name", $response['name']);
 
             return TRUE;
         }
@@ -286,6 +288,7 @@ class UserModel extends Model {
         Session::clear("user_id");
         Session::clear("user_permission");
         Session::clear("username");
+        Session::clear("name");
     }
 }
 ?>

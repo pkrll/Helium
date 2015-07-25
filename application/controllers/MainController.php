@@ -9,7 +9,7 @@
 
 class MainController extends Controller {
 
-    protected function main () {
+    public function main () {
         header("Location: /user");
     }
 

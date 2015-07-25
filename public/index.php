@@ -16,6 +16,7 @@ define(UPLOAD,		ROOT.'/public/images/uploads/');
 define(COVERS,		UPLOAD.'cover/');
 define(IMAGES,		UPLOAD.'normal/');
 define(THUMBNAILS,	UPLOAD.'thumbnails/');
+define(PROFILES,	UPLOAD.'profile/');
 
 chdir(LIBRARY);
 

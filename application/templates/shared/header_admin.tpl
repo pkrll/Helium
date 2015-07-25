@@ -9,7 +9,7 @@
         <link rel="stylesheet" href="/public/css/admin/responsive.css" media="screen" title="no title" charset="utf-8">
         <link href='http://fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'>
         <script src="/public/javascript/jquery-2.1.4.min.js" charset="utf-8"></script>
-        <script src="/public/javascript/plugins/helium.localize-1.0.js" charset="utf-8"></script>
+        <script src="/public/javascript/plugins/helium.localizer-1.0.js" charset="utf-8"></script>
         <script src="/public/javascript/helium.js" charset="utf-8"></script>
         <script src="/public/javascript/helium.admin.js" charset="utf-8"></script>
         <?php if ($includes) { include_once $includes; } ?>
@@ -25,8 +25,14 @@
                 <div class="notification-center">
                     <div class="notification"><span class="font-icon icon-bell"></span> <span class="notification-bubble" style="background:#ddd;">0</span></div>
                 </div>
-                <div class="user-center">
-                    <div class="user-menu">John Appleseed</div>
+                <div class="user-center" style="position:relative">
+                    <div class="user-menu"><?=Session::get("name");?></div>
+                    <div class="sub-menu" style="">
+                        <ul style="">
+                            <li class="sub-menu-item">Profile</li>
+                            <li class="sub-menu-item" data-href="/user/logout">Logout</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 

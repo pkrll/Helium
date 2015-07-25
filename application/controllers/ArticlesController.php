@@ -17,7 +17,7 @@ class ArticlesController extends Controller {
      *
      * @param   string  $_GET['search']
      */
-    public function archive () {
+    protected function archive () {
         // Get the content, depending on if it's a search
         // (which GET suggests), or not.
         $articles = ($_SERVER['REQUEST_METHOD'] == 'GET' && !empty($_GET))
@@ -41,7 +41,7 @@ class ArticlesController extends Controller {
      * @param   array   $errorMessage
      * @param   array   $_POST
      */
-    public function create ($formData = NULL, $errorMessage = NULL) {
+    protected function create ($formData = NULL, $errorMessage = NULL) {
         if ($_SERVER['REQUEST_METHOD'] == 'POST'
         && !empty($_POST) && is_null($formData)) {
             $response = $this->model()->createArticle($_POST);
@@ -101,7 +101,7 @@ class ArticlesController extends Controller {
      * @param   array   $errorMessage
      * @param   array   $_POST
      */
-    public function edit ($formData = NULL, $errorMessage = NULL) {
+    protected function edit ($formData = NULL, $errorMessage = NULL) {
         $articleID = (empty($this->arguments[0])) ? NULL : $this->arguments[0];
         if ($_SERVER['REQUEST_METHOD'] === "POST"
         && !empty($_POST) && is_null($formData)) {
@@ -145,7 +145,7 @@ class ArticlesController extends Controller {
      *
      * @param   string
      */
-    public function remove () {
+    protected function remove () {
         $articleID = (empty($this->arguments[0])) ? NULL : $this->arguments[0];
         if ($articleID === NULL)
             header("Location: /articles/archive");
@@ -164,7 +164,7 @@ class ArticlesController extends Controller {
      *
      * @param   string  $_POST['searchString']
      */
-    protected function search () {
+    public function search () {
         if (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])
         && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
             $response = $this->model()->search($_POST['searchString']);

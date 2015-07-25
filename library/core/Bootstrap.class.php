@@ -136,12 +136,12 @@ final class Bootstrap {
 	}
 
 	private function getUserPermissions ($userID) {
-		$sqlQuery = "SELECT permissionLevel FROM Users WHERE id = :id LIMIT 1";
+		$sqlQuery = "SELECT permission FROM Users WHERE id = :id LIMIT 1";
 		$sqlParam = array("id" => $userID);
 		$this->database->prepare($sqlQuery);
 		$this->database->execute($sqlParam);
 		$response = $this->database->fetch();
-		return isset($response['permissionLevel']) ? $response['permissionLevel'] : FALSE;
+		return isset($response['permission']) ? $response['permission'] : FALSE;
 	}
 
 }

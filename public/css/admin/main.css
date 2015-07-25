@@ -52,6 +52,10 @@ body {
             flex:   1;
 }
 
+.quick-button:active {
+    box-shadow: inset 1px 1px 10px #118844;
+}
+
 .quick-button a {
     color:          #fff;
     text-decoration: none;
@@ -136,6 +140,11 @@ body {
     cursor:     pointer;
 }
 
+.user-center:hover > .sub-menu {
+    background: #FFFFFF;
+    color: #000;
+}
+
 .user-menu {
     font-family:            "Raleway", sans-serif;
     background-image:       url("/public/images/system/arrow-down.png");
@@ -143,6 +152,33 @@ body {
     background-size:        13px;
     background-repeat:      no-repeat;
     padding-right:          19px;
+}
+
+.sub-menu {
+    background:         #FFFFFF;
+    border:             1px solid #EEEEEE;
+    border-top:         none;
+    display:            none;
+    font-family:        "Raleway", sans-serif;
+    font-size:          16px;
+    position:           absolute;
+    left:               -2px;
+    top:                100%;
+    width:              100%;
+}
+
+.sub-menu ul {
+    list-style-type:    none;
+    margin:             0;
+    padding:            0;
+}
+
+.sub-menu ul li {
+    padding:    10px;
+}
+
+.sub-menu ul li:hover {
+    background: #eee;
 }
 
 #menu {
@@ -355,3 +391,60 @@ fieldset.dragzone.highlight {
 .searchbox input::-moz-placeholder { color:#aaa; }
 .searchbox input:-ms-input-placeholder { color:#aaa; }
 .searchbox input::-webkit-input-placeholder { color:#aaa; }
+
+.modal-window {
+    background:     #FFFFFF;
+    border:         1px solid #CCCCCC;
+    border-radius:  5px;
+    box-shadow:     1px 1px 10px #AAAAAA;
+    font-family:    'Raleway', sans-serif;
+    position:       fixed;
+    top:            40%;
+    left:           40%;
+    width:          300px;
+}
+
+.modal-window-header {
+    color:          #222222;
+    font-family:    'Raleway', sans-serif;
+    font-size:      19px;
+    padding:        20px 20px 0 20px;
+    text-align:     center;
+}
+
+.modal-window-body {
+    color:      #333333;
+    font-size:  13px;
+    padding:    20px 30px 30px 30px;
+    text-align: center;
+}
+
+.modal-window-body > img {
+    width:      64px;
+}
+
+.modal-window-footer {
+    background:     #666666;
+    border-radius:  0 0 5px 5px;
+    color:          #FFFFFF;
+    text-align:     right;
+}
+
+.modal-window-button {
+    background:     #119955;
+    border-radius:  0 0 5px 0px;
+    cursor:         pointer;
+    font-weight:    bold;
+    margin:         0 0 0 auto;
+    padding:        10px;
+    text-align:     center;
+    width:          20%;
+}
+
+.modal-window-button:hover {
+    background: #11BB55;
+}
+
+.modal-window-button:active {
+    box-shadow: inset 1px 1px 10px #119955;
+}

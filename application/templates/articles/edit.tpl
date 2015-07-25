@@ -237,7 +237,7 @@
                                 <div class="stylized-form-row last-row">
 
                                     <div class="input">
-                                        <span class="submit-error">Please fill out the required fields</span>
+                                        <span class="submit-error"></span>
                                         <input type="submit" value="Publish" class="button" />
                                         <input type="button" value="Preview" class="button" />
                                     </div>

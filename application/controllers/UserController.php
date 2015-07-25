@@ -15,7 +15,7 @@ class UserController extends Controller {
      *
      * @param   array   $_POST
      */
-    public function add () {
+    protected function add () {
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST)) {
             $response = $this->model()->addUser($_POST);
             if (isset($response["error"])) {
@@ -25,12 +25,12 @@ class UserController extends Controller {
                 header("Location: /admin");
             }
         } else {
-            $roles = $this->model()->getRoles();
-            $includes = $this->getIncludes(__FUNCTION__);
+            $includes   = $this->getIncludes(__FUNCTION__);
+            $roles      = $this->model()->getRoles();
             $this->view()->assign("includes", $includes);
             $this->view()->render("shared/header_admin.tpl");
             $this->view()->assign("roles", $roles);
-            $this->view()->render("user/add.tpl");
+            $this->view()->render("user/form.tpl");
             $this->view()->render("shared/footer_admin.tpl");
         }
     }
@@ -45,7 +45,7 @@ class UserController extends Controller {
         $this->view()->render("shared/footer_admin.tpl");
     }
 
-    public function edit () {
+    protected function edit () {
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST)) {
             $response = $this->model()->updateUser($_POST);
             if (isset($response["error"])) {
@@ -62,8 +62,9 @@ class UserController extends Controller {
         $this->view()->assign("includes", $includes);
         $this->view()->render("shared/header_admin.tpl");
         $this->view()->assign("user", $user);
+        $this->view()->assign("edit", TRUE);
         $this->view()->assign("roles", $roles);
-        $this->view()->render("user/edit.tpl");
+        $this->view()->render("user/form.tpl");
         $this->view()->render("shared/footer_admin.tpl");
     }
 
@@ -72,7 +73,7 @@ class UserController extends Controller {
      *
      * @param   array   $_POST
      */
-    protected function login () {
+    public function login () {
         if (!empty($_POST)) {
             $login = $this->model()->login($_POST);
             if ($login === TRUE) {
@@ -89,18 +90,18 @@ class UserController extends Controller {
      * Logout function
      *
      */
-    protected function logout() {
+    public function logout() {
         $this->model()->logout();
         header("Location: /");
     }
 
-    protected function main ($message = NULL) {
+    public function main ($message = NULL) {
         if ($message !== NULL)
             $this->view()->assign("_errorMessage", $message);
         $this->view()->render("user/main.tpl");
     }
 
-    public function rights () {
+    protected function permissions () {
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST)) {
             $this->model()->changePermission($_POST);
         }
@@ -113,7 +114,7 @@ class UserController extends Controller {
         $this->view()->render("shared/header_admin.tpl");
         $this->view()->assign("resources", $resources);
         $this->view()->assign("roles", $roles);
-        $this->view()->render("user/permission_list.tpl");
+        $this->view()->render("user/permissions.tpl");
         $this->view()->render("shared/footer_admin.tpl");
     }
 }
