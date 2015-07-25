@@ -1,0 +1,7 @@
+.split-view {
+    width: 100%;
+}
+
+.div-table-row div:nth-child(2) {
+    text-align: left;
+}

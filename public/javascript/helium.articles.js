@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
     $(".dismiss").on("click", function() {
-        $(this).parent().remove();
+        $(this).parent().parent().remove();
     });
 
     /**
@@ -12,6 +12,7 @@ $(document).ready(function() {
     $(".section-label").click(function () {
         var elementsToHide = $(this).parent().children(':not(.section-label)');
         elementsToHide.toggle();
+        $(this).toggleClass('hidden');
     });
 
     /**

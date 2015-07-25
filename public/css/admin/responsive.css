@@ -1,36 +1,29 @@
-@media all and (max-width: 1050px) {
+@media all and (max-device-width: 480px), screen and (min-device-width : 320px) and (max-device-width : 568px), screen and (min-device-width : 375px) and (max-device-width : 667px), screen and (max-width: 740px) {
 
-    .menu.font-icon {
-        font-size: 18px;
+    #window {
+        margin:     0;
+        max-width:  100%;
+        width:      100%;
+        border:     none;
     }
 
-    .long {
-        display:none;
+}
+
+@media all and (max-width: 640px) {
+
+    .quick-button-text {
+        display: none;
     }
 
-    .short {
-        display:        block;
-        font-variant:   normal;
+    .quick-button .font-icon {
+        font-size:      28px;
+        margin-right:   0em;
     }
 
-    #menu-bar-container {
-        min-width:  140px;
-        width:      15%;
-    }
+}
 
-    .menu-title {
-        /*display:block;
-        padding-top:10px;*/
-    }
+@media all and (max-device-width: 480px), screen and (min-device-width : 320px) and (max-device-width : 568px), screen and (min-device-width : 375px) and (max-device-width : 667px) {
 
-    .menu-bar-ul li {
-        font-size:      15px;
-        padding:        15px 15px 15px 15px;
-        /*text-align:   center;*/
-    }
-
-    li.sub-menu {
-        padding-left:   25px;
-    }
+    
 
 }

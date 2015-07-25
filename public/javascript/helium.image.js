@@ -1,6 +1,102 @@
 $(document).ready(function() {
 
     /**
+     * Overrides the Dropify default function
+     * onUpload, making sure the upload progress
+     * is tailored for the Helium app.
+     *
+     * @param   eventData
+     */
+    $.fn.onUpload = function (event) {
+        // Keyword "this" gives access to the
+        // plugins settings variables, where
+        // the progressbar element can be stored
+        // inside the variable monitor.
+        var self = this;
+        // Create the progress bar object, and
+        // connect it to the Dropify plugin, if
+        // it already does not exist.
+        if ($("#progress-bar-container").length < 1) {
+            var element = $("<div>").attr({
+                "id": "progress-bar-container"
+            }).appendTo("body");
+            self.monitor = new ProgressBar ({ parentElement: element });
+            self.monitor.createBar();
+        }
+        // Calculate the upload process
+        var completed = 0;
+        if (event.lengthComputable) {
+            // The uploading process is only
+            // part one of the whole process,
+            // that also includes resizing of
+            // images. Therefore, divide this
+            // status by two.
+            completed = Math.round((event.loaded / event.total * 1000) / 10 / 2);
+            self.monitor.setProgress(completed);
+        }
+    }
+
+    /**
+     * Overrides the Dropify default function
+     * onDownload, for when the server sends
+     * the uploaded images paths back.
+     *
+     * @param   eventData
+     */
+    $.fn.onDownload = function (event) {
+        // Check if the global array ImageArray is set
+        if (typeof imageArray === typeof undefined)
+            imageArray = [];
+        // Options for the on progress monitoring the "stream".
+        previousBuffer  = "";
+        currentLoad     = 0;
+        totalSizeToLoad = this.totalSizeToLoad;
+        // Onprogress will monitor the stream coming
+        // back from the server. The stream will be
+        // buffered and contains the old response as well.
+        // Cut out the latest part and show the newest image.
+        var response = event.currentTarget.response;
+        var contents = response.substring(previousBuffer.length);
+        var currentProgress = this.monitor.getProgress();
+        // Set the progress bar status.
+        var completed = (Math.round((++currentLoad / totalSizeToLoad * 1000) / 10 / 2) + currentProgress);
+        this.monitor.setProgress(completed);
+        previousBuffer = response;
+        // Nasty fix for streaming bug that occurs
+        // when the server sends the JSON encoded
+        // strings all at once, which means that
+        // the JSON array is actually just a string.
+        // Stream array will place a newline between
+        // the } {-brackets and then split the string
+        // by the newline, making it an array again.
+        var streamArray = contents.replace(/(\}([\s\S]*?)\{)/gi, "}\n{");
+        streamArray = streamArray.split("\n");
+        // Create an array to hold images already added
+        try {
+            // If it is an array, then loop through
+            // it and analyze the values.
+            if (streamArray.length > 0) {
+                $.each(streamArray, function (i, content) {
+                    // Make sure it's not empty
+                    if (content.length > 0) {
+                        var image = jQuery.parseJSON(content);
+                        if (image.error) {
+                            console.log("Error " + image.error.message);
+                        } else {
+                            if ($.inArray(image.id, imageArray) === -1) {
+                                imageArray.push(image.id);
+                                $.fn.createImageElement(image);
+                            }
+                        }
+                    }
+                });
+            }
+        } catch (e) {
+            console.log("Error " + e);
+        }
+    }
+
+    /**
      * Binds all buttons with this class
      * to the imageEventClick() function
      * that handles the image related
@@ -51,15 +147,15 @@ $(document).ready(function() {
             // Get all the elements within
             // the drop target zone of the
             // selected fieldset.
-            var parent = $("fieldset.image-"+type).find("div.dragzone");
+            var parent = $("#dragzone-"+type).find("div.input");
             var elements = parent.children();
             // Must check the selection
-            var fileName = $("input#image-"+type).val();
+            var fileName = $("input#"+type).val();
             if ($.fn.checkExtension(fileName) === false) {
                 $.fn.createErrorMessage(Localize.getLocaleString("You can only upload images"));
                 return false;
             }
-            var file = document.getElementById("image-"+type).files[0];
+            var file = document.getElementById(type).files[0];
             // Hide the child elements
             // of the dropzone and set
             // the loadimage spinning.
@@ -78,20 +174,25 @@ $(document).ready(function() {
         } else if (action === "remove") {
             if (image === false)
                 return false;
-            // var remove = $.fn.removeImage(type, image);
-            var remove = true;
-            if (remove === true) {
-                $.fn.removeImageElements(type, image, edit);
-            }
+            $.fn.removeImageElements(type, image, edit);
         }
     }
 
+    /**
+     * Remove images
+     *
+     * @param   string  Type of image
+     * @param   string  Id of image
+     * @param   bool    Edit mode
+     */
     $.fn.removeImageElements = function (type, imageID, edit) {
         var imageID = imageID || false,
                type = type || false,
                edit = edit || false;
         if (type === false)
             return false;
+        // If edit option is set, then the server needs
+        // to know which images are being removed.
         if (edit === "true") {
             var parentElement   = $("form#article");
             var removedImage    = $("<input>").attr({
@@ -100,9 +201,10 @@ $(document).ready(function() {
                 "name": "image-remove[]"
             }).appendTo(parentElement);
         }
+        // Remove the images
         if (type === "cover") {
             $.fn.createCoverImageElement(null, "remove");
-        } else if (type === "slideshow") {
+        } else {
             $("div[data-id='"+imageID+"']").remove();
         }
     }
@@ -123,147 +225,154 @@ $(document).ready(function() {
             return null;
         if (type === "cover") {
             $.fn.createCoverImageElement(image, action);
+        } else if (type === "ckeditor") {
+            $.fn.createCKEditorImageElement(image);
         } else {
-            if (type === "ckeditor") {
-                $.fn.createCKEditorImageElement(image);
-            } else {
-                $.fn.createSlideshowImageElement(image);
-            }
+            $.fn.createImageElement(image);
         }
     }
 
+    /**
+     * Display the cover image that
+     * has been uploaded.
+     *
+     * @param   array   An array containing information on image
+     * @param   string  Type of action requested
+     */
     $.fn.createCoverImageElement = function (image, action) {
         var action = action || false,
              image = image || false;
         if (action !== "remove" && image === false)
             return false;
 
-        var fieldset = $("fieldset.image-cover");
-
+        var parent = $("#dragzone-cover");
+        var divContainer = parent.find("div.input");
+        divContainer.children().remove();
+        // On remove
         if (action === "remove") {
-            // Remove the image element
-            // and rebind the drag events
-            var cover = fieldset.find("div.cover");
-            cover.remove();
-            fieldset.addClass("dragzone").bindDragEvents();
-            // Create the elements
-            var dragzone = $("<div>").attr({"class": "dragzone"});
-            var description = $("<div>").html(Localize.getLocaleString("Upload image by dragging it onto this field, or use the button below.")).appendTo(dragzone);
-            var browseBox = $("<div>").attr({"class": "browse-box"}).appendTo(dragzone);
-            var inputFile = $("<input>").attr({
+            var div = $("<div>");
+            // Remove the children element ...
+            divContainer.removeClass('cover');
+            // ... and create the new elements
+            var divDescription  = div.clone().html(Localize.getLocaleString("Drag and drop a cover image here, or add by using the button below. The image must be below 2 MB.")).appendTo(divContainer);
+            var divInput = div.clone().appendTo(divContainer);
+            var fileInp  = $("<input>").attr({
                 "type": "file",
                 "id": "image-cover"
-            }).appendTo(browseBox);
+            }).appendTo(divInput);
             var button = $("<button>").attr({
                 "class": "image-event-button",
                 "data-type": "cover",
                 "data-action": "upload"
-            }).html(Localize.getLocaleString("Upload")).appendTo(browseBox);
-            var galleryBox = $("<div>").attr({"class": "gallery-box"}).appendTo(dragzone);
-            var galleryIcon = $("<span>").attr({
-                "class": "font-icon menu icon-gallery"
-            });
-            var galleryLink = $("<span>").attr({
-                "class": "gallery"
-            }).append(galleryIcon).append(Localize.getLocaleString("Choose from gallery")).appendTo(galleryBox);
+            }).html(Localize.getLocaleString("Upload")).appendTo(divInput);
             // Bind the button to do that stuff
             // you want it to do, you know...
             button.click(function (e) {
                 e.preventDefault();
         		$.fn.imageEventClick($(this));
             });
-            // Add it all to the fieldset
-            dragzone.appendTo(fieldset);
         } else {
-            // Remove the old elements and
-            // unbind all drag events.
-            fieldset.find("div.dragzone").remove();
-            fieldset.removeClass("dragzone");
-            fieldset.unbind('dragenter dragover drop');
+            // Remove the old elements
+            divContainer.addClass('cover');
+            // Create the div to clone
+            var div     = $("<div>");
+            var span    = $("<span>");
+            var input   = $("<input>");
             // Create the elements that will
             // hold the uploaded image.
-            var pictureBox = $("<div>").attr({"class": "picture-box cover"});
-            var pictureImg = $("<div>").attr({"class": "picture"}).appendTo(pictureBox);
-            var imgElement = $("<img>").attr({"src": image.path}).appendTo(pictureImg);
-            var divCaption = $("<div>").attr({"class": "caption"}).appendTo(pictureBox);
-            var divElement = $("<div>").appendTo(divCaption);
-            var inpCaption = $("<input>").attr({
+            var pictureDiv = div.clone().appendTo(divContainer);
+            var imgElement = $("<img>").attr({"src": image.path}).appendTo(pictureDiv);
+            var inpCaption = input.clone().attr({
                 "type": "text",
                 "name": "caption-cover",
                 "placeholder": "Caption"
-            }).appendTo(divElement);
-            var inpHidden = $("<input>").attr({
+            }).appendTo(pictureDiv);
+            var spanButton = span.clone().attr({
+                "class": "image-event-button",
+                "data-type": "cover",
+                "data-action": "remove",
+                "data-id": image.id
+            }).appendTo(pictureDiv);
+            var inpHidden = input.clone().attr({
                 "type": "hidden",
                 "name": "image-cover",
                 "value": image.id
-            }).appendTo(divElement);
-            var divElement = $("<div>").appendTo(divCaption);
-            var spanButton = $("<span>").attr({
-                "class": "image-event-button",
-                "data-type": "cover",
-                "data-action": "remove"
-            }).html(Localize.getLocaleString("Remove image")).appendTo(divElement);
+            }).appendTo(pictureDiv);
+            var spanIcon   = span.clone().attr({"class": "font-icon icon-cancel"}).appendTo(spanButton);
+            var spanText   = span.clone().html(" " + Localize.getLocaleString("Remove image")).appendTo(spanButton);
             // Bind the button to do that stuff
             // you know you want it to do...
             spanButton.click(function () {
         		$.fn.imageEventClick($(this));
             });
-            // add it to the fieldset
-            pictureBox.appendTo(fieldset);
         }
     }
 
-    $.fn.createSlideshowImageElement = function (image) {
+    /**
+     * Display the the images that
+     * have been uploaded.
+     *
+     * @param   array   An array containing information on image
+     */
+    $.fn.createImageElement = function (image) {
         var image = image || false;
         if (image === false)
             return false;
-        var parent = $("fieldset.image-slideshow");
-        if (parent.find("div.picture-box-container").length > 0)
-            var divContainer = $("div.picture-box-container");
-        else
-            var divContainer = $("<div>").attr({"class": "picture-box-container"}).appendTo(parent);
-        // Create the picture box
-        var divPicBox = $("<div>").attr({
-            "class": "picture-box",
-            "data-id": image.id
-        }).appendTo(divContainer);
-        var divPicElm = $("<div>").attr({
-            "class": "picture"
-        }).appendTo(divPicBox);
-        var divPicImg = $("<img>").attr({
-            "src": image.path
-        }).appendTo(divPicElm);
-        var divCaption = $("<div>").attr({
+
+        var parent  = $("#dragzone-image").find("div.input");
+        var div     = $("<div>");
+        var img     = $("<img>");
+        var span    = $("<span>");
+        var input   = $("<input>");
+        // Check if the container element exists
+        var container = $("div.image-container");
+        if (container.length < 1)
+            container = div.clone().attr({
+                "class": "image-container"
+            }).appendTo(parent);
+        // Create the picture
+        var pictureDiv = div.clone().attr({
+            "class"     : "picture",
+            "data-id"   : image.id
+        }).appendTo(container);
+        var pictureBox = div.clone().attr({
+            "class": "picture-box"
+        }).appendTo(pictureDiv);
+        var imgElement = img.clone().attr({"src": image.path}).appendTo(pictureBox);
+        // The caption
+        var divCaption = div.clone().attr({
             "class": "caption"
-        }).appendTo(divPicBox);
-        var spanTrash = $("<span>").attr({
-            "class": "font-icon icon-trash"
-        });
-        var spanButton = $("<span>").attr({
-            "class": "image-event-button",
-            "data-type": "slideshow",
-            "data-action": "remove",
-            "data-id": image.id
-        }).append(spanTrash).append(Localize.getLocaleString("Remove image")).appendTo(divCaption);
-        var divInput = $("<div>").appendTo(divCaption);
-        var input = $("<input>").attr({
+        }).appendTo(pictureDiv);
+        var divElement = div.clone().appendTo(divCaption);
+        var spanButton = span.clone().attr({
+            "class"         : "image-event-button",
+            "data-type"     : "image",
+            "data-action"   : "remove",
+            "data-id"       : image.id
+        }).appendTo(divElement);
+        var spanTrash  = span.clone().attr({
+            "class": "font-icon icon-cancel"
+        }).appendTo(spanButton);
+        var spanText   = span.clone().html(" " + Localize.getLocaleString("Remove image")).appendTo(spanButton);
+        var divElement = div.clone().appendTo(divCaption);
+        var inpCaption = input.clone().attr({
             "type": "text",
-            "name": "caption-slideshow[]",
+            "name": "caption-image[]",
             "placeholder": "Caption"
-        }).appendTo(divInput);
-        var inpHidden = $("<input>").attr({
+        }).appendTo(divElement);
+        var inpHidden  = input.clone().attr({
             "type": "hidden",
-            "name": "image-slideshow[]",
+            "name": "image[]",
             "value": image.id
-        }).appendTo(divInput);
+        }).appendTo(divElement);
         // Bind the button to do that stuff
         // you know you want it to do...
         spanButton.click(function () {
             $.fn.imageEventClick($(this));
         });
-        var parent = $("fieldset.image-slideshow").find("div.dragzone");
-        parent.find("img").remove();
-        parent.children().show();
+
+        // parent.find("img").remove();
+        // parent.children().show();
     }
 
     $.fn.createCKEditorImageElement = function (image) {
@@ -287,6 +396,11 @@ $(document).ready(function() {
         parent.children().show();
     }
 
+    /**
+     * Create a spinner image.
+     *
+     * @param   element The element to apply the image to
+     */
     $.fn.createLoaderImage = function (element) {
         var loaderImage = $("<img>").attr({
             "src": "/public/images/system/loading-128.png",
@@ -294,14 +408,16 @@ $(document).ready(function() {
         }).appendTo(element);
     }
 
+    /**
+     * Check if the extension matches.
+     *
+     * @param   string  Name of file
+     */
     $.fn.checkExtension = function (fileName) {
-        extension = fileName.split('.').pop().toLowerCase();
-        if ($.inArray(extension, ['jpg']) != -1 || $.inArray(extension, ['jpeg']) != -1 || $.inArray(extension, ['png']) != -1
-        || $.inArray(extension, ['gif']) != -1) {
+        var extension       = fileName.split('.').pop().toLowerCase();
+        var extensionArray  = ["jpg", "jpeg", "png", "gif"];
+        if ($.inArray(extension, extensionArray) != -1)
             return true;
-        } else {
-            return false;
-        }
+        return false;
     }
-
 });

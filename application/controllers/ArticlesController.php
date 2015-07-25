@@ -63,9 +63,9 @@ class ArticlesController extends Controller {
                     ))),
                     "links"     => $this->model()->getArticlesWithID($formData["links"]),
                     "images"    => array(
-                        "slide" => array(
-                            "caption"  => $formData["caption-slideshow"],
-                            "image"    => $this->model()->getImagesWithID($formData["image-slideshow"]),
+                        "normal" => array(
+                            "caption"  => $formData["caption-image"],
+                            "image"    => $this->model()->getImagesWithID($formData["image"]),
 
                         ),
                         "cover" => array(
@@ -123,8 +123,8 @@ class ArticlesController extends Controller {
                 "article"   => $contents["article"],
                 "links"     => $contents["links"],
                 "images"    => array(
-                    "slide" => $contents["slideshow"],
-                    "cover" => $contents["cover"]
+                    "normal"    => $contents["image"],
+                    "cover"     => $contents["cover"]
                 )
             );
             // Edit can use create.inc, instead of having its own inc-file.

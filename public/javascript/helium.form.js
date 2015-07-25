@@ -20,11 +20,15 @@ $(document).ready(function() {
             // form submit.
             if (emptyElements.length > 0) {
                 var tooltip = new Tooltip({
-                    "color": "#de1212",
+                    "color": "#DE1212",
                     "label": "Please fill out this field",
                     "fadeOut": 5000,
                     "element": emptyElements[0].parent()
                 }, true);
+                $(".submit-error").html(Localize.getLocaleString("Please fill out the required fields"));
+                $('html, body').animate({
+                    scrollTop: emptyElements[0].parent().offset().top-100
+                }, 500);
                 // // No need to continue if we have
                 // // found an error.
                 return false;
