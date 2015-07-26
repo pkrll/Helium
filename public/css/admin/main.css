@@ -26,7 +26,7 @@ body {
 }
 
 .appname {
-    border-bottom:  2px solid #eee;
+    border-bottom:  2px solid #EEEEEE;
     font-family:    "Dosis", "Raleway", sans-serif;
     font-size:      39px;
     line-height:    39px;
@@ -72,7 +72,7 @@ body {
 }
 
 .notification-center {
-    border-bottom:              2px solid #eee;
+    border-bottom:              2px solid #EEEEEE;
     display:                    -webkit-box;
     display:                    -moz-box;
     display:                    -ms-flexbox;
@@ -114,8 +114,8 @@ body {
 }
 
 .user-center {
-    border-bottom:              2px solid #eee;
-    border-left:                2px solid #eee;
+    border-bottom:              2px solid #EEEEEE;
+    border-left:                2px solid #EEEEEE;
     display:                    -webkit-box;
     display:                    -moz-box;
     display:                    -ms-flexbox;
@@ -178,11 +178,11 @@ body {
 }
 
 .sub-menu ul li:hover {
-    background: #eee;
+    background: #EEEEEE;
 }
 
 #menu {
-    border-bottom:              2px solid #ddd;
+    border-bottom:              2px solid #EEEEEE;
     display:                    -webkit-box;
     display:                    -moz-box;
     display:                    -ms-flexbox;
@@ -447,4 +447,34 @@ fieldset.dragzone.highlight {
 
 .modal-window-button:active {
     box-shadow: inset 1px 1px 10px #119955;
+}
+
+.post-container {
+    border:         1px solid #ccc;
+    font-family:    'Noto Sans', sans-serif;
+    margin-bottom:  8px;
+}
+
+.post-body-container {
+    padding:        8px 15px;
+}
+
+.post-header {
+    border-bottom:  1px solid #ccc;
+    font-weight:    bold;
+    padding:        4px 0 8px 0;
+    margin:         0 0 8px 0;
+    width:          100%;
+}
+
+.post-body {
+    font-family:    'Noto Sans', sans-serif;
+    font-size:      14px;
+}
+
+.post-footer {
+    background: #EEEEEE;
+    border-top: 1px solid #ccc;
+    font-size:  13px;
+    padding:    6px 15px;
 }

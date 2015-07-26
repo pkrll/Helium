@@ -1,9 +1,9 @@
 <link rel="stylesheet" href="/public/css/admin/form.css" media="screen" charset="utf-8">
     <link rel="stylesheet" href="/public/css/user/form.css" media="screen" charset="utf-8">
     <link rel="stylesheet" href="/public/css/plugins/tooltip-1.0.css" media="screen">
-    <link rel="stylesheet" href="/public/css/plugins/dropify-1.1.css" media="screen">
+    <link rel="stylesheet" href="/node_modules/dropster/lib/dropster.css" media="screen">
     <script src="/public/javascript/plugins/helium.tooltip-1.0.js" charset="utf-8"></script>
     <script src="/public/javascript/plugins/helium.browser-1.0.js" charset="utf-8"></script>
-    <script src="/public/javascript/plugins/helium.dropify-1.1.js" charset="utf-8"></script>
     <script src="/public/javascript/helium.js" charset="utf-8"></script>
     <script src="/public/javascript/helium.form.js" charset="utf-8"></script>
+    <script src="/node_modules/dropster/lib/dropster.js" charset="utf-8"></script>

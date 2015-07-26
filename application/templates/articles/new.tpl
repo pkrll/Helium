@@ -287,7 +287,7 @@
                                 });
                             }
 
-                            $("#dragzone-image").dropify({
+                            $("#dragzone-image").dropster({
                                 url: "/upload/image/normal/stream",
                                 onUpload: $.fn.onUpload,
                                 onDownload: $.fn.onDownload,
@@ -299,9 +299,9 @@
                                 }
                             });
 
-                            $("#dragzone-cover").dropify({
+                            $("#dragzone-cover").dropster({
                                 url: "/upload/image/cover/stream",
-                                consecutiveLimit: 1,
+                                uploadLimit: 1,
                                 onUpload: $.fn.onUpload,
                                 onDownload: function () {},
                                 onReady: function (response) {

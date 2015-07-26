@@ -124,7 +124,7 @@ final class Bootstrap {
 		// not whether the controller has a
 		// general permission set.
 		$sqlQuery = "SELECT permissionLevel FROM Resources WHERE name = :name";
-		$method	  = (isset($this->method)) ? $this->method : DEFAULT_METHOD;
+		$method	  = (!empty($this->method)) ? $this->method : DEFAULT_METHOD;
 		$sqlParam = array(
 			"name" => $this->controller . ":" . $method
 		);

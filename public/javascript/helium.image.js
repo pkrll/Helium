@@ -5,7 +5,7 @@ $(document).ready(function() {
      * onUpload, making sure the upload progress
      * is tailored for the Helium app.
      *
-     * @param   eventData
+     * @param   progressEvent
      */
     $.fn.onUpload = function (event) {
         // Keyword "this" gives access to the
@@ -41,27 +41,26 @@ $(document).ready(function() {
      * onDownload, for when the server sends
      * the uploaded images paths back.
      *
-     * @param   eventData
+     * @param   progressEvent
      */
     $.fn.onDownload = function (event) {
         // Check if the global array ImageArray is set
         if (typeof imageArray === typeof undefined)
             imageArray = [];
         // Options for the on progress monitoring the "stream".
-        previousBuffer  = "";
-        currentLoad     = 0;
-        totalSizeToLoad = this.totalSizeToLoad;
+        this.previousBuffer  = "";
+        this.totalSizeLoaded += 1;
         // Onprogress will monitor the stream coming
         // back from the server. The stream will be
         // buffered and contains the old response as well.
         // Cut out the latest part and show the newest image.
         var response = event.currentTarget.response;
-        var contents = response.substring(previousBuffer.length);
-        var currentProgress = this.monitor.getProgress();
+        var contents = response.substring(this.previousBuffer.length);
+        var progress = this.monitor.getProgress();
         // Set the progress bar status.
-        var completed = (Math.round((++currentLoad / totalSizeToLoad * 1000) / 10 / 2) + currentProgress);
+        var completed = (Math.round((this.totalSizeLoaded / this.totalSizeToLoad * 1000) / 10 / 2) + progress);
         this.monitor.setProgress(completed);
-        previousBuffer = response;
+        this.previousBuffer = response;
         // Nasty fix for streaming bug that occurs
         // when the server sends the JSON encoded
         // strings all at once, which means that

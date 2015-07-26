@@ -1,7 +1,25 @@
                 <div class="split-view">
                     <div class="left-view">
 
-                        <div style="background:#fff;border-radius:6px; padding:8px; border:1px solid #eee;margin-bottom:8px;box-shadow: 1px 1px 14px 1px #aaa;">
+                        <div class="post-container">
+                            <div class="post-body-container">
+                                <div class="post-header">
+                                    Someone left a comment on <b>Headline of an article</b>
+                                </div>
+                                <div class="post-body">
+                                    <b>User 123</b> wrote:
+                                    <blockquote>
+                                        This is a comment. Comment, comment, comment. You know what really grinds my gear? You America. *curse word* you!
+                                    </blockquote>
+                                </div>
+                            </div>
+                            <div class="post-footer">
+                                Tuesday, 12:45
+                            </div>
+                        </div>
+
+
+                        <!-- <div style="background:#fff;border-radius:6px; padding:8px; border:1px solid #eee;margin-bottom:8px;box-shadow: 1px 1px 14px 1px #aaa;">
 
                             <div style="color: #317692; font-family: 'Noto Sans', 'Numans'; border-bottom:1px solid #eee;width:100%;padding:4px 0 8px 0; margin: 0 0 8px 0;">Someone left a comment on <b>Headline of an article</b></div>
                             <div style="font-size: 14px; font-family: 'Noto Sans', sans-serif;">
@@ -30,7 +48,7 @@
                                     Article preamble. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                                 </blockquote>
                             </div>
-                        </div>
+                        </div> -->
 
                     </div>
                     <div class="right-view">

@@ -4,7 +4,7 @@
                         <div class="quick-menu">
                             <a href="/user/admin"><div class="quick-menu-button active">All users</div></a>
                             <a href="/user/add"><div class="quick-menu-button">Add user</div></a>
-                            <a href="/user/rights"><div class="quick-menu-button">Permissions</div></a>
+                            <a href="/user/permissions"><div class="quick-menu-button">Permissions</div></a>
                             <div class="searchbox">
                                    <form action="/user/search/" method="GET">
                                        <input type="search" name="search" placeholder="Search for user..." />

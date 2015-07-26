@@ -115,10 +115,11 @@
                     </div>
                 </div>
                 <script type="text/javascript">
-                    $("#dragzone").dropify({
+                    $("#dragzone").dropster({
                         url: "/upload/image/profile/stream",
-                        consecutiveLimit: 1,
+                        uploadLimit: 1,
                         onReady: function (response) {
+                            this.defaultOnReady();
                             var image = jQuery.parseJSON(response);
                             if (image.error) {
                                 $.fn.createErrorMessage(image.error.message);

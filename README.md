@@ -16,6 +16,7 @@ Clone a copy of the Helium repository
 * Set up a virtual host in Apache, pointing to the Helium directory.
 * Create a MySQL database and set the database constants in the file /library/Config.php to values appropriate to your config.
     * See MySQL Database Scheme in file Helium.sql (Will be updated).
+* Install dependencies using npm (instructions will be added).
 
 ### Usage
 * Log in to the Helium admin panel by navigating to *yoursite.io/user* and providing the default username and password (*admin*/*admin*). (You can change the default password by selecting Users in the menu bar.)
@@ -43,6 +44,8 @@ Clone a copy of the Helium repository
     - Config.php
     - Database.class.php
     - Session.class.php
+- node_modules/
+   - JS dependencies
 - public/
    - css/
      + Folder for stylesheets to be used by the templates.
@@ -106,7 +109,7 @@ class ExampleModel extends Model {
 ### Work in progress
 * The Helium app is still in development.
 
-![screenshot](https://raw.githubusercontent.com/pkrll/Helium/master/helium-screenshot.png "Helium 0.10.2")
+![screenshot](https://raw.githubusercontent.com/pkrll/Helium/master/helium-screenshot.png "Helium 0.10.5")
 
 ## License
-This project is licensed under the **GNU General Public License v2.0**. All fonts and font icons in this project are licensed under the **SIL Open Font License 1.1**. The font **Numans** was created by **Jovanny Lemonad**. The font **Dosis** was created by **Pablo Impallari**. Fonts icons were created by **Dave Gandy** and **Daniel Bruce**.
+This project is licensed under the **GNU General Public License v2.0**. All fonts and font icons are licensed under the **SIL Open Font License 1.1**. The font **Numans** was created by **Jovanny Lemonad**. The font **Dosis** was created by **Pablo Impallari**. The font icons were created by **Dave Gandy** and **Daniel Bruce**.

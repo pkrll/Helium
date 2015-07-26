@@ -22,13 +22,13 @@
                 <div class="quick-button">
                     <a href="/articles/create"><span class="font-icon icon-plus"></span> <span class="quick-button-text">Add post</span></a>
                 </div>
-                <div class="notification-center">
+                <div class="notification-center" style="position:relative;">
                     <div class="notification"><span class="font-icon icon-bell"></span> <span class="notification-bubble" style="background:#ddd;">0</span></div>
                 </div>
                 <div class="user-center" style="position:relative">
                     <div class="user-menu"><?=Session::get("name");?></div>
-                    <div class="sub-menu" style="">
-                        <ul style="">
+                    <div class="sub-menu">
+                        <ul>
                             <li class="sub-menu-item">Profile</li>
                             <li class="sub-menu-item" data-href="/user/logout">Logout</li>
                         </ul>
