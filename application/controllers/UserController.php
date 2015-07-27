@@ -22,7 +22,7 @@ class UserController extends Controller {
                 //TODO: ADD ERROR
                 print_r($response["error"]);
             } else {
-                header("Location: /admin");
+                header("Location: /user/admin");
             }
         } else {
             $includes   = $this->getIncludes(__FUNCTION__);
@@ -52,7 +52,7 @@ class UserController extends Controller {
                 //TODO: ADD ERROR
                 print_r($response["error"]);
             } else {
-                $user = $_POST;
+                header("Location: /user/admin");
             }
         } else {
             $user = $this->model()->getUser($this->arguments[0]);

@@ -101,7 +101,7 @@
                                 </div>
                                 <div class="input">
                                     <div>Drag and drop profile picture here, or add by using the button below. The image must be below 2 MB.</div>
-                                    <div><input type="file" name="image" /></div>
+                                    <div><input type="file" id="image" /></div>
                                 </div>
                             </div>
                             <div class="stylized-form-row last-row">

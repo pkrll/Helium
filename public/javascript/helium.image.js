@@ -1,5 +1,28 @@
 $(document).ready(function() {
 
+    $.fn.onReadyCover = function (response) {
+        // Reset the file input and
+        // remove the progressbar
+        this.resetFileInput();
+        this.monitor.remove();
+        var image = jQuery.parseJSON(response);
+        if (image.error) {
+            $.fn.createErrorMessage (Localize.getLocaleString (image.error.message));
+        } else {
+            $.fn.imageHandlerEvent ("cover", "display", image);
+        }
+    };
+
+    $.fn.onReady = function (response) {
+        // Reset the file input and
+        // remove the progressbar
+        this.resetFileInput();
+        // Remove the progressbar
+        this.monitor.remove();
+        // Reset the global imageArray
+        imageArray = [];
+    }
+
     /**
      * Overrides the Dropify default function
      * onUpload, making sure the upload progress
@@ -56,7 +79,8 @@ $(document).ready(function() {
         // Cut out the latest part and show the newest image.
         var response = event.currentTarget.response;
         var contents = response.substring(this.previousBuffer.length);
-        var progress = this.monitor.getProgress();
+        var monitor  = this.monitor;
+        var progress = monitor.getProgress();
         // Set the progress bar status.
         var completed = (Math.round((this.totalSizeLoaded / this.totalSizeToLoad * 1000) / 10 / 2) + progress);
         this.monitor.setProgress(completed);
@@ -80,7 +104,8 @@ $(document).ready(function() {
                     if (content.length > 0) {
                         var image = jQuery.parseJSON(content);
                         if (image.error) {
-                            console.log("Error " + image.error.message);
+                            $.fn.createErrorMessage(image.error.message);
+                            monitor.remove();
                         } else {
                             if ($.inArray(image.id, imageArray) === -1) {
                                 imageArray.push(image.id);

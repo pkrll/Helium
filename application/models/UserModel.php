@@ -166,7 +166,7 @@ class UserModel extends Model {
      * @return  array
      */
     public function getUsers () {
-        $sqlQuery = "SELECT id, username, CONCAT_WS(' ', firstname, lastname) AS name, permission FROM Users";
+        $sqlQuery = "SELECT user.id, user.username, CONCAT_WS(' ', user.firstname, user.lastname) AS name, roles.name AS permission FROM Users AS user LEFT JOIN Roles AS roles ON roles.id = user.permission ORDER BY id DESC";
         $response = $this->readFromDatabase($sqlQuery);
         return $response;
     }

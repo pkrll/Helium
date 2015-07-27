@@ -1,0 +1,66 @@
+.split-view {
+    width: 100%;
+}
+
+.left-view {
+    width: 65%;
+}
+
+.quick-menu {
+    padding: 14px 4px 12px 2px;
+}
+
+.searchbox {
+    padding: 6px 4px 0px 2px;
+}
+
+.stylized-form-row {
+    width: 100%;
+}
+
+.stylized-form-header .label {
+    font-size:  15px;
+    padding:    20px 0 0 0;
+}
+
+.stylized-form-row.unboxed div.label {
+    width: 90%;
+}
+
+.stylized-form-row.unboxed div.input {
+    font-size:      13px;
+    padding-top:    10px;
+    width:          10%;
+}
+
+.input .font-icon {
+    color:          #AAAAAA;
+    vertical-align: middle;
+}
+
+.unboxed input {
+    border:     none;
+    background: none;
+    color:      #444444;
+    cursor:     pointer;
+    font-size:  14px;
+    padding:    5px;
+    width:      75%;
+}
+
+.input .remove-category {
+    color: #000000;
+}
+
+.input .remove-category:hover {
+    color:  #DE1212;
+    cursor: pointer;
+}
+
+.greyed-out {
+    background: #DDDDDD;
+}
+
+.stylized-form-row.greyed-out input {
+    color: #AAAAAA;
+}

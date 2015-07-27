@@ -24,7 +24,7 @@
                             <div class="div-table-row div-table-content">
                                 <div class="header-size-2"><a href="/user/edit/<?=$user['id']?>"><?=$user['username'];?></a></div>
                                 <div class="header-size-2"><?=$user['name'];?></div>
-                                <div class="header-size-1"><?=$user['permissionLevel'];?></div>
+                                <div class="header-size-1"><?=$user['permission'];?></div>
                             </div>
                             <?php
                                 }

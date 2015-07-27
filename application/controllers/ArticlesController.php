@@ -34,6 +34,40 @@ class ArticlesController extends Controller {
     }
 
     /**
+     * Display the categories edit/add page
+     *
+     */
+    protected function categories () {
+        $option = (!empty($this->arguments[0])) ? $this->arguments[0] : FALSE;
+        if ($option === FALSE) {
+            // Get the includes, and other variables
+            $includes = $this->getIncludes(__FUNCTION__);
+            $category = $this->model()->getCategories();
+            // Render the view
+            $this->view()->assign("includes", $includes);
+            $this->view()->render("shared/header_admin.tpl");
+            $this->view()->assign("categories", $category);
+            $this->view()->render("articles/categories.tpl");
+            $this->view()->render("shared/footer_admin.tpl");
+        } elseif ($option === "add") {
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $response = $this->model()->createCategory($_POST);
+                echo json_encode($response);
+            }
+        } elseif ($option === "update") {
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $response = $this->model()->updateCategory($_POST);
+                echo json_encode($response);
+            }
+        } elseif ($option === "remove") {
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $response = $this->model()->removeCategory($_POST);
+                echo json_encode($response);
+            }
+        }
+    }
+
+    /**
      * Display the article add page, or, if $_POST is
      * set, add it article to database.
      *

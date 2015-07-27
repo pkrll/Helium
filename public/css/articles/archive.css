@@ -1,32 +1,23 @@
-.quick-menu {
-
-}
-
 .split-view {
     width: 100%;
 }
 
 .left-view {
     width:70%;
-
-}
-
-.right-view {
-
 }
 
 .div-table-drawer {
-    background:                 #ccc;
-    background-image:           -webkit-linear-gradient(top, #ccc 5%, #ddd 100%);
-    background-image:                   linear-gradient(top, #ccc 5%, #ddd 100%);
+    background:                 #cdd;
+    border:                     1px solid #ccc;
+    border-top:                 none;
     color:                      #000;
     -webkit-justify-content:    center;
             justify-content:    center;
 }
 
 .div-table-drawer div {
-    font-size:  17px;
-    padding:    15px 5px 15px 5px;
+    font-size:  14px;
+    padding:    5px 5px;
 }
 
 .div-table-drawer a {
@@ -39,5 +30,5 @@
 }
 
 .div-table-drawer .font-icon {
-    font-size:19px;
+    font-size:13px;
 }

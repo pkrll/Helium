@@ -4,6 +4,8 @@
                             <a href="/articles/archive"><div class="quick-menu-button">Archive</div></a>
                             <a href="/articles/create"><div class="quick-menu-button">Add post</div></a>
                             <a href="/articles/edit/<?=$contents['article']['id']?>"><div class="quick-menu-button active">Edit post</div></a>
+                            <a href="/articles/categories"><div class="quick-menu-button">Categories</div></a>
+                            <a href="/gallery"><div class="quick-menu-button">Gallery</div></a>
                         </div>
 
                         <div class="stylized-form">
@@ -292,29 +294,15 @@
                             url: "/upload/image/normal/stream",
                             onUpload: $.fn.onUpload,
                             onDownload: $.fn.onDownload,
-                            onReady: function (response) {
-                                // Remove the progressbar
-                                this.monitor.remove();
-                                // Reset the global imageArray
-                                imageArray = [];
-                            }
+                            onReady: $.fn.onReady
                         });
 
                         $("#dragzone-cover").dropster({
                             url: "/upload/image/cover/stream",
                             uploadLimit: 1,
                             onUpload: $.fn.onUpload,
-                            onDownload: function () {},
-                            onReady: function (response) {
-                                // Remove the progressbar
-                                this.monitor.remove();
-                                var image = jQuery.parseJSON(response);
-                                if (image.error) {
-                                    $.fn.createErrorMessage (Localize.getLocaleString (image.error.message));
-                                } else {
-                                    $.fn.imageHandlerEvent ("cover", "display", image);
-                                }
-                            }
+                            onDownload: function () { return 0; },
+                            onReady: $.fn.onReadyCover
                         });
                     });
                 </script>

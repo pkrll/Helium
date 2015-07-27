@@ -535,6 +535,45 @@ class ArticlesModel extends Model {
         return $response;
     }
 
+    public function createCategory ($formData = NULL) {
+        if ($formData === NULL)
+            return $this->createErrorMessage("No value given");
+        $sqlQuery = "INSERT INTO Articles_Categories (name) VALUES (:name)";
+        $sqlParam = array("name" => $formData['name']);
+        $response = $this->writeToDatabase($sqlQuery, $sqlParam);
+        return $response;
+    }
+
+    /**
+     * Update category.
+     *
+     * @param   array $formData
+     * @return  mixed
+     */
+    public function updateCategory ($formData = NULL) {
+        if ($formData === NULL)
+            return $this->createErrorMessage("No value given");
+        $sqlQuery = "UPDATE Articles_Categories SET name = :name WHERE id = :id";
+        $sqlParam = array("name" => $formData['name'], "id" => $formData['id']);
+        $response = $this->writeToDatabase($sqlQuery, $sqlParam);
+        return $response;
+    }
+
+    /**
+     * Remove a category
+     *
+     * @param   array $formData
+     * @return  mixed
+     */
+    public function removeCategory ($formData = NULL) {
+        if ($formData === NULL)
+            return $this->createErrorMessage("No value given");
+        $sqlQuery = "DELETE FROM Articles_Categories WHERE id = :id";
+        $sqlParam = array("id"  => $formData['id']);
+        $response = $this->writeToDatabase($sqlQuery, $sqlParam);
+        return $response;
+    }
+
     /**
      * Returns the articles categories
      * fetched from the database.
