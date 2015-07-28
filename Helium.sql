@@ -2,6 +2,9 @@
 -- Server version: 5.6.22
 -- PHP Version: 5.5.24
 
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
 --
 -- Database: `Helium`
 --
@@ -25,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `Articles` (
   `created` int(11) NOT NULL,
   `published` int(11) DEFAULT NULL,
   `last_edit` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -104,9 +107,13 @@ INSERT INTO `Resources` (`name`, `permissionLevel`) VALUES
 ('Upload:main', 1),
 ('Upload:remove', 2),
 ('User:add', 3),
+('User:admin', 1),
 ('User:edit', 3),
 ('User:main', 0),
+('User:permissions', 4),
 ('User:rights', 4);
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `Roles`
@@ -131,16 +138,28 @@ INSERT INTO `Roles` (`id`, `name`, `description`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Table structure for table `Users`
 --
 
-CREATE TABLE IF NOT EXISTS `users` (
+CREATE TABLE IF NOT EXISTS `Users` (
 `id` int(11) NOT NULL,
   `username` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL,
   `firstname` varchar(50) NOT NULL,
   `lastname` varchar(50) DEFAULT NULL,
-  `permissionLevel` int(1) NOT NULL
+  `permission` int(1) NOT NULL,
+  `image_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Users_Images`
+--
+
+CREATE TABLE IF NOT EXISTS `Users_Images` (
+`id` int(11) NOT NULL,
+  `image_name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -190,9 +209,15 @@ ALTER TABLE `Roles`
  ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `users`
+-- Indexes for table `Users`
 --
-ALTER TABLE `users`
+ALTER TABLE `Users`
+ ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `Users_Images`
+--
+ALTER TABLE `Users_Images`
  ADD PRIMARY KEY (`id`);
 
 --
@@ -203,7 +228,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `Articles`
 --
 ALTER TABLE `Articles`
-MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `Articles_Categories`
 --
@@ -215,9 +240,14 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `Articles_Images`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT for table `Users`
 --
-ALTER TABLE `users`
+ALTER TABLE `Users`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `Users_Images`
+--
+ALTER TABLE `Users_Images`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- Constraints for dumped tables
