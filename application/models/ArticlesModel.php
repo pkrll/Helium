@@ -586,6 +586,21 @@ class ArticlesModel extends Model {
         return $response;
     }
 
+    public function getCategoriesByName ($searchString = NULL) {
+        if ($searchString === NULL)
+            return NULL;
+        $sqlQuery = "SELECT id, name FROM Articles_Categories WHERE name LIKE :name";
+        $sqlParam = array(":name" => "%$searchString%");
+        $response = $this->readFromDatabase($sqlQuery, $sqlParam);
+        return $response;
+    }
+
+    public function getCategoriesByUsage () {
+        $sqlQuery = "SELECT category.name, COUNT(article.category) AS count FROM Articles AS article INNER JOIN Articles_Categories AS category ON category.id = article.category GROUP BY article.category ORDER BY COUNT(article.category) DESC";
+        $response = $this->readFromDatabase($sqlQuery);
+        return $response;
+    }
+
     /**
      * Returns all the users (authors)
      * from the database.
@@ -664,7 +679,7 @@ class ArticlesModel extends Model {
                                     ON category.id = article.category
                                 JOIN Users as user
                                     ON user.id = article.author_id
-                        WHERE headline LIKE :searchString
+                        WHERE headline LIKE :searchString OR preamble LIKE :searchString OR body LIKE :searchString
                         ORDER BY article.created
                         DESC LIMIT 10";
         $sqlParam = array("searchString" => '%' . $searchString . '%');

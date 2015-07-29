@@ -43,10 +43,12 @@ class ArticlesController extends Controller {
             // Get the includes, and other variables
             $includes = $this->getIncludes(__FUNCTION__);
             $category = $this->model()->getCategories();
+            $mostUsed = $this->model()->getCategoriesByUsage();
             // Render the view
             $this->view()->assign("includes", $includes);
             $this->view()->render("shared/header_admin.tpl");
             $this->view()->assign("categories", $category);
+            $this->view()->assign("mostUsedCategories", $mostUsed);
             $this->view()->render("articles/categories.tpl");
             $this->view()->render("shared/footer_admin.tpl");
         } elseif ($option === "add") {
@@ -64,6 +66,20 @@ class ArticlesController extends Controller {
                 $response = $this->model()->removeCategory($_POST);
                 echo json_encode($response);
             }
+        } elseif ($option === "search") {
+            $searchString = $_GET['search'];
+            // Get the includes, and other variables
+            $includes = $this->getIncludes(__FUNCTION__);
+            $category = $this->model()->getCategoriesByName($searchString);
+            $mostUsed = $this->model()->getCategoriesByUsage();
+            // Render the view
+            $this->view()->assign("includes", $includes);
+            $this->view()->render("shared/header_admin.tpl");
+            $this->view()->assign("categories", $category);
+            $this->view()->assign("mostUsedCategories", $mostUsed);
+            $this->view()->render("articles/categories.tpl");
+            $this->view()->render("shared/footer_admin.tpl");
+
         }
     }
 

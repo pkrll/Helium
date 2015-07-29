@@ -13,7 +13,7 @@ define(APP_VERSION, "0.10.6");
 define(HOSTNAME, "localhost");
 define(USERNAME, "helium");
 define(PASSWORD, "");
-define(DATABASE, "Helium");
+define(DATABASE, "helium");
 
 // CONSTANTS
 define(MAX_WIDTH_COVER, 700);

@@ -54,17 +54,26 @@
                         </div>
                         <div class="right-view">
                             <div class="searchbox">
-                                   <form action="/articles/archive/" method="GET">
-                                       <input type="search" name="search" placeholder="Search article..." />
+                                   <form action="/articles/categories/search/" method="GET">
+                                       <input type="search" name="search" placeholder="Search for category..." />
                                    </form>
                             </div>
 
-                            <div class="" style="padding:25px 8px; font-family: 'Numans', sans-serif;">
+                            <div class="" style="padding:25px 8px; font-family: 'Raleway', sans-serif;">
                                 <div style="font-size: 14px;font-weight: bold">
-                                    Most popular categories
+                                    Most popular categories:
                                 </div>
                                 <div>
-                                    <ul style="list-style-type:none;margin:0;padding:0">
+                                    <ul style="list-style-type:none;margin:0;padding:8px 0 0 0;">
+                                        <?php
+                                            if (!empty($mostUsedCategories)) {
+                                                foreach ($mostUsedCategories AS $key => $category) {
+                                        ?>
+                                        <li style="padding:5px 0px 0 0;">&raquo; <?=$category['name']?> (<?=$category['count']?>)</li>
+                                        <?php
+                                                }
+                                            }
+                                        ?>
                                     </ul>
                                 </div>
                             </div>
