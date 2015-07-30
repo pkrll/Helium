@@ -149,7 +149,14 @@ CREATE TABLE IF NOT EXISTS `Users` (
   `lastname` varchar(50) DEFAULT NULL,
   `permission` int(1) NOT NULL,
   `image_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `Users`
+--
+
+INSERT INTO `Users` (`id`, `username`, `password`, `firstname`, `lastname`, `permission`, `image_id`) VALUES
+(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'Admin', NULL, 4, NULL);
 
 -- --------------------------------------------------------
 
@@ -228,7 +235,7 @@ ALTER TABLE `Users_Images`
 -- AUTO_INCREMENT for table `Articles`
 --
 ALTER TABLE `Articles`
-MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `Articles_Categories`
 --
@@ -243,7 +250,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `Users`
 --
 ALTER TABLE `Users`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `Users_Images`
 --

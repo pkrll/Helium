@@ -15,8 +15,8 @@ Clone a copy of the Helium repository
 ### Installation
 * Set up a virtual host in Apache, pointing to the Helium directory.
 * Create a MySQL database and set the database constants in the file /library/Config.php to values appropriate to your config.
-    * See MySQL Database Scheme in file Helium.sql (Will be updated).
-* Install dependencies using npm (instructions will be added).
+    * See MySQL Database Schema in file Helium.sql (will be updated).
+* Install dependencies using NPM (see below for instructions).
 
 ### Usage
 * Log in to the Helium admin panel by navigating to *yoursite.io/user* and providing the default username and password (*admin*/*admin*). (You can change the default password by selecting Users in the menu bar.)
@@ -106,6 +106,18 @@ class ExampleModel extends Model {
    </body>
 </html>
 ```
+
+#### Installing dependencies
+* If you've included the package.json file in the root folder, just run the following command:
+```bash
+$ npm update
+```
+* You can also install it via the `install` command:
+```bash
+$ npm install dropster
+```
+* If you're manually adding it to the project, it must be in the folder node_modules/dropster/lib at root level.
+
 ### Work in progress
 * The Helium app is still in development.
 
