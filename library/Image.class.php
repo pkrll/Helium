@@ -131,16 +131,19 @@ class Image {
 	public function save ($filePath = NULL) {
 		if ($filePath === NULL)
 			return $this->throwError("Could not save file. No path given");
+
 		if ($this->fileExtension === IMAGETYPE_JPEG)
 			if (imagetypes() && IMG_JPG)
-				imagejpeg($this->targetImage, $filePath, "90");
+				if (imagejpeg($this->targetImage, $filePath, "90") === FALSE)
+					return $this->throwError("Could not save file. Please check permissions");
 		else if ($this->fileExtension === IMAGETYPE_PNG)
 			if (imagetypes() && IMG_PNG)
-				imagepng($this->targetImage, $filePath, 9);
+				if (imagepng($this->targetImage, $filePath, 9) === FALSE)
+				return $this->throwError("Could not save file. Please check permissions");
 		else if ($this->fileExtension === IMAGETYPE_GIF)
 			if (imagetypes() && IMG_GIF)
-				imagegif($this->targetImage, $filePath);
-
+				if (imagegif($this->targetImage, $filePath) === FALSE)
+					return $this->throwError("Could not save file. Please check permissions");
 		return TRUE;
 	}
 
@@ -175,8 +178,12 @@ class Image {
 	 */
 	private function setTargetImage () {
 		// Create the canvas and resample image
-		$this->targetImage = imagecreatetruecolor($this->targetWidth, $this->targetHeight);
-		imagecopyresampled($this->targetImage, $this->sourceImage, 0, 0, 0, 0, $this->targetWidth, $this->targetHeight, $this->sourceWidth, $this->sourceHeight);
+		try {
+			$this->targetImage = imagecreatetruecolor($this->targetWidth, $this->targetHeight);
+			imagecopyresampled($this->targetImage, $this->sourceImage, 0, 0, 0, 0, $this->targetWidth, $this->targetHeight, $this->sourceWidth, $this->sourceHeight);
+		} catch (Exception $e) {
+			throw new Exception("Could not save image");
+		}
 	}
 
 	/**
@@ -221,7 +228,6 @@ class Image {
 		else
 			$this->targetHeight = $this->sourceHeight;
 		$this->targetWidth = $this->getWidthByHeight ($this->targetHeight);
-
 	}
 
 	/**
@@ -320,11 +326,16 @@ class Image {
 	 * @return resource
 	 */
 	private function imageCreateFromJpeg ($file) {
-		if (function_exists('imagecreatefromjpeg')
-			&& is_callable('imagecreatefromjpeg')) {
-			return imagecreatefromjpeg($file);
-		} else {
-			throw new Exception ("No JPEG support");
+		try {
+			if (function_exists('imagecreatefromjpeg')
+				&& is_callable('imagecreatefromjpeg')) {
+				return imagecreatefromjpeg($file);
+			} else {
+				throw new Exception ("No JPEG support");
+			}
+		} catch (Exception $e) {
+			throw new Exception("Could not create image: " . $e->getErrorMessage());
+
 		}
 	}
 

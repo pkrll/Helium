@@ -121,6 +121,68 @@ $(document).ready(function() {
     }
 
     /**
+     * Overrides the Dropify default function
+     * onDownload, for when the server sends
+     * the uploaded images paths back. Just
+     * for CKEditor images.
+     *
+     * @param   progressEvent
+     */
+    $.fn.onDownloadCKEditor = function (event) {
+        // Check if the global array ImageArray is set
+        if (typeof imageArray === typeof undefined)
+            imageArray = [];
+        // Options for the on progress monitoring the "stream".
+        this.previousBuffer  = "";
+        this.totalSizeLoaded += 1;
+        // Onprogress will monitor the stream coming
+        // back from the server. The stream will be
+        // buffered and contains the old response as well.
+        // Cut out the latest part and show the newest image.
+        var response = event.currentTarget.response;
+        var contents = response.substring(this.previousBuffer.length);
+        var monitor  = this.monitor;
+        var progress = monitor.getProgress();
+        // Set the progress bar status.
+        var completed = (Math.round((this.totalSizeLoaded / this.totalSizeToLoad * 1000) / 10 / 2) + progress);
+        this.monitor.setProgress(completed);
+        this.previousBuffer = response;
+        // Nasty fix for streaming bug that occurs
+        // when the server sends the JSON encoded
+        // strings all at once, which means that
+        // the JSON array is actually just a string.
+        // Stream array will place a newline between
+        // the } {-brackets and then split the string
+        // by the newline, making it an array again.
+        var streamArray = contents.replace(/(\}([\s\S]*?)\{)/gi, "}\n{");
+        streamArray = streamArray.split("\n");
+        // Create an array to hold images already added
+        try {
+            // If it is an array, then loop through
+            // it and analyze the values.
+            if (streamArray.length > 0) {
+                $.each(streamArray, function (i, content) {
+                    // Make sure it's not empty
+                    if (content.length > 0) {
+                        var image = jQuery.parseJSON(content);
+                        if (image.error) {
+                            $.fn.createErrorMessage(image.error.message);
+                            monitor.remove();
+                        } else {
+                            if ($.inArray(image.id, imageArray) === -1) {
+                                imageArray.push(image.id);
+                                $.fn.createCKEditorImageElement(image);
+                            }
+                        }
+                    }
+                });
+            }
+        } catch (e) {
+            console.log("Error " + e);
+        }
+    }
+
+    /**
      * Binds all buttons with this class
      * to the imageEventClick() function
      * that handles the image related
@@ -394,9 +456,6 @@ $(document).ready(function() {
         spanButton.click(function () {
             $.fn.imageEventClick($(this));
         });
-
-        // parent.find("img").remove();
-        // parent.children().show();
     }
 
     $.fn.createCKEditorImageElement = function (image) {
@@ -415,9 +474,6 @@ $(document).ready(function() {
             $.fn.insertImage(imageURL);
             window.close();
         });
-        var parent = $("fieldset.image-ckeditor").find("div.dragzone");
-        parent.find("img").remove();
-        parent.children().show();
     }
 
     /**

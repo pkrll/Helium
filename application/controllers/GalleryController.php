@@ -21,6 +21,8 @@ class GalleryController extends Controller {
      */
     protected function browse () {
         $gallery = $this->model()->getDirectoryContents($_GET['page']);
+        $includes = $this->getIncludes(__FUNCTION__);
+        $this->view()->assign("includes", $includes);
         $this->view()->render("shared/header_gallery.tpl");
         $this->view()->assign("gallery", $gallery);
         $this->view()->render("gallery/browse.tpl");

@@ -2,17 +2,15 @@
 <html lang="sv">
     <head>
         <meta charset="utf-8">
-        <title><?=APP_NAME ?> - Gallery</title>
+        <title><?=APP_NAME ?></title>
         <link href="/public/css/font.css" rel="stylesheet" type="text/css">
         <link href="/public/css/main.css" rel="stylesheet" type="text/css">
+        <link href="/public/css/admin/main.css" rel="stylesheet" type="text/css">
         <link href="/public/css/gallery/main.css" rel="stylesheet" type="text/css">
-        <link href="/public/css/plugins/progressbar-1.0.css" rel="stylesheet" type="text/css">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <script type="text/javascript" src="/public/javascript/jquery-2.1.4.min.js"></script>
-        <script type="text/javascript" src="/public/javascript/plugins/helium.progressbar-1.0.js"></script>
-        <script type="text/javascript" src="/public/javascript/plugins/helium.localize-1.0.js"></script>
-        <script type="text/javascript" src="/public/javascript/helium.js"></script>
-        <script type="text/javascript" src="/public/javascript/helium.gallery.js"></script>
+        <script src="/public/javascript/plugins/helium.localizer-1.0.js" charset="utf-8"></script>
+        <script src="/public/javascript/helium.js" charset="utf-8"></script>
 <?php if ($includes) { include_once $includes; } ?>
     </head>
     <body style="margin:0;">

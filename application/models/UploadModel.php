@@ -66,7 +66,7 @@ class UploadModel extends Model {
 		try {
 			$image = new Image ($tmp_name, $imageWidth, $imageHeight, $resizeOption);
 			if ($image->save ($imagePath) !== TRUE)
-				return $image->getErrorMessage();
+				return $this->createErrorMessage($image->getErrorMessage());
 		} catch (Exception $e) {
 			return $this->createErrorMessage($e->getMessage());
 		}
@@ -74,7 +74,7 @@ class UploadModel extends Model {
 		if ($option === "normal") {
 			$image->resize (MAX_WIDTH_THUMBNAIL, MAX_WIDTH_THUMBNAIL, IM_SIZE_CROP);
 			if ($image->save (THUMBNAILS . $imageName) !== TRUE)
-				return $image->getErrorMessage();
+				return $this->createErrorMessage($image->getErrorMessage());
 		}
 		// Memory clean up
 		$image->cleanUp();

@@ -1,0 +1,47 @@
+body {
+    background:             #FFFFFF;
+    color:                  #000000;
+    font-size:              100%;
+    margin:                 0;
+}
+
+div#container {
+    height:         auto;
+    min-height:     100%;
+    width:          100%;
+}
+
+.header-bar {
+    display:        -webkit-flex;
+    display:        -webkit-box;
+    display:        -moz-box;
+    display:        -ms-flexbox;
+    display:        -moz-flex;
+    display:        -webkit-flex;
+    display:        flex;
+    font-family:    "Dosis", sans-serif;
+    font-size:      20px;
+    padding:        0;
+    width:          100%;
+    background:     #1188BB;
+    box-shadow:     0px 0px 8px #000;
+}
+
+.header-bar .labels {
+    padding: 12px;
+    vertical-align: middle;
+}
+
+.header-link {
+    -webkit-flex:   1;
+            flex:   1;
+}
+
+.header-link a {
+    color:              #FFFFFF;
+    text-decoration:    none;
+}
+
+.header-link a:hover {
+    color:              #000;
+}

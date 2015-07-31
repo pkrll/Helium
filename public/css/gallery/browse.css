@@ -1,0 +1,90 @@
+div#navigation {
+    margin:         auto;
+	padding:        12px 0 8px 0;
+    text-align:     center;
+    width:          100%;
+}
+
+div#gallery .header {
+    padding: 10px 0 2px 0;
+}
+
+div#gallery div.image-item {
+	border-bottom: 1px solid rgba(0,0,0,0.4);
+	width:         100%;
+}
+
+div#gallery > .image-item:not(.header):nth-child(odd) {
+	background: rgba(255,255,255,.7);
+}
+
+div#gallery > .image-item:not(.header):nth-child(even) {
+	background: rgba(211, 214, 216,.4);
+}
+
+div#gallery div.image-item:not(.header) {
+    color: #000;
+}
+
+div#gallery div.image-item:not(.header):hover {
+	background: #1188BB;
+    color:      #FFFFFF;
+    cursor:     pointer;
+}
+
+
+div#gallery div.image-item div {
+	display:           inline-block;
+	font-size:         14px;
+    vertical-align:    middle;
+}
+
+div#gallery div.image-item div:first-of-type img {
+	width: 50px;
+}
+
+div#gallery div.image-item div:not(:first-of-type) {
+	padding-left:  8px;
+	width:         20%;
+}
+
+
+div#gallery div.image-item.header div {
+	font-family:   'Numans', 'Raleway', sans-serif;
+	font-size:     15px;
+	max-height:    30px;
+}
+
+div#gallery div.image-item.header div:first-of-type {
+    width: 20%;
+    max-width: 50px;
+}
+
+div#gallery div.image-item div:nth-child(2) {
+    overflow:       hidden;
+    text-align:     left;
+    width:          45%;
+}
+
+div#gallery div.image-item div:first-of-type,
+div#gallery div.image-item.header div:first-of-type {
+    height:     50px;
+    overflow:   auto;
+    width:      20%:
+    max-width:  50px;
+}
+
+
+div#navigation {
+	font-size: 16px;
+}
+
+div#navigation a {
+	color:              #000000;
+	padding:            0 2px 0 2px;
+    text-decoration:    none;
+}
+
+div#navigation a:hover {
+	color: #1188BB;
+}

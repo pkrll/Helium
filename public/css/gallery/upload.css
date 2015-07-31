@@ -1,0 +1,42 @@
+#upload {
+    margin:     auto;
+    padding:    24px;
+    max-width:  380px;
+    min-width:  380px;
+}
+
+.dropster-highlight {
+    background:     rgba(15,120,165,0.1);
+}
+
+.dragzone {
+    border:     2px dashed #aaa;
+    padding:    15px;
+    position:   relative;
+}
+
+.dragzone .input:after {
+    content:               "";
+    background-image:      url("/public/images/system/big-arrow-down-black.png");
+    background-repeat:     no-repeat;
+    background-position:   top;
+    background-size:       90px;
+    opacity:               0.1;
+    z-index:               1;
+    top:                   30%;
+    left:                  0;
+    bottom:                0;
+    right:                 0;
+    position:              absolute;
+    pointer-events:        none;
+}
+
+#preview {
+	padding:       8px 0 8px 0;
+    text-align:    center;
+	width:         100%;
+}
+
+.picture {
+    cursor: pointer;
+}
