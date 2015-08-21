@@ -1,0 +1,5 @@
+{
+    "require": {
+        "saturn/hyperion": "^1.0"
+    }
+}
