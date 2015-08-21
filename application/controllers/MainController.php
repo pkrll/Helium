@@ -1,18 +1,12 @@
 <?php
-/**
- * Main Controller
- *
- *
- * @author  Ardalan Samimi
- * @since   Available since 0.9
- */
+use hyperion\core\Controller;
 
 class MainController extends Controller {
 
-    public function main () {
-        header("Location: /user");
+    protected function main() {
+    }
+
+    protected function view() {
     }
 
 }
-
-?>
