@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "62b604691f801f57f8698df88db04b9b",
+    "hash": "9ffecb32c2ee3dd76965e6418bdf042a",
     "packages": [
         {
             "name": "saturn/hyperion",
@@ -47,6 +47,35 @@
                 "mvc"
             ],
             "time": "2015-08-18 18:04:13"
+        },
+        {
+            "name": "saturn/session",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pkrll/Session.git",
+                "reference": "91c2cf099bd830f5dc9b0a17a21d9ffcdb8c070a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pkrll/Session/zipball/91c2cf099bd830f5dc9b0a17a21d9ffcdb8c070a",
+                "reference": "91c2cf099bd830f5dc9b0a17a21d9ffcdb8c070a",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Ardalan Samimi",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP Wrapper class for Sessions.",
+            "homepage": "https://github.com/pkrll/Session",
+            "time": "2015-08-18 20:27:38"
         }
     ],
     "packages-dev": [],

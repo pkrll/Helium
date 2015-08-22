@@ -1,0 +1,28 @@
+
+.content-left {
+    margin-top: 20px;
+    width:      65%;
+}
+
+.content-left #sub-menu {
+    padding: 0 0;
+}
+
+.content-right {
+    width: 30%;
+    background: #F4F4F4;
+    border-top: none;
+}
+
+.content-left > div {
+    margin-bottom: 20px;
+}
+
+.content-right > div {
+    margin-top: 10px;
+    padding: 10px;
+}
+
+.content-right-section {
+    border-top: 1px solid #DDDDDD;
+}

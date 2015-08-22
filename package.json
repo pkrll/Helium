@@ -1,0 +1,8 @@
+{
+  "name": "helium",
+  "version": "0.2.0",
+  "dependencies": {
+    "dropster": "^1.1.1",
+    "salvation": "^1.0.0"
+  }
+}

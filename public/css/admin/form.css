@@ -1,0 +1,224 @@
+
+.div-flex-space-between {
+    display:                    -webkit-flex;
+    display:                    flex;
+    -webkit-justify-content:    space-between;
+            justify-content:    space-between;
+}
+
+.padding-right-10 {
+    padding-right:  10px;
+}
+
+.bold-13 {
+    font-size:13px;
+    font-weight:bold;
+}
+
+.add-link {
+    font-size:  13px;
+    line-height: 20px;
+    margin-top: 5px;
+    text-align: right;
+}
+
+.add-link > span:hover {
+    color: #DE1212;
+    cursor: pointer;
+}
+
+input[type=text],
+input[type=date],
+textarea {
+    border:     1px solid #DDDDDD;
+    color:      #666666;
+    font-size:  13px;
+    padding:    5px;
+    width:      99%;
+}
+
+input::-webkit-input-placeholder {
+    font-size:  12px;
+    padding:    1px;
+}
+
+select {
+    background:         rgba(245,248,249,1);
+    border:             1px solid #ccc;
+    border-radius:      4px;
+    color:              #444;
+    display:            inline-block;
+    cursor:             pointer;
+    font-size:          12px;
+    width:              100%;
+    padding:            8px 0 8px 8px;
+    outline:            none;
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+}
+
+select:focus {
+    border:         1px solid #BBBBBB;
+    box-shadow:     0 0 10px #BBBBBB;
+    padding:        8px 0px 8px 8px;
+    margin:         2px 0px;
+}
+
+label.select {
+    font-size:  15px;
+    position:   relative;
+}
+
+label.select::after {
+    color:              rgba(0,0,0,0.8);
+    content:            ">";
+    font-size:          18px;
+    font-family:        "Consolas", sans-serif;
+    padding:            3px 0 3px 0;
+    position:           absolute;
+    top:                4px;
+    right:              10px;
+    -webkit-transform:  rotate(90deg);
+       -moz-transform:  rotate(90deg);
+        -ms-transform:  rotate(90deg);
+            transform:  rotate(90deg);
+    pointer-events: none;
+}
+
+.dropster-target-area {
+    background:     rgba(250, 250, 250, 1);
+    border:         2px dashed rgba(240,240,240,1);
+    border-radius:  8px;
+}
+
+.dropster-highlight {
+    background: #EEEEEE;
+    border:     2px dashed #000;
+}
+
+.dropster-target-area {
+    position:   relative;
+}
+
+.dropster-target-area:after {
+    content:               "";
+    background-image:      url("/public/images/system/big-arrow-down-black.png");
+    background-repeat:     no-repeat;
+    background-position:   top;
+    background-size:       90px;
+    opacity:               .1;
+    z-index:               1;
+    top:                   15%;
+    left:                  0;
+    bottom:                0;
+    right:                 0;
+    position:              absolute;
+    pointer-events:        none;
+}
+
+.button {
+    background:     #DEDEDE;
+    border:         none;
+    border-radius:  8px;
+    color:          #000000;
+    font-family:    'Mandali', sans-serif;
+    font-size:      15px;
+    font-weight:    bold;
+    padding:        2px 25px;
+}
+
+.publish {
+    background: #9BBF9B;
+    color:      #FFFFFF;
+    width:      auto;
+}
+
+.publish:hover {
+    cursor: pointer;
+    background: #A5C5A5;
+}
+
+.button:active {
+    position: relative;
+    top: 1px;
+}
+
+input.salvation-error,
+select.salvation-error {
+    border: 1px solid #DE1212;
+    box-shadow: none;
+}
+
+input.salvation-error:focus {
+    outline: none;
+}
+
+.links-container > input[type=search] {
+    border:     1px solid #DDDDDD;
+    color:      #666666;
+    font-size:  13px;
+    padding:    5px 0;
+    width:      100%;
+    outline:               none;
+    -webkit-appearance:    textfield;
+       -moz-appearance:    textfield;
+}
+
+.image-event-button {
+    font-size: 13px;
+}
+
+.image-event-button:hover {
+    color: #DE1212;
+    cursor: pointer;
+}
+
+.showcase-cover > div {
+    padding: 4px;
+    text-align: center;
+}
+
+.picture {
+    display:                    -webkit-box;
+    display:                    -moz-box;
+    display:                    -ms-flexbox;
+    display:                    -moz-flex;
+    display:                    flex;
+    display:                    -webkit-flex;
+    height:                     90px;
+    margin:                     24px 0 0px 0;
+    -webkit-justify-content:    space-between;
+            justify-content:    space-between;
+}
+
+.picture-box img {
+    width: 90px;
+    height: 90px;
+}
+
+.caption {
+    display:                    -webkit-box;
+    display:                    -moz-box;
+    display:                    -ms-flexbox;
+    display:                    -moz-flex;
+    display:                    flex;
+    display:                    -webkit-flex;
+    width:                      79%;
+    -webkit-flex-direction:     column;
+            flex-direction:     column;
+    -webkit-justify-content:    space-between;
+            justify-content:    space-between;
+}
+
+.caption > div:first-of-type {
+    text-align: right;
+}
+
+.published-date {
+    width: 100%;
+}
+
+.published-time {
+    width: 100px;
+}
