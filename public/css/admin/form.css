@@ -15,18 +15,6 @@
     font-weight:bold;
 }
 
-.add-link {
-    font-size:  13px;
-    line-height: 20px;
-    margin-top: 5px;
-    text-align: right;
-}
-
-.add-link > span:hover {
-    color: #DE1212;
-    cursor: pointer;
-}
-
 input[type=text],
 input[type=date],
 textarea {
@@ -221,4 +209,48 @@ input.salvation-error:focus {
 
 .published-time {
     width: 100px;
+}
+
+.add-input {
+    font-size:  13px;
+    line-height: 20px;
+    margin-top: 5px;
+    text-align: right;
+}
+
+.add-input > span:hover {
+    color: #DE1212;
+    cursor: pointer;
+}
+
+.links-container {
+    position: relative;
+}
+
+.suggestions {
+    background:     #FFFFFF;
+    border:         1px solid #999;
+    font-size:      12px;
+    padding:        0;
+    position:       absolute;
+    top:            80%;
+    width:          100%;
+    z-index:        999;
+}
+
+.suggestion {
+    cursor:         pointer;
+    overflow:       hidden;
+    padding:        6px 10px 3px 10px;
+    white-space:    wrap;
+
+}
+
+.suggestion:hover, .suggestions div.focused {
+    background:     #B4D5FE;
+    outline:        none;
+}
+
+.suggestion.el:hover {
+    background: none;
 }

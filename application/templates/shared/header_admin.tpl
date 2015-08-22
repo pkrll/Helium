@@ -8,7 +8,7 @@
         <link href='http://fonts.googleapis.com/css?family=Ubuntu:400,500|Roboto+Slab' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="/public/css/master.css" media="screen" charset="utf-8">
         <link rel="stylesheet" href="/public/css/fonts.css" media="screen" charset="utf-8">
-        <script type="text/javascript" src="/public/javascript/main.js"></script>
+        <script type="text/javascript" src="/node_modules/jquery/dist/jquery.min.js"></script>
         <?php if(isset($includes)) include_once($includes); ?>
     </head>
     <body>

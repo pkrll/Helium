@@ -88,7 +88,7 @@
                                 <div class="content-right-sub-section">
                                     <div>
                                         <label class="select">
-                                            <select data-validate="required" required="required">
+                                            <select name="category" data-validate="required" required="required">
                                                 <option value="">Choose category</option>
                                                 <?php
                                                     foreach ($data["categories"] as $key => $value) {
@@ -136,7 +136,7 @@
                                         ?>
                                         <input type="search" class="links" placeholder="Search for article..." autocomplete="off" />
                                     </div>
-                                    <div class="add-link">
+                                    <div class="add-input" data-type="search" data-class="links" data-placeholder="Search for article..." data-parent=".links-container" data-edit="<?=$edit?>">
                                         <span>
                                             <span class="font-icon icon-plus" style="font-size:13px;"></span> Add link
                                         </span>
@@ -166,7 +166,7 @@
                                     <div class="bold-13">Author</div>
                                     <div>
                                         <label class="select">
-                                            <select>
+                                            <select name="author">
                                                 <option value="">Choose author</option>
                                                 <?php
                                                     foreach ($data["authors"]["list"] as $key => $value) {
@@ -240,3 +240,16 @@
                     });
 
                 </script>
+                <?php if (isset($error)) { ?>
+                <div id="dropster-window">
+                    <div class="dropster-window-header">
+                        <div class="font-icon icon-attention"></div>
+                    </div>
+                    <div class="dropster-window-body">
+                        Could not add post. An error occured: <?=$error['message'];?>
+                    </div>
+                    <div class="dropster-window-footer">
+                        <div class="dropster-window-button dismiss">OK</div>
+                    </div>
+                </div>
+                <?php } ?>

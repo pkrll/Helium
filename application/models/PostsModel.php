@@ -46,13 +46,13 @@ class PostsModel extends Model {
         // Required fields: Headline, preamble, body text and category.
         // If one of these are missing, do not continue.
         if (empty($formData["headline"]))
-            return $response["error"]["message"] = "Headline required";
+            return $this->errorMessage("Headline required");
         if (empty($formData["preamble"]))
-            return $response["error"]["message"] = "Preamble required";
+            return $this->errorMessage("Preamble required");
         if (empty($formData["body"]))
-            return $response["error"]["message"] = "Body text required";
+            return $this->errorMessage("Body text required");
         if (empty($formData["category"]))
-            return $response["error"]["message"] = "Category required";
+            return $this->errorMessage("Category required");
         // Set the return array
         $response = array(
             "author"            => (empty($formData["author"])) ? 0 : $formData["author"],
@@ -180,7 +180,7 @@ class PostsModel extends Model {
         if ($tableName === NULL || $columnArray === NULL || $valueArray === NULL)
             return NULL;
         if (count($columnArray) !== count($valueArray[0]))
-            return $this->createErrorMessage("Invalid parameter number: number of bound variables does not match number of tokens");
+            return $this->errorMessage("Invalid parameter number: number of bound variables does not match number of tokens");
         // The items should all be inserted with one query. Create the query
         // and create the unnamed placeholders based on the array size.
         // 'INSERT INTO X (Col1, Col2, Col3 ...) VALUES (?,?,? ...), (?,?,? ...)'
@@ -216,7 +216,7 @@ class PostsModel extends Model {
         if ($tableName === NULL || $columnArray === NULL || $valueArray === NULL)
             return NULL;
         if (count($columnArray) !== count($valueArray[0]))
-            return $this->createErrorMessage("Invalid parameter number: number of bound variables does not match number of tokens");
+            return $this->errorMessage("Invalid parameter number: number of bound variables does not match number of tokens");
         // Create the query as per the design below, with the columns
         // represented by columnArray and values by the valueArray:
         // 'DELETE FROM X  WHERE (Z, Y) IN ( (?,?), (?,?) ... )'
@@ -294,6 +294,8 @@ class PostsModel extends Model {
             return FALSE;
         // Extract and reformat the data before insertion to database.
         $data = $this->extractFormData($formData);
+        if (isset($data["error"]))
+            return $data;
         // Create a new row for the new post in the Articles table.
         $sqlQuery = "INSERT INTO Articles (author_id, category, headline, preamble, body, fact, tags, theme, created, published, last_edit) VALUES (:author, :category, :headline, :preamble, :body, :fact, :tags, :theme, :created, :published, :last_edit)";
         // The $data array will also hold other metadata. Retrieve
@@ -444,7 +446,7 @@ class PostsModel extends Model {
      */
     public function removeArticle ($articleID = NULL) {
         if ($articleID === NULL)
-            return $this->createErrorMessage("No article id specified");
+            return $this->errorMessage("No article id specified");
         // The Articles_Metadata_* tables should have a foreign key with
         // cascading delete pointing to the id column in Articles, which
         // means that they will automatically be removed if the the key
@@ -539,7 +541,7 @@ class PostsModel extends Model {
 
     public function createCategory ($formData = NULL) {
         if ($formData === NULL)
-            return $this->createErrorMessage("No value given");
+            return $this->errorMessage("No value given");
         $sqlQuery = "INSERT INTO Articles_Categories (name) VALUES (:name)";
         $sqlParam = array("name" => $formData['name']);
         $response = $this->write($sqlQuery, $sqlParam);
@@ -554,7 +556,7 @@ class PostsModel extends Model {
      */
     public function updateCategory ($formData = NULL) {
         if ($formData === NULL)
-            return $this->createErrorMessage("No value given");
+            return $this->errorMessage("No value given");
         $sqlQuery = "UPDATE Articles_Categories SET name = :name WHERE id = :id";
         $sqlParam = array("name" => $formData['name'], "id" => $formData['id']);
         $response = $this->write($sqlQuery, $sqlParam);
@@ -569,7 +571,7 @@ class PostsModel extends Model {
      */
     public function removeCategory ($formData = NULL) {
         if ($formData === NULL)
-            return $this->createErrorMessage("No value given");
+            return $this->errorMessage("No value given");
         $sqlQuery = "DELETE FROM Articles_Categories WHERE id = :id";
         $sqlParam = array("id"  => $formData['id']);
         $response = $this->write($sqlQuery, $sqlParam);

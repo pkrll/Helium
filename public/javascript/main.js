@@ -45,7 +45,7 @@
      * @returns object
      */
     var Helium = function(selector) {
-        this.elem = "";
+        this.elem = [];
         if (typeof selector === 'string') {
             if (selector.charAt(0) === '<') {
                 var elementName = selector.substring(1,selector.length-1);
@@ -53,6 +53,8 @@
             } else {
                 this.elem = document.querySelectorAll(selector);
             }
+        } else if (selector.length) {
+            this.elem = selector;
         }
 
         return this;
@@ -64,13 +66,13 @@
         return this;
     }
 
-    Helium.prototype.addChild = function(elem) {
+    Helium.prototype.addChild = function(element) {
         for (var i = 0; i < this.elem.length; i++) {
-            if (elem instanceof Helium) {
-                for (var x = 0; x < elem.elem.length; x++)
-                    this.elem[i].appendChild(elem.elem[i]);
+            if (element instanceof Helium) {
+                for (var x = 0; x < element.elem.length; x++)
+                    this.elem[i].appendChild(element.elem[i]);
             } else {
-                this.elem[i].appendChild(elem);
+                this.elem[i].appendChild(element);
             }
         }
 
@@ -95,6 +97,18 @@
         }
 
         return this;
+    }
+
+    Helium.prototype.remove = function() {
+        for (var i = 0; i < this.elem.length; i++)
+            this.elem[i].parentNode.removeChild(this.elem[i]);
+    }
+
+    Helium.prototype.find = function(selector) {
+        var elements = [];
+        for (var i = 0; i < this.elem.length; i++)
+            elements.push(this.elem[i].querySelectorAll(selector));
+        return new Helium(elements);
     }
 
 })();
