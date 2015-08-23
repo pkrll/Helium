@@ -10,6 +10,7 @@
  * @since   Available since 0.10
  */
 use hyperion\core\Model;
+use saturn\session\Session;
 
 class PostsModel extends Model {
 

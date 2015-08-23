@@ -23,7 +23,7 @@
                                 Body:
                                 <textarea name="body" id="body" required="required"><?=$contents["article"]["body"]?></textarea>
                             </div>
-                            <div>
+                            <div id="image-cover">
                                 Cover image:
                                 <?php
                                     if (!empty($contents['images']['cover']) && $contents['images']['cover']['image'] !== NULL) {
@@ -186,6 +186,7 @@
                     </div>
                 </form>
                 <script type="text/javascript">
+                $(document).ready(function() {
                     CKEDITOR.replace( 'body', {
                         toolbar: [
                             ['Bold', 'Italic', 'Underline'],
@@ -219,11 +220,12 @@
                         height:"120px",
                     } );
 
-                    document.getElementById("dragzone-cover").dropster({
+                    $("#dragzone-cover").dropster({
                         url: "/upload/image/cover/stream",
                         createArea: true,
                         uploadLimit: 1,
-                        onDownload: function () { return 0; }
+                        onDownload: function () { return 0; },
+                        onReady: $.fn.onReadyCover
                     });
 
                     document.getElementById("dragzone-image").dropster({
@@ -238,7 +240,7 @@
                             this.defaultOnInvalidation(elements);
                         }
                     });
-
+                });
                 </script>
                 <?php if (isset($error)) { ?>
                 <div id="dropster-window">

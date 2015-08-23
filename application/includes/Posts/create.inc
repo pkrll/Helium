@@ -5,4 +5,5 @@
 <script type="text/javascript" src="/public/javascript/plugins/ckeditor/ckeditor.js"></script>
 <script type="text/javascript" src="/node_modules/dropster/lib/dropster.js"></script>
 <script type="text/javascript" src="/node_modules/salvation/lib/salvation.min.js"></script>
-<script type="text/javascript" src="/public/javascript/image.js"></script>
+<script type="text/javascript" src="/public/javascript/posts.js"></script>
+<script type="text/javascript" src="/public/javascript/images.js"></script>

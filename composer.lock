@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9ffecb32c2ee3dd76965e6418bdf042a",
+    "hash": "872868004e635b957895bc50f6bbed28",
     "packages": [
         {
             "name": "saturn/hyperion",
@@ -49,20 +49,65 @@
             "time": "2015-08-18 18:04:13"
         },
         {
-            "name": "saturn/session",
-            "version": "1.0.0",
+            "name": "saturn/image",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/pkrll/Session.git",
-                "reference": "91c2cf099bd830f5dc9b0a17a21d9ffcdb8c070a"
+                "url": "https://github.com/pkrll/Image.git",
+                "reference": "a7285bb9f4aa3e12ad09d4d7b2e855844929f9d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pkrll/Session/zipball/91c2cf099bd830f5dc9b0a17a21d9ffcdb8c070a",
-                "reference": "91c2cf099bd830f5dc9b0a17a21d9ffcdb8c070a",
+                "url": "https://api.github.com/repos/pkrll/Image/zipball/a7285bb9f4aa3e12ad09d4d7b2e855844929f9d1",
+                "reference": "a7285bb9f4aa3e12ad09d4d7b2e855844929f9d1",
                 "shasum": ""
             },
             "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "saturn\\image\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ardalan Samimi",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Resize and crop images.",
+            "homepage": "https://github.com/pkrll/Image",
+            "keywords": [
+                "crop",
+                "image",
+                "image manipulation",
+                "resize"
+            ],
+            "time": "2015-08-23 07:45:31"
+        },
+        {
+            "name": "saturn/session",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pkrll/Session.git",
+                "reference": "9871b2489647cc3cc9439d52ad4bc4fba3f546f0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pkrll/Session/zipball/9871b2489647cc3cc9439d52ad4bc4fba3f546f0",
+                "reference": "9871b2489647cc3cc9439d52ad4bc4fba3f546f0",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "saturn\\session\\": ""
+                }
+            },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0"
@@ -75,7 +120,10 @@
             ],
             "description": "PHP Wrapper class for Sessions.",
             "homepage": "https://github.com/pkrll/Session",
-            "time": "2015-08-18 20:27:38"
+            "keywords": [
+                "session"
+            ],
+            "time": "2015-08-23 07:45:38"
         }
     ],
     "packages-dev": [],

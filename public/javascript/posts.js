@@ -5,17 +5,6 @@ $(document).ready(function() {
     });
 
     /**
-     * Show/hide the right side sections.
-     * Triggers when the user clicks on
-     * the section labels.
-     */
-    $(".section-label").click(function () {
-        var elementsToHide = $(this).parent().children(':not(.section-label)');
-        elementsToHide.toggle();
-        $(this).toggleClass('hidden');
-    });
-
-    /**
      * Add new input text fields.
      * User triggered.
      */

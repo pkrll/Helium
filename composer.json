@@ -1,6 +1,7 @@
 {
     "require": {
         "saturn/hyperion": "^1.0",
-        "saturn/Session": "^1.0"
+        "saturn/Session": "^1.0",
+        "saturn/image": "^1.0"
     }
 }
