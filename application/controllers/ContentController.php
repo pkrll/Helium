@@ -1,8 +1,8 @@
 <?php
 /**
- * Controller for the posts
+ * Content
  *
- * Handles everything related to Posts.
+ * Handles everything related to content.
  *
  * @version 1.0
  * @author  Ardalan Samimi
@@ -10,9 +10,15 @@
  */
 use hyperion\core\Controller;
 
-class PostsController extends Controller {
+class ContentController extends Controller {
 
-    public function main() {  }
+    protected function main() {
+        echo "Content";
+    }
+
+    protected function archives() {
+
+    }
 
     /**
      * Display the articles archive
@@ -31,7 +37,7 @@ class PostsController extends Controller {
         $this->view()->assign("includes", $includes);
         $this->view()->render("shared/header_admin.tpl");
         $this->view()->assign("articles", $articles);
-        $this->view()->render("posts/archive.tpl");
+        $this->view()->render("content/archive.tpl");
         $this->view()->render("shared/footer_admin.tpl");
     }
 
@@ -51,7 +57,7 @@ class PostsController extends Controller {
             $this->view()->render("shared/header_admin.tpl");
             $this->view()->assign("categories", $category);
             $this->view()->assign("mostUsedCategories", $mostUsed);
-            $this->view()->render("posts/categories.tpl");
+            $this->view()->render("content/categories.tpl");
             $this->view()->render("shared/footer_admin.tpl");
         } elseif ($option === "add") {
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -79,7 +85,7 @@ class PostsController extends Controller {
             $this->view()->render("shared/header_admin.tpl");
             $this->view()->assign("categories", $category);
             $this->view()->assign("mostUsedCategories", $mostUsed);
-            $this->view()->render("posts/categories.tpl");
+            $this->view()->render("content/categories.tpl");
             $this->view()->render("shared/footer_admin.tpl");
 
         }
@@ -101,7 +107,7 @@ class PostsController extends Controller {
             if (isset($response["error"])) {
                 $this->create($_POST, $response["error"]);
             } else {
-                header("Location: /posts/view/{$response}");
+                header("Location: /content/view/{$response}");
             }
         } else {
             // If the formData is set, that means something went wrong when adding a
@@ -141,7 +147,7 @@ class PostsController extends Controller {
             $this->view()->assign("contents", $contents);
             $this->view()->assign("error", $errorMessage);
             $this->view()->assign("edit", "false");
-            $this->view()->render("posts/form.tpl");
+            $this->view()->render("content/form.tpl");
             $this->view()->render("shared/footer_admin.tpl");
         }
     }
@@ -162,7 +168,7 @@ class PostsController extends Controller {
             if (isset($response["error"])) {
                 $this->edit($_POST, $response["error"]);
             } else {
-                header("Location: /posts/edit/{$articleID}");
+                header("Location: /content/edit/{$articleID}");
             }
         } else {
             // Get the users and categories values
@@ -189,7 +195,7 @@ class PostsController extends Controller {
             $this->view()->assign("contents", $contents);
             $this->view()->assign("error", $errorMessage);
             $this->view()->assign("edit", "true");
-            $this->view()->render("posts/edit.tpl");
+            $this->view()->render("content/edit.tpl");
             $this->view()->render("shared/footer_admin.tpl");
         }
     }
@@ -202,14 +208,14 @@ class PostsController extends Controller {
     protected function remove () {
         $articleID = (empty($this->arguments[0])) ? NULL : $this->arguments[0];
         if ($articleID === NULL)
-            header("Location: /posts/archive");
+            header("Location: /content/archive");
         $response = $this->model()->removeArticle($articleID);
         if (isset($response['error'])) {
             // TODO: ADD ERROR
             echo '<pre>';
             print_r($response["error"]);
         } else {
-            header("Location: /posts/archive");
+            header("Location: /content/archive");
         }
     }
 

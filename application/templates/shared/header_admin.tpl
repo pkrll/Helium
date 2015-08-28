@@ -29,7 +29,7 @@
                 <nav class="menu">
                     <div>
                         <a href="/admin/">Dashboard</a>
-                        <a href="/posts/create">Posts</a>
+                        <a href="/content/create">Content</a>
                         <a href="/admin/frontpage">Front</a>
                         <a href="/admin/library">Library</a>
                         <a href="/admin/users">Users</a>

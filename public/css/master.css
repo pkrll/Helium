@@ -164,18 +164,19 @@ body {
     padding:        4px 10px;
 }
 
-#sub-menu ul li:hover {
+#sub-menu ul li:hover, #sub-menu ul li.active {
     background:     #FFBABA;
-    box-shadow:     0 0 10px #aaa;
     color:          #444444;
     cursor:         pointer;
 }
 
 #sub-menu ul li.active {
-    background:     #FFBABA;
-    box-shadow:     none;
-    color:          #444444;
     cursor:         default;
+}
+
+#sub-menu ul li:not(.active):active {
+    position: relative;
+    top: 1px;
 }
 
 #content {

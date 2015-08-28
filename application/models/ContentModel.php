@@ -1,6 +1,6 @@
 <?php
 /**
- * Articles Model
+ * Content Model
  *
  * Handles all the data regarding the creation and
  * manipulation of articles and posts.
@@ -12,7 +12,7 @@
 use hyperion\core\Model;
 use saturn\session\Session;
 
-class PostsModel extends Model {
+class ContentModel extends Model {
 
     /**
      * Retrieves rows from given table that

@@ -1,5 +1,5 @@
 
-                <form id="form" action="/posts/create" method="POST">
+                <form id="form" action="/content/create" method="POST">
                     <div id="content">
                         <div class="content-left">
 
@@ -29,14 +29,12 @@
                                     if (!empty($contents['images']['cover']) && $contents['images']['cover']['image'] !== NULL) {
                                 ?>
                                 <div class="showcase-cover">
-                                    <div>
-                                        <img src="/public/images/uploads/cover/<?=$contents['images']['cover']['image']['image_name']?>" />
-                                        <input type="text" name="caption-cover" placeholder="Add a caption" value="<?=$contents['images']['cover']['caption']?>" />
-                                        <span class="image-event-button" data-type="cover" data-action="remove" data-id="<?=$contents['images']['cover']['image']['id']?>">
-                                            <span class="font-icon icon-cancel"></span> Remove
-                                        </span>
-                                        <input type="hidden" name="image-cover" value="<?=$contents['images']['cover']['image']['id']?>" />
-                                    </div>
+                                    <img src="/public/images/uploads/cover/<?=$contents['images']['cover']['image']['image_name']?>" />
+                                    <input type="text" name="caption-cover" placeholder="Add a caption" value="<?=$contents['images']['cover']['caption']?>" />
+                                    <span class="image-event-button" data-type="cover" data-action="remove" data-id="<?=$contents['images']['cover']['image']['id']?>">
+                                        <span class="font-icon icon-cancel"></span> Remove
+                                    </span>
+                                    <input type="hidden" name="image-cover" value="<?=$contents['images']['cover']['image']['id']?>" />
                                 </div>
                                 <?php } else { ?>
                                     <div id="dragzone-cover"></div>
@@ -45,11 +43,9 @@
                             <div>
                                 Slideshow image:
                                 <div id="dragzone-image"></div>
+                                <div class="showcase-image">
                                 <?php
                                     if (!empty($contents["images"]["normal"]["image"])) {
-                                ?>
-                                <div class="showcase-image">
-                                    <?php
                                         foreach ($contents["images"]["normal"]["image"] AS $key => $image) {
                                     ?>
                                     <div class="picture">
@@ -71,38 +67,33 @@
                                     </div>
                                     <?php
                                         }
-                                    ?>
-                                </div>
-                                <?php
                                     }
                                 ?>
+                                </div>
                             </div>
                         </div>
                         <div class="content-right">
-                            <div class="div-flex-space-between">
+                            <div class="button-container">
                                 <input type="submit" class="button publish" value="Publish">
                                 <input type="button" class="button" value="Preview">
                             </div>
 
                             <div class="content-right-section">
-                                <div class="content-right-sub-section">
-                                    <div>
-                                        <label class="select">
-                                            <select name="category" data-validate="required" required="required">
-                                                <option value="">Choose category</option>
-                                                <?php
-                                                    foreach ($data["categories"] as $key => $value) {
-                                                        $selected = ($contents["article"]["category"] === $value["id"]) ? " selected" : "";
-                                                ?>
-                                                <option value="<?=$value['id']?>"<?=$selected?>><?=$value['name']?></option>
-                                                <?php
-                                                    }
-                                                ?>
-                                            </select>
-                                        </label>
-                                    </div>
+                                <div>
+                                    <label class="select">
+                                        <select name="category" data-validate="required" required="required">
+                                            <option value="">Choose category</option>
+                                            <?php
+                                                foreach ($data["categories"] as $key => $value) {
+                                                    $selected = ($contents["article"]["category"] === $value["id"]) ? " selected" : "";
+                                            ?>
+                                            <option value="<?=$value['id']?>"<?=$selected?>><?=$value['name']?></option>
+                                            <?php
+                                                }
+                                            ?>
+                                        </select>
+                                    </label>
                                 </div>
-
                                 <div>
                                     <div>
                                         <label class="select">
@@ -156,7 +147,7 @@
                                     <div class="bold-13">Publish on</div>
                                     <div class="div-flex-space-between">
                                         <input type="date" name="published-date" class="published-date" id="published" placeholder="m/d/yyyy" value="<?=$contents["article"]["published-date"]?>"/>
-                                        <input type="time" name="published-time" class="published-time" placeholder="00:00" value="<?=$contents["article"]["published-time"]?>"/>
+                                        <input type="text" name="published-time" class="published-time" placeholder="00:00" value="<?=$contents["article"]["published-time"]?>"/>
                                     </div>
                                 </div>
                             </div>
@@ -224,15 +215,18 @@
                         url: "/upload/image/cover/stream",
                         createArea: true,
                         uploadLimit: 1,
+                        onUpload: $.fn.onUpload,
                         onDownload: function () { return 0; },
                         onReady: $.fn.onReadyCover
                     });
 
-                    document.getElementById("dragzone-image").dropster({
+                    $("#dragzone-image").dropster({
                         url: "/upload/image/normal/stream",
                         createArea: true,
                         uploadLimit: 10,
-                        onDownload: function () { return 0; }
+                        onUpload: $.fn.onUpload,
+                        onDownload: $.fn.onDownload,
+                        onReady: $.fn.onReady
                     });
 
                     document.getElementById("form").addSalvation({
