@@ -157,11 +157,15 @@ body {
 #sub-menu ul li {
     background:     #FF7575;
     border-radius:  8px;
-    color:          #FFFFFF;
     display:        inline;
     font-family:    'Mandali', sans-serif;
     font-size:      15px;
     padding:        4px 10px;
+}
+
+#sub-menu ul li a {
+    color:          #FFFFFF;
+    text-decoration: none;
 }
 
 #sub-menu ul li:hover, #sub-menu ul li.active {

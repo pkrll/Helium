@@ -16,10 +16,6 @@ class ContentController extends Controller {
         echo "Content";
     }
 
-    protected function archives() {
-
-    }
-
     /**
      * Display the articles archive
      *
@@ -195,7 +191,7 @@ class ContentController extends Controller {
             $this->view()->assign("contents", $contents);
             $this->view()->assign("error", $errorMessage);
             $this->view()->assign("edit", "true");
-            $this->view()->render("content/edit.tpl");
+            $this->view()->render("content/form.tpl");
             $this->view()->render("shared/footer_admin.tpl");
         }
     }
@@ -227,11 +223,10 @@ class ContentController extends Controller {
     public function search () {
         if (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])
         && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-            $response = $this->model()->search($_POST['searchString']);
-            if (empty($response))
-                echo json_encode("");
-            else
-                echo json_encode($response);
+            $response = "";
+            if ($this->arguments[0] === 'posts')
+                $response = $this->model()->search($_POST['searchString'], TRUE, $this->arguments[1]);
+            echo json_encode($response);
         }
     }
 }

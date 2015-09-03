@@ -3,9 +3,6 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title><?=APP_NAME?></title>
-<link href='http://fonts.googleapis.com/css?family=Fredoka+One|Oswald|Montserrat' rel='stylesheet' type='text/css'>
-        <link href='http://fonts.googleapis.com/css?family=Gidugu|Mandali|Hind|Alef|Scada|Quando' rel='stylesheet' type='text/css'>
-        <link href='http://fonts.googleapis.com/css?family=Ubuntu:400,500|Roboto+Slab' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="/public/css/master.css" media="screen" charset="utf-8">
         <link rel="stylesheet" href="/public/css/fonts.css" media="screen" charset="utf-8">
         <script type="text/javascript" src="/node_modules/jquery/dist/jquery.min.js"></script>

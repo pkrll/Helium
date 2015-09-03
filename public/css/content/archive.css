@@ -1,0 +1,110 @@
+.div-table {
+    border-radius:  8px 8px 0 0;
+    width:          100%;
+}
+
+.div-table-toolbar {
+    display:                    -webkit-box;
+    display:                    -moz-box;
+    display:                    -ms-flexbox;
+    display:                    -moz-flex;
+    display:                    -webkit-flex;
+    display:                    flex;
+    font-family:                "Mandali", "Hind", sans-serif;
+    font-size:                  12px;
+    line-height:                13px;
+    -webkit-justify-content:    flex-end;
+            justify-content:    flex-end;
+}
+
+.div-table-toolbar.top {
+    padding: 0px 5px 12px 10px;
+}
+
+.div-table-toolbar.bottom {
+    padding: 12px 5px 0px 10px;
+}
+
+.div-table-toolbar > span:hover {
+    color:  #DE1212;
+    cursor: pointer;
+}
+
+.div-table-row {
+    display:                    -webkit-box;
+    display:                    -moz-box;
+    display:                    -ms-flexbox;
+    display:                    -moz-flex;
+    display:                    -webkit-flex;
+    display:                    flex;
+    font-family:                "Mandali", "Hind", sans-serif;
+    font-size:                  13px;
+    line-height:                13px;
+    padding:                    8px 5px 8px 10px;
+    -webkit-align-items:        center;
+            align-items:        center;
+    -webkit-box-orient:         vertical;
+       -moz-box-orient:         vertical;
+    -webkit-box-pack:           center;
+       -moz-box-pack:           center;
+       -ms-flex-pack:           center;
+    -webkit-justify-content:    space-between;
+            justify-content:    space-between;
+}
+
+.div-table-header {
+    border-top:     1px solid #DDDDDD;
+    border-left:    1px solid #DDDDDD;
+    border-right:   1px solid #DDDDDD;
+    border-bottom:  1px solid #DDDDDD;
+    background:     #FFFFFF;
+    color:          #666666;
+    font-family:    'Mandali', sans-serif;
+    font-size:      18px;
+    font-variant:   small-caps;
+    text-transform: lowercase;
+    padding-bottom: 8px;
+}
+
+.div-table-row div:not(:first-of-type) {
+    text-align: center;
+}
+
+.top-panel {
+    text-align: center;
+}
+
+.header-size-3 {
+    -webkit-flex: 3;
+}
+
+.header-size-2 {
+    -webkit-flex: 2;
+}
+
+.header-size-1 {
+    -webkit-flex: 1;
+}
+
+.div-table-content {
+    border-right:   1px solid #DDDDDD;
+    border-left:    1px solid #DDDDDD;
+    border-bottom:  1px solid #DDDDDD;
+}
+
+.div-table-content:last-of-type {
+    border-bottom: 1px solid #DDDDDD;
+}
+
+.div-table-content:nth-child(odd) {
+    background: rgba(255,255,255,1)
+}
+
+.div-table-content:nth-child(even) {
+    background: rgba(245,245,245,1);
+}
+
+.div-table-content:hover {
+    background: rgba(15,165,195,.5);
+    cursor:     pointer;
+}

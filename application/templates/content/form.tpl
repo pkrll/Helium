@@ -1,19 +1,29 @@
 
+                <?php if (isset($contents["article"]["id"])) { ?>
+                <form id="form" action="/content/edit/<?=$contents["article"]["id"]?>" method="POST" data-id="<?=$contents["article"]["id"]?>">
+                <?php } else { ?>
                 <form id="form" action="/content/create" method="POST">
+                <?php }?>
                     <div id="content">
                         <div class="content-left">
 
                             <div id="sub-menu">
                                 <ul>
-                                    <li>Archive</li>
+                                    <li><a href="/content/archive">Archive</a></li>
+                                    <?php if (isset($contents["article"]["id"])) { ?>
+                                    <li class="active">Edit post</li>
+                                    <?php } else { ?>
                                     <li class="active">Add post</li>
-                                    <li>Categories</li>
+                                    <?php } ?>
+                                    <li><a href="/content/categories">Categories</a></li>
                                 </ul>
                             </div>
 
                             <div>
                                 Headline:
-                                <input type="text" name="headline" id="headline" required="required" data-validate="required" autocomplete="off" value="<?=$contents["article"]["headline"]?>"/>
+                                <div>
+                                    <input type="text" name="headline" id="headline" required="required" data-validate="required" autocomplete="off" value="<?=$contents["article"]["headline"]?>"/>
+                                </div>
                             </div>
                             <div>
                                 Preamble:
@@ -80,28 +90,24 @@
 
                             <div class="content-right-section">
                                 <div>
-                                    <label class="select">
-                                        <select name="category" data-validate="required" required="required">
-                                            <option value="">Choose category</option>
-                                            <?php
-                                                foreach ($data["categories"] as $key => $value) {
-                                                    $selected = ($contents["article"]["category"] === $value["id"]) ? " selected" : "";
-                                            ?>
-                                            <option value="<?=$value['id']?>"<?=$selected?>><?=$value['name']?></option>
-                                            <?php
-                                                }
-                                            ?>
-                                        </select>
-                                    </label>
+                                    <label class="select"></label>
+                                    <select name="category" data-validate="required" required="required" data-label="Choose a category!">
+                                        <option value="">Choose category</option>
+                                        <?php
+                                            foreach ($data["categories"] as $key => $value) {
+                                                $selected = ($contents["article"]["category"] === $value["id"]) ? " selected" : "";
+                                        ?>
+                                        <option value="<?=$value['id']?>"<?=$selected?>><?=$value['name']?></option>
+                                        <?php
+                                            }
+                                        ?>
+                                    </select>
                                 </div>
                                 <div>
-                                    <div>
-                                        <label class="select">
-                                            <select>
-                                                <option>Choose theme (optional)</option>
-                                            </select>
-                                        </label>
-                                    </div>
+                                    <label class="select"></label>
+                                    <select>
+                                        <option value="">Choose theme (optional)</option>
+                                    </select>
                                 </div>
                             </div>
 
@@ -119,8 +125,7 @@
                                             if (!empty($contents['links'])) {
                                                 foreach ($contents['links'] AS $link) {
                                         ?>
-                                            <input type="search" class="links" placeholder="Search for article..." autocomplete="off" value="<?=$link["headline"]?> (id:<?=$link["id"]?>)"/>
-                                            <input type="hidden" name="links[]" value="<?=$link["id"]?>"/>
+                                            <input type="search" class="links" placeholder="Search for article..." autocomplete="off" value="<?=$link["headline"]?> (id:<?=$link["id"]?>)" data-edit="true" data-id="<?=$link["id"]?>"/>
                                         <?php
                                                 }
                                             }
@@ -156,25 +161,33 @@
                                 <div>
                                     <div class="bold-13">Author</div>
                                     <div>
-                                        <label class="select">
-                                            <select name="author">
-                                                <option value="">Choose author</option>
-                                                <?php
-                                                    foreach ($data["authors"]["list"] as $key => $value) {
-                                                        $selected = ($data["authors"]["current"] === $value['id']) ? " selected=\"true\"" : $selected = "";
-                                                ?>
-                                                    <option value="<?=$value['id']?>"<?=$selected?>><?=$value['author']?></option>
-                                                <?php
-                                                    }
-                                                ?>
-                                            </select>
-                                        </label>
+                                        <label class="select"></label>
+                                        <select name="author">
+                                        <!-- <select name="author" data-validate="required" required="required" data-label="Choose an author!"> -->
+                                            <option value="">Choose author</option>
+                                            <?php
+                                                foreach ($data["authors"]["list"] as $key => $value) {
+                                                    $selected = ($data["authors"]["current"] === $value['id']) ? " selected=\"true\"" : $selected = "";
+                                            ?>
+                                                <option value="<?=$value['id']?>"<?=$selected?>><?=$value['author']?></option>
+                                            <?php
+                                                }
+                                            ?>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
+                    <?php
+                        if (!empty($contents['links'])) {
+                            foreach ($contents['links'] AS $link) {
+                    ?>
+                        <input type="hidden" name="links[]" value="<?=$link["id"]?>"/>
+                    <?php
+                            }
+                        }
+                    ?>
                 </form>
                 <script type="text/javascript">
                 $(document).ready(function() {
@@ -229,11 +242,8 @@
                         onReady: $.fn.onReady
                     });
 
-                    document.getElementById("form").addSalvation({
-                        onInvalidation: function(elements) {
-                            this.defaultOnInvalidation(elements);
-                        }
-                    });
+                    document.getElementById("form").addSalvation();
+
                 });
                 </script>
                 <?php if (isset($error)) { ?>

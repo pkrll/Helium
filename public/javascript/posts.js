@@ -76,9 +76,29 @@ $(document).ready(function() {
      * Remove the suggestion box and the
      * hidden input field if any.
      */
-    $("input.links").on("search", function() {
+    $("input.links").on("search", function(event) {
         $.fn.inputSearchEvent("search", $(this));
     });
+
+    $.fn.removeLinkedArticle = function (self) {
+        // Remove the suggestions box but also
+        // the hidden input field representing
+        // the linked item.
+        $("div.suggestions").remove();
+        var id = self.attr("data-id");
+        var parentElement = $("form");
+        var hiddenInput = parentElement.find("input[type='hidden'][value="+id+"]");
+        if (hiddenInput.length > 0) {
+            if (self.attr("data-edit") === "true") {
+                var removedLink = $("<input>").attr({
+                    "type": "hidden",
+                    "value": id,
+                    "name": "link-remove[]"
+                }).appendTo(parentElement);
+            }
+            hiddenInput.remove();
+        }
+    }
 
     /**
      * This function merges the keyup and
@@ -102,23 +122,7 @@ $(document).ready(function() {
         // means the latter.
         if (event === "search") {
             if (self.val().length === 0) {
-                // Remove the suggestions box but also
-                // the hidden input field representing
-                // the linked item.
-                $("div.suggestions").remove();
-                var hiddenInput = self.parent().find("input[type='hidden']");
-                if (hiddenInput.length > 0) {
-                    if (self.attr("data-edit") === "true") {
-                        var id = hiddenInput.val();
-                        var parentElement   = $("form");
-                        var removedLink     = $("<input>").attr({
-                            "type": "hidden",
-                            "value": id,
-                            "name": "link-remove[]"
-                        }).appendTo(parentElement);
-                    }
-                    hiddenInput.remove();
-                }
+                $.fn.removeLinkedArticle(self);
             }
         } else {
             var keyCode = event.keyCode;
@@ -140,14 +144,16 @@ $(document).ready(function() {
                 // actually doing the search.
                 window.clearTimeout(searchTimeout);
                  searchTimeout = window.setTimeout(function() {
-                     self.parent().addClass("searching");
                      // Remove the previous suggestion
                      //box, if there were any.
-
                      if (suggestionsDiv.length > 0)
-                         suggestionsDiv.children().remove();
+                         suggestionsDiv.remove();
                      var searchString = self.val();
-                     $.fn.searchForArticle (self, searchString);
+                     if (searchString.length > 0)
+                        self.parent().addClass("searching");
+                    else
+                        $.fn.removeLinkedArticle(self);
+                    $.fn.searchForArticle (self, searchString);
                  }, 500);
             } else if (keyCode === 38) {
                 if ($("div.suggestions").length)
@@ -175,7 +181,7 @@ $(document).ready(function() {
         var data = new FormData();
         data.append("searchString", searchString);
 		var xhr = new XMLHttpRequest();
-		xhr.open('POST', '/posts/search/');
+		xhr.open('POST', '/content/search/posts/'+$("form").attr("data-id"));
 		xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 		xhr.onload = function() {
 			// If the request succeeded
@@ -221,14 +227,16 @@ $(document).ready(function() {
                 // When clicked, the result should
                 // be added to the input, but also
                 // create a hidden input field.
+                var parentElement = $("form");
                 suggestionDiv.on("click", function() {
                     element.addClass("no-padding");
                     element.val($(this).html());
+                    element.attr("data-id", item.id);
                     var hiddenInput = $("<input>").attr({
                         "type": "hidden",
                         "name": "links[]",
                         "value": item.id,
-                    }).insertAfter(element);
+                    }).appendTo(parentElement);
                     $(this).parent().remove();
                 });
             });

@@ -3,6 +3,7 @@ use hyperion\core\Bootstrap;
 // Set level of error reporting
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 session_start();
+date_default_timezone_set("Europe/Stockholm");
 // include hyperion
 include dirname(__DIR__)."/vendor/autoload.php";
 // redefine constants

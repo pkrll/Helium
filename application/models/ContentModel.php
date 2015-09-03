@@ -671,12 +671,13 @@ class ContentModel extends Model {
      * @param   bool    $shortForm
      * @return  array   |   bool
      */
-    public function search ($searchString = NULL, $shortForm = TRUE) {
+    public function search ($searchString = NULL, $shortForm = TRUE, $id = 0) {
         if ($searchString === NULL)
             return NULL;
-        if ($shortForm)
-            $sqlQuery = "SELECT id, headline FROM Articles WHERE headline LIKE :searchString";
-        else
+        if ($shortForm) {
+            $sqlQuery = "SELECT id, headline FROM Articles WHERE headline LIKE :searchString AND id <> :id";
+            $sqlParam = array("searchString" => '%' . $searchString . '%', "id" => $id);
+        } else {
             $sqlQuery = "SELECT article.id, article.headline, article.created, article.published, article.last_edit,
                                 category.name AS category, CONCAT_WS(' ', user.firstname, user.lastname) AS author
                         FROM Articles AS article
@@ -687,7 +688,8 @@ class ContentModel extends Model {
                         WHERE headline LIKE :searchString OR preamble LIKE :searchString OR body LIKE :searchString
                         ORDER BY article.created
                         DESC LIMIT 10";
-        $sqlParam = array("searchString" => '%' . $searchString . '%');
+            $sqlParam = array("searchString" => '%' . $searchString . '%');
+        }
         $response = $this->read($sqlQuery, $sqlParam);
         return $response;
     }
