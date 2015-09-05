@@ -8,7 +8,7 @@ date_default_timezone_set("Europe/Stockholm");
 include dirname(__DIR__)."/vendor/autoload.php";
 // redefine constants
 define("APP_NAME", "Helium");
-define("APP_VERSION", "0.11.0");
+define("APP_VERSION", "0.20.2");
 define('HOSTNAME', "localhost");
 define('USERNAME', "helium");
 define('PASSWORD', "helium123");
@@ -31,6 +31,9 @@ define(COVERS,		UPLOAD.'cover/');
 define(IMAGES,		UPLOAD.'normal/');
 define(THUMBNAILS,	UPLOAD.'thumbnails/');
 define(PROFILES,	UPLOAD.'profile/');
+
+// include the permissions class
+include_once dirname(__DIR__)."/library/Permissions.php";
 
 // rock hard
 $app = new Bootstrap();

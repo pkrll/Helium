@@ -91,7 +91,7 @@
                             <div class="content-right-section">
                                 <div>
                                     <label class="select"></label>
-                                    <select name="category" data-validate="required" required="required" data-label="Choose a category!">
+                                    <select name="category" data-validate="required" required="required" data-label="Choose a category">
                                         <option value="">Choose category</option>
                                         <?php
                                             foreach ($data["categories"] as $key => $value) {
@@ -143,7 +143,7 @@
                             <div class="content-right-section">
                                 <div class="bold-13">Fact box</div>
                                 <div>
-                                    <textarea id="fact"></textarea>
+                                    <textarea id="fact" name="fact"><?=$contents["article"]["fact"]?></textarea>
                                 </div>
                             </div>
 
@@ -151,8 +151,8 @@
                                 <div>
                                     <div class="bold-13">Publish on</div>
                                     <div class="div-flex-space-between">
-                                        <input type="date" name="published-date" class="published-date" id="published" placeholder="m/d/yyyy" value="<?=$contents["article"]["published-date"]?>"/>
-                                        <input type="text" name="published-time" class="published-time" placeholder="00:00" value="<?=$contents["article"]["published-time"]?>"/>
+                                        <input type="date" name="published-date" class="published-date" id="published" placeholder="m/d/yyyy" data-validate="date" data-format="MM/DD/YYYY" value="<?=$contents["article"]["published"]["date"]?>"/>
+                                        <input type="text" name="published-time" class="published-time" placeholder="00:00" value="<?=$contents["article"]["published"]["time"]?>"/>
                                     </div>
                                 </div>
                             </div>

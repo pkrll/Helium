@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "saturn/hyperion",
-            "version": "1.0.2",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pkrll/Hyperion.git",
-                "reference": "3f05222228a07e4e45bfba3f548314617102cf5c"
+                "reference": "d43a39d597876c7b8d1e7ed3a1d2fe7a2b30ca16"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pkrll/Hyperion/zipball/3f05222228a07e4e45bfba3f548314617102cf5c",
-                "reference": "3f05222228a07e4e45bfba3f548314617102cf5c",
+                "url": "https://api.github.com/repos/pkrll/Hyperion/zipball/d43a39d597876c7b8d1e7ed3a1d2fe7a2b30ca16",
+                "reference": "d43a39d597876c7b8d1e7ed3a1d2fe7a2b30ca16",
                 "shasum": ""
             },
             "require": {
@@ -46,7 +46,7 @@
                 "hyperion",
                 "mvc"
             ],
-            "time": "2015-08-18 18:04:13"
+            "time": "2015-09-04 09:02:02"
         },
         {
             "name": "saturn/image",

@@ -21,7 +21,6 @@ input::-webkit-input-placeholder {
 }
 
 select {
-    /*background:         rgba(245,248,249,1);*/
     background:         #FFFFFF;
     border:             1px solid #CCCCCC;
     border-radius:      4px;

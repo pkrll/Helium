@@ -4,7 +4,7 @@
  *
  * Handles everything related to content.
  *
- * @version 1.0
+ * @version 1.1.0
  * @author  Ardalan Samimi
  * @since   Available since 0.9.6
  */
