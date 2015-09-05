@@ -221,3 +221,80 @@
     margin-top: 10px;
     padding: 10px;
 }
+
+.dropster-target-area {
+    background:     rgba(250, 250, 250, 1);
+    border:         2px dashed rgba(240,240,240,1);
+    border-radius:  8px;
+}
+
+.dropster-highlight {
+    background: #EEEEEE;
+    border:     2px dashed #000;
+}
+
+.dropster-target-area {
+    position:   relative;
+}
+
+.dropster-target-area::after {
+    content:               "";
+    background-image:      url("/public/images/system/big-arrow-down-black.png");
+    background-repeat:     no-repeat;
+    background-position:   top;
+    background-size:       90px;
+    opacity:               .1;
+    z-index:               1;
+    top:                   15%;
+    left:                  0;
+    bottom:                0;
+    right:                 0;
+    position:              absolute;
+    pointer-events:        none;
+}
+
+
+select {
+    background:         #FFFFFF;
+    border:             1px solid #CCCCCC;
+    border-radius:      4px;
+    color:              #444444;
+    display:            inline-block;
+    cursor:             pointer;
+    font-size:          12px;
+    width:              100%;
+    padding:            8px 0 8px 8px;
+    outline:            none;
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+}
+
+select:focus {
+    border:         1px solid #BBBBBB;
+    box-shadow:     0 0 10px #BBBBBB;
+    padding:        8px 0px 8px 8px;
+    margin:         2px 0px;
+}
+
+label.select {
+    font-size:  15px;
+    position:   relative;
+    display:    block;
+}
+
+label.select::after {
+    color:              rgba(0,0,0,0.8);
+    content:            ">";
+    font-size:          18px;
+    font-family:        "Consolas", sans-serif;
+    padding:            3px 0 3px 0;
+    position:           absolute;
+    top:                4px;
+    right:              10px;
+    -webkit-transform:  rotate(90deg);
+       -moz-transform:  rotate(90deg);
+        -ms-transform:  rotate(90deg);
+            transform:  rotate(90deg);
+    pointer-events:     none;
+}

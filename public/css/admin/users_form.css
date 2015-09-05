@@ -1,0 +1,158 @@
+.stylized-form {
+    margin:     20px auto;
+    width:      90%;
+}
+
+.stylized-form-header {
+    color:          #333;
+    font-size:      24px;
+    font-family:    'Mandali', sans-serif;
+    text-align:     center;
+}
+
+.stylized-form-row {
+    border-bottom:          1px solid #ddd;
+    display:                -webkit-box;
+    display:                -moz-box;
+    display:                -ms-flexbox;
+    display:                -moz-flex;
+    display:                flex;
+    display:                -webkit-flex;
+    font-family:            'Mandali', sans-serif;
+    margin:                 auto;
+    padding:                25px 10px 25px 10px;
+    width:                  80%;
+    -webkit-align-items:    center;
+            align-items:    center;
+}
+
+.last-row {
+    border-bottom:          none;
+}
+
+.next-to-last-row {
+    border-bottom:  none;
+    padding:        15px 10px 0px 10px;
+    width:          100%;
+}
+
+.stylized-form-row div.label {
+    color:          #444;
+    font-size:      15px;
+    padding-top:    10px;
+    text-transform: uppercase;
+    width:          30%;
+    -webkit-align-self: flex-start;
+            align-self: flex-start;
+}
+
+.stylized-form-row div.input {
+    width:59%;
+}
+
+.stylized-form-row div.select {
+    width:61%;
+}
+
+.last-row div.input {
+    text-align: right;
+    width: 91%;
+}
+
+.next-to-last-row div.input {
+    text-align: center;
+    width: 100%;
+}
+
+.stylized-form-row input,
+.stylized-form-row textarea {
+    border:     1px solid #ccc;
+    background: rgba(245,248,249,1);
+    color:      #444;
+    font-size:  16px;
+    padding:    5px;
+    width:      100%;
+    outline:    none;
+}
+
+
+.stylized-form-row input:focus,
+.stylized-form-row textarea:focus {
+    box-shadow: 0 0 10px #DDDDDD;
+}
+
+.stylized-form-row input[type=file] {
+    background: none;
+    border:     none;
+}
+
+.stylized-form-row input[type=submit],
+.stylized-form-row input[type='button'] {
+    background:     #9BBF9B;
+    border:         none;
+    border-radius:  8px;
+    color:          #FFFFFF;
+    cursor:         pointer;
+    font-family:    'Mandali', sans-serif;
+    font-size:      15px;
+    font-weight:    bold;
+    padding:        2px 25px;
+    width:          auto;
+}
+
+.stylized-form-row input[type=submit]:hover,
+.stylized-form-row input[type=button]:hover {
+    cursor: pointer;
+    background: #A5C5A5;
+}
+
+.stylized-form-row input[type=submit]:active,
+.stylized-form-row input[type=button]:active {
+    position: relative;
+    top: 1px;
+}
+
+#dropzone .label {
+    width: 30%;
+}
+
+#dragzone .input {
+    display:                    -webkit-box;
+    display:                    -moz-box;
+    display:                    -ms-flexbox;
+    display:                    -moz-flex;
+    display:                    flex;
+    display:                    -webkit-flex;
+    font-family:                'Mandali', sans-serif;
+    font-size:                  15px;
+    line-height:                25px;
+    height:                     150px;
+    width:                      59%;
+    -webkit-flex-direction:     column;
+            flex-direction:     column;
+    -webkit-justify-content:    space-around;
+            justify-content:    space-around;
+}
+
+.profile-image-container {
+    background:                 rgba(245,248,249,1);
+    border:                     1px solid #ccc;
+    border-radius:              4px;
+    display:                    -webkit-box;
+    display:                    -moz-box;
+    display:                    -ms-flexbox;
+    display:                    -moz-flex;
+    display:                    flex;
+    display:                    -webkit-flex;
+    height:                     150px;
+    width:                      150px;
+    -webkit-align-items:        center;
+            align-items:        center;
+    -webkit-justify-content:    center;
+            justify-content:    center;
+}
+
+.beware-label {
+    color:          #DE1212;
+    font-size:      14px;
+}

@@ -4,13 +4,20 @@
  *
  * Handles everything related to content.
  *
- * @version 1.1.0
+ * @version 1.2.0
  * @author  Ardalan Samimi
  * @since   Available since 0.9.6
  */
 use hyperion\core\Controller;
 
 class ContentController extends Controller {
+
+    public function __construct ($method, $arguments = NULL) {
+        if (Permissions::checkUserPermissions($method, $arguments))
+            parent::__construct($method, $arguments);
+        else
+            header("Location: /user");
+    }
 
     protected function main() {
         echo "Content";
