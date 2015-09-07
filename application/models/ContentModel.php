@@ -99,7 +99,7 @@ class ContentModel extends Model {
      * @param   string  $type
      * @return  array   |   null
      */
-    private function mergeImageWithCaption ($image = NULL, $caption = NULL, $type = "normal") {
+    public function mergeImageWithCaption ($image = NULL, $caption = NULL, $type = "normal") {
         if (empty($image))
             return NULL;
         if (is_array($image)) {
@@ -502,10 +502,10 @@ class ContentModel extends Model {
         $tmpArray           = $this->getMetadata($tableName, $columns, $condition, $sqlParam, $joins, $joinsCondition);
         // The images are either of type cover or regular images,
         // below code will sort the types in two different variables.
-        $response["image"]  = array_filter($tmpArray, function($value) { return $value["type"] === "normal"; });
+        $response["image"] = array_filter($tmpArray, function($value) { return $value["type"] === "normal"; });
         // There should be only one cover image, so "array_shift"
         // to flatten the multi-dimensional array.
-        $response["cover"]      = array_shift(array_filter($tmpArray, function($value) { return $value["type"] === "cover"; }));
+        $response["cover"] = array_shift(array_filter($tmpArray, function($value) { return $value["type"] === "cover"; }));
         // Get linked articles
         $tableName          = "Articles_Metadata_Links AS meta";
         $columns            = array(

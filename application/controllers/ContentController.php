@@ -169,7 +169,7 @@ class ContentController extends Controller {
         && !empty($_POST) && is_null($formData)) {
             $response = $this->model()->updateArticle($articleID, $_POST);
             if (isset($response["error"])) {
-                $this->edit($_POST, $response["error"]);
+                $this->create($_POST, $response["error"]);
             } else {
                 header("Location: /content/edit/{$articleID}");
             }

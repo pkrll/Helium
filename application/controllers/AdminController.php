@@ -9,14 +9,17 @@
  * @since   Available since 0.9.6
  */
 use hyperion\core\Controller;
-
+use saturn\session\Session;
 class AdminController extends Controller {
 
     public function __construct ($method, $arguments = NULL) {
         if (Permissions::checkUserPermissions($method, $arguments))
             parent::__construct($method, $arguments);
         else
-            header("Location: /user");
+            if (Session::get("user_id"))
+                die("You have no access.");
+            else
+                header("Location: /user");
     }
 
     protected function main () {
@@ -28,7 +31,7 @@ class AdminController extends Controller {
     protected function users () {
         if ($this->arguments[0] === "add") {
             $this->_addUser();
-        }elseif ($this->arguments[0] === "edit") {
+        } elseif ($this->arguments[0] === "edit") {
             $this->_editUser();
         } else {
             $users = $this->model()->getUsers();
@@ -39,6 +42,23 @@ class AdminController extends Controller {
             $this->view()->render("admin/users.tpl");
             $this->view()->render("shared/footer_admin.tpl");
         }
+    }
+
+    protected function permissions() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST)) {
+            $this->model()->updatePermission($_POST);
+        }
+
+        $resources  = $this->model()->getMethods();
+        $roles      = $this->model()->getRoles();
+        $includes   = $this->getIncludes('add');
+
+        $this->view()->assign("includes", $includes);
+        $this->view()->render("shared/header_admin.tpl");
+        $this->view()->assign("resources", $resources);
+        $this->view()->assign("roles", $roles);
+        $this->view()->render("admin/permissions.tpl");
+        $this->view()->render("shared/footer_admin.tpl");
     }
 
     /**

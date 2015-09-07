@@ -7,6 +7,7 @@
         <link rel="stylesheet" href="/public/css/fonts.css" media="screen" charset="utf-8">
         <link rel="stylesheet" href="/public/css/admin/main.css" media="screen" charset="utf-8">
         <script type="text/javascript" src="/node_modules/jquery/dist/jquery.min.js"></script>
+        <script type="text/javascript" src="/public/javascript/main.js"></script>
         <?php if(isset($includes)) include_once($includes); ?>
     </head>
     <body>
@@ -17,10 +18,16 @@
                         <div id="app-name"><?=APP_NAME?><span>_</span></div>
                         <div id="app-desc">Inert. Noble. Gassy.</div>
                     </div>
-                    <div id="user-center" class="card">
+                    <div id="user-center">
                         <div class="header-button">
                             <div class="front" style="height:64px;"><img src="/public/images/system/ninja.png" style="height:64px;"/></div>
-                            <div class="front">Ardalan Samimi</div>
+                            <div class="front"><?=saturn\session\Session::get("name")?></div>
+                        </div>
+                        <div class="user-menu">
+                            <ul>
+                                <li class="user-menu-item">Profile</li>
+                                <li class="user-menu-item" data-href="/user/logout">Logout</li>
+                            </ul>
                         </div>
                     </div>
                 </div>

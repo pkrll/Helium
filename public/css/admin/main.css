@@ -40,7 +40,11 @@
     font-size:  14px;
 }
 
-#user-center > div {
+#user-center {
+    position: relative;
+}
+
+#user-center > div:not(.user-menu) {
     display:        -webkit-flex;
     display:        flex;
     padding:        10px;
@@ -48,11 +52,6 @@
             align-items:    center;
     -webkit-flex-direction: column;
             flex-direction: column;
-}
-
-#user-center {
-    color:              #000;
-    text-decoration:    none;
 }
 
 .header-button:hover {
@@ -68,8 +67,44 @@
     top: -1px;
 }
 
+.user-menu {
+    border:             1px solid #DDD;
+    border-radius:      8px;
+    box-shadow:         0 0 10px #EEEEEE;
+    display:            none;
+    font-family:        "Mandali", sans-serif;
+    font-size:          16px;
+    margin-top:         5px;
+    position:           absolute;
+    left:               -2px;
+    top:                99%;
+    width:              100%;
+}
+
+.user-menu.active {
+    background: #FFFFFF;
+    color:      #000000;
+    display:    block;
+}
+
+.user-menu ul {
+    list-style-type:    none;
+    margin:             0;
+    padding:            0;
+}
+
+.user-menu ul li {
+    cursor:     pointer;
+    padding:    10px;
+}
+
+.user-menu ul li:hover {
+    background: #EEEEEE;
+}
+
+
 .menu {
-    border-bottom:              1px solid #aaa;
+    border-bottom:              1px solid #AAAAAA;
     display:                    -webkit-flex;
     display:                    flex;
     padding:                    0 10px 10px 10px;

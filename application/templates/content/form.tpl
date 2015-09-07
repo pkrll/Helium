@@ -36,10 +36,10 @@
                             <div id="image-cover">
                                 Cover image:
                                 <?php
-                                    if (!empty($contents['images']['cover']) && $contents['images']['cover']['image'] !== NULL) {
+                                    if (!empty($contents['images']['cover'])) {
                                 ?>
                                 <div class="showcase-cover">
-                                    <img src="/public/images/uploads/cover/<?=$contents['images']['cover']['image']['image_name']?>" />
+                                    <img src="/public/images/uploads/cover/<?=$contents['images']['cover']['image_name']?>" />
                                     <input type="text" name="caption-cover" placeholder="Add a caption" value="<?=$contents['images']['cover']['caption']?>" />
                                     <span class="image-event-button" data-type="cover" data-action="remove" data-id="<?=$contents['images']['cover']['image']['id']?>">
                                         <span class="font-icon icon-cancel"></span> Remove

@@ -29,6 +29,11 @@ class UserController extends Controller {
         }
     }
 
+    public function logout () {
+        $this->model()->logout();
+        header("Location: /");
+    }
+
     public function main ($message = NULL) {
         if ($message !== NULL)
             $this->view()->assign("_errorMessage", $message);
