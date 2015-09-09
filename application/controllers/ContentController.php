@@ -102,9 +102,8 @@ class ContentController extends Controller {
      * @param   array   $errorMessage
      * @param   array   $_POST
      */
-    protected function create ($formData = NULL, $errorMessage = NULL) {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST'
-        && !empty($_POST) && is_null($formData)) {
+    protected function create ($formData = NULL, $errorMessage = NULL, $editMode = FALSE) {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST) && is_null($formData)) {
             $response = $this->model()->createArticle($_POST);
             // Check if anything went wrong
             if (isset($response["error"])) {
@@ -120,7 +119,7 @@ class ContentController extends Controller {
                 // TODO: Perhaps move to model??
                 $contents = array(
                     "article"   => array_intersect_key($formData, array_flip(array(
-                        "headline", "preamble", "body", "fact", "tags", "category", "theme",  "published-date", "published-time", "author"
+                        "id", "headline", "preamble", "body", "fact", "tags", "category", "theme",  "published-date", "published-time", "author"
                     ))),
                     "links"     => $this->model()->getArticlesWithID($formData["links"]),
                     "images"    => array(
@@ -149,7 +148,7 @@ class ContentController extends Controller {
             $this->view()->assign("data", $data);
             $this->view()->assign("contents", $contents);
             $this->view()->assign("error", $errorMessage);
-            $this->view()->assign("edit", "false");
+            $this->view()->assign("edit", $edit);
             $this->view()->render("content/form.tpl");
             $this->view()->render("shared/footer_admin.tpl");
         }
@@ -169,7 +168,7 @@ class ContentController extends Controller {
         && !empty($_POST) && is_null($formData)) {
             $response = $this->model()->updateArticle($articleID, $_POST);
             if (isset($response["error"])) {
-                $this->create($_POST, $response["error"]);
+                $this->create($_POST, $response["error"], TRUE);
             } else {
                 header("Location: /content/edit/{$articleID}");
             }
@@ -196,8 +195,7 @@ class ContentController extends Controller {
             $this->view()->render("shared/header_admin.tpl");
             $this->view()->assign("data", $data);
             $this->view()->assign("contents", $contents);
-            $this->view()->assign("error", $errorMessage);
-            $this->view()->assign("edit", "true");
+            $this->view()->assign("edit", TRUE);
             $this->view()->render("content/form.tpl");
             $this->view()->render("shared/footer_admin.tpl");
         }

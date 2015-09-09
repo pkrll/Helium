@@ -350,6 +350,8 @@ class ContentModel extends Model {
             return FALSE;
         // Extract and reformat the data before insertion to database.
         $data = $this->extractFormData($formData);
+        if (isset($data["error"]))
+            return $data;
         // Set the query to update the row
         $sqlQuery = "UPDATE Articles SET author_id = :author, category = :category, headline = :headline, preamble = :preamble, body = :body, fact = :fact, tags = :tags, theme = :theme, published = :published, last_edit = :last_edit WHERE id = :id";
         // Unlike createArticle(), this time, created will not be used,
@@ -361,7 +363,7 @@ class ContentModel extends Model {
         // Insert into database and look for errors before continuing.
         $response = $this->write($sqlQuery, $sqlParam);
         if (isset($response["error"]))
-            return $response["error"];
+            return $response;
         // The images and internal links metadata are to be placed in
         // separate tables.
         if (!empty($data["images"]) && $data["images"] !== array(NULL)) {

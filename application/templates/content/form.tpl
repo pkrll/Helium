@@ -1,6 +1,7 @@
 
                 <?php if (isset($contents["article"]["id"])) { ?>
-                <form id="form" action="/content/edit/<?=$contents["article"]["id"]?>" method="POST" data-id="<?=$contents["article"]["id"]?>">
+                <form id="form" action="/content/edit/<?=$contents["article"]["id"]?>" method="POST">
+                    <input type="hidden" name="id" value="<?=$contents["article"]["id"]?>">
                 <?php } else { ?>
                 <form id="form" action="/content/create" method="POST">
                 <?php }?>
@@ -37,17 +38,24 @@
                                 Cover image:
                                 <?php
                                     if (!empty($contents['images']['cover'])) {
+                                        if ($edit === TRUE) {
+                                            $imageName = $contents['images']['cover']['image_name'];
+                                            $imageId = $contents['images']['cover']['id'];
+                                        } else {
+                                            $imageName = $contents['images']['cover']['image']['image_name'];
+                                            $imageId = $contents['images']['cover']['image']['id'];
+                                        }
                                 ?>
-                                <div class="showcase-cover">
-                                    <img src="/public/images/uploads/cover/<?=$contents['images']['cover']['image_name']?>" />
+                                <div class="showcase-cover" data-id="<?=$imageId?>">
+                                    <img src="/public/images/uploads/cover/<?=$imageName?>" />
                                     <input type="text" name="caption-cover" placeholder="Add a caption" value="<?=$contents['images']['cover']['caption']?>" />
-                                    <span class="image-event-button" data-type="cover" data-action="remove" data-id="<?=$contents['images']['cover']['image']['id']?>">
+                                    <span class="image-event-button" data-type="cover" data-action="remove" data-id="<?=$imageId?>" data-edit="<?=$edit?>">
                                         <span class="font-icon icon-cancel"></span> Remove
                                     </span>
-                                    <input type="hidden" name="image-cover" value="<?=$contents['images']['cover']['image']['id']?>" />
+                                    <input type="hidden" name="image-cover" value="<?=$imageId?>" />
                                 </div>
                                 <?php } else { ?>
-                                    <div id="dragzone-cover"></div>
+                                <div id="dragzone-cover"></div>
                                 <?php } ?>
                             </div>
                             <div>
@@ -55,22 +63,24 @@
                                 <div id="dragzone-image"></div>
                                 <div class="showcase-image">
                                 <?php
-                                    if (!empty($contents["images"]["normal"]["image"])) {
-                                        foreach ($contents["images"]["normal"]["image"] AS $key => $image) {
+                                    if (!empty($contents["images"]["normal"])) {
+                                        $images = ($edit) ? $contents["images"]["normal"] : $contents["images"]["normal"]["image"];
+                                        foreach ($images AS $key => $image) {
+                                            $caption = ($edit) ? $image['caption'] : $contents['images']['normal']['caption'][$key];
                                     ?>
-                                    <div class="picture">
+                                    <div class="picture" data-id="<?=$image['id']?>">
                                         <div class="picture-box">
                                             <img src="/public/images/uploads/thumbnails/<?=$image['image_name']?>" />
                                         </div>
 
                                         <div class="caption">
                                             <div>
-                                                <span class="image-event-button" data-type="image" data-action="remove" data-id="<?=$image['id']?>">
+                                                <span class="image-event-button" data-type="image" data-action="remove" data-id="<?=$image['id']?>" data-edit="<?=$edit?>">
                                                     <span class="font-icon icon-cancel"></span> Remove image
                                                 </span>
                                             </div>
                                             <div>
-                                                <input type="text" name="caption-image[]" placeholder="Caption" value="<?=$contents['images']['normal']['caption'][$key]?>">
+                                                <input type="text" name="caption-image[]" placeholder="Caption" value="<?=$caption?>">
                                                 <input type="hidden" name="image[]" value="<?=$image['id']?>">
                                             </div>
                                         </div>
@@ -167,7 +177,10 @@
                                             <option value="">Choose author</option>
                                             <?php
                                                 foreach ($data["authors"]["list"] as $key => $value) {
-                                                    $selected = ($data["authors"]["current"] === $value['id']) ? " selected=\"true\"" : $selected = "";
+                                                    if ($edit)
+                                                        $selected = ($contents["article"]["author_id"] === $value["id"])  ? " selected=\"true\"" : $selected = "";
+                                                    else
+                                                        $selected = ($data["authors"]["current"] === $value['id']) ? " selected=\"true\"" : $selected = "";
                                             ?>
                                                 <option value="<?=$value['id']?>"<?=$selected?>><?=$value['author']?></option>
                                             <?php

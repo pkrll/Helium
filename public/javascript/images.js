@@ -1,5 +1,14 @@
 $(document).ready(function() {
 
+    $(".image-event-button").on("click", function() {
+        var action = $(this).attr("data-action") || false,
+              type = $(this).attr("data-type") || false,
+              edit = $(this).attr("data-edit") || false,
+                id = $(this).attr("data-id") || false;
+        if (type === false || action === false) return null;
+        $.fn.imageEventHandler(type, action, id, edit);
+    });
+
     /**
      * Remove or display uploaded images.
      *
@@ -43,8 +52,8 @@ $(document).ready(function() {
      */
     $.fn.removeImageElement = function(type, imageID, edit) {
         // If the image is already attached to the article, the server needs to know which one to remove
-        if (edit !== false) {
-            var parentElement = $("#form");
+        if (edit == 1) {
+            var parentElement = $("form");
             var hiddenElement = $("<input>").attr({
                 "type": "hidden",
                 "value": imageID,
@@ -53,8 +62,18 @@ $(document).ready(function() {
         }
         // Remove the image element
         $("div[data-id='"+imageID+"']").remove();
-        if (type === "cover")
-            $("#image-cover").children().show();
+        if (type === "cover") {
+            var dragzoneCover = $("<div>").attr("id", "dragzone-cover");
+            $("#image-cover").append(dragzoneCover);
+            $("#dragzone-cover").dropster({
+                url: "/upload/image/cover/stream",
+                createArea: true,
+                uploadLimit: 1,
+                onUpload: $.fn.onUpload,
+                onDownload: function () { return 0; },
+                onReady: $.fn.onReadyCover
+            });
+        }
     }
 
     /**
