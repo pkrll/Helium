@@ -8,9 +8,22 @@
  * @author  Ardalan Samimi
  * @since   Available since 0.9.6
  */
+use hyperion\core\Controller;
 class UploadController extends Controller {
 
-    public function main () { }
+    public function __construct ($method, $arguments = NULL) {
+        if (Permissions::checkUserPermissions($method, $arguments))
+            parent::__construct($method, $arguments);
+        else
+            if (Session::get("user_id"))
+                die("You have no access.");
+            else
+                header("Location: /user");
+    }
+
+    public function main () {
+        return NULL;
+    }
 
     /**
      * Upload image.
@@ -22,13 +35,13 @@ class UploadController extends Controller {
         if (isset($_FILES)) {
             if (isset($this->arguments[1])
             && $this->arguments[1] === "stream") {
-                // Stream = on drag and drop
+                // Stream is used with drag and drop
                 $this->view()->setHeader(array(
                     'Content-Type: text/octet-stream',
                     'Cache-Control: No-cache'
                 ));
-                // Loop through every file that has been dropped and let the
-                // view stream the result out as it is ready.
+                // Loop through every file that has been dropped and
+                // let the View stream the result out as it is ready.
                 foreach ($_FILES AS $key => $file) {
                     $response = $this->model()->uploadImage($file, $this->arguments[0]);
                     $this->view()->stream(json_encode($response));
@@ -63,7 +76,4 @@ class UploadController extends Controller {
 			echo json_encode($response);
 		}
 	}
-
 }
-
-?>

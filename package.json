@@ -1,7 +1,9 @@
 {
   "name": "helium",
-  "version": "0.10.6",
+  "version": "0.20.4",
   "dependencies": {
-    "dropster": "^1.1.1"
+    "dropster": "^1.1.1",
+    "jquery": "^2.1.4",
+    "salvation": "^1.0.0"
   }
 }

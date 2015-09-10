@@ -1,23 +1,16 @@
 <?php
 /**
- * Upload View
+ * Custom view for Uploads.
  *
- *
- * @author  Ardalan Samimi
- * @since   Available since 0.10
+ * @version 1.0.0
  */
+use hyperion\core\View;
 class UploadView extends View {
 
-    public function stream ($content) {
+    public function stream($content) {
 		echo $content;
 	    ob_flush();
 	    flush();
 	}
 
-	public function setHeader ($header) {
-		foreach ($header as $key => $value)
-			header($value);
-	}
-
 }
-?>

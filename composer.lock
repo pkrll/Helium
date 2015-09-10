@@ -1,0 +1,137 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "872868004e635b957895bc50f6bbed28",
+    "packages": [
+        {
+            "name": "saturn/hyperion",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pkrll/Hyperion.git",
+                "reference": "d43a39d597876c7b8d1e7ed3a1d2fe7a2b30ca16"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pkrll/Hyperion/zipball/d43a39d597876c7b8d1e7ed3a1d2fe7a2b30ca16",
+                "reference": "d43a39d597876c7b8d1e7ed3a1d2fe7a2b30ca16",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "hyperion\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Ardalan Samimi",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Lightweight MVC framework",
+            "homepage": "https://github.com/pkrll/Hyperion",
+            "keywords": [
+                "framework",
+                "hyperion",
+                "mvc"
+            ],
+            "time": "2015-09-04 09:02:02"
+        },
+        {
+            "name": "saturn/image",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pkrll/Image.git",
+                "reference": "a7285bb9f4aa3e12ad09d4d7b2e855844929f9d1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pkrll/Image/zipball/a7285bb9f4aa3e12ad09d4d7b2e855844929f9d1",
+                "reference": "a7285bb9f4aa3e12ad09d4d7b2e855844929f9d1",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "saturn\\image\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ardalan Samimi",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Resize and crop images.",
+            "homepage": "https://github.com/pkrll/Image",
+            "keywords": [
+                "crop",
+                "image",
+                "image manipulation",
+                "resize"
+            ],
+            "time": "2015-08-23 07:45:31"
+        },
+        {
+            "name": "saturn/session",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pkrll/Session.git",
+                "reference": "9871b2489647cc3cc9439d52ad4bc4fba3f546f0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pkrll/Session/zipball/9871b2489647cc3cc9439d52ad4bc4fba3f546f0",
+                "reference": "9871b2489647cc3cc9439d52ad4bc4fba3f546f0",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "saturn\\session\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Ardalan Samimi",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP Wrapper class for Sessions.",
+            "homepage": "https://github.com/pkrll/Session",
+            "keywords": [
+                "session"
+            ],
+            "time": "2015-08-23 07:45:38"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}

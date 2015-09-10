@@ -1,0 +1,218 @@
+input[type=text],
+input[type=date],
+textarea {
+    border:     1px solid #DDDDDD;
+    color:      #666666;
+    font-size:  13px;
+    padding:    5px;
+    width:      99%;
+    outline:    none;
+}
+
+input[type=text]:focus,
+input[type=date]:focus,
+input[type=search]:focus {
+    box-shadow: 0 0 10px #DDDDDD;
+}
+
+input::-webkit-input-placeholder {
+    font-size:  12px;
+    padding:    1px;
+}
+
+.showcase-cover {
+    padding: 4px;
+    text-align: center;
+}
+
+.showcase-cover > img {
+    max-width: 560px;
+}
+
+.picture {
+    display:                    -webkit-box;
+    display:                    -moz-box;
+    display:                    -ms-flexbox;
+    display:                    -moz-flex;
+    display:                    flex;
+    display:                    -webkit-flex;
+    height:                     90px;
+    margin:                     24px 0 0px 0;
+    -webkit-justify-content:    space-between;
+            justify-content:    space-between;
+}
+
+.picture-box img {
+    width: 90px;
+    height: 90px;
+}
+
+.caption {
+    display:                    -webkit-box;
+    display:                    -moz-box;
+    display:                    -ms-flexbox;
+    display:                    -moz-flex;
+    display:                    flex;
+    display:                    -webkit-flex;
+    width:                      79%;
+    -webkit-flex-direction:     column;
+            flex-direction:     column;
+    -webkit-justify-content:    space-between;
+            justify-content:    space-between;
+}
+
+.caption > div:first-of-type {
+    text-align: right;
+}
+
+.image-event-button {
+    font-size: 13px;
+}
+
+.image-event-button:hover {
+    color: #DE1212;
+    cursor: pointer;
+}
+
+.content-right-section {
+    border-top: 1px solid #DDDDDD;
+}
+
+.div-flex-space-between {
+    display:                    -webkit-flex;
+    display:                    flex;
+    -webkit-justify-content:    space-between;
+            justify-content:    space-between;
+}
+
+.padding-right-10 {
+    padding-right:  10px;
+}
+
+.bold-13 {
+    font-size:13px;
+    font-weight:bold;
+}
+
+.button {
+    background:     #DEDEDE;
+    border:         none;
+    border-radius:  8px;
+    color:          #000000;
+    font-family:    'Mandali', sans-serif;
+    font-size:      15px;
+    font-weight:    bold;
+    padding:        2px 25px;
+}
+
+.publish {
+    background: #9BBF9B;
+    color:      #FFFFFF;
+    width:      auto;
+}
+
+.publish:hover {
+    cursor: pointer;
+    background: #A5C5A5;
+}
+
+.button:active {
+    position: relative;
+    top: 1px;
+}
+
+.add-input {
+    font-size:  13px;
+    line-height: 20px;
+    margin-top: 5px;
+    text-align: right;
+}
+
+.add-input > span:hover {
+    color: #DE1212;
+    cursor: pointer;
+}
+
+.links-container > input[type=search] {
+    border:     1px solid #DDDDDD;
+    color:      #666666;
+    font-size:  13px;
+    padding:    5px 0;
+    width:      100%;
+    outline:               none;
+    -webkit-appearance:    textfield;
+       -moz-appearance:    textfield;
+}
+
+.links-container {
+    position: relative;
+}
+
+.links-container.searching::after {
+    content:                    '\e806';
+    font-family:                "font-icon";
+    font-style:                 normal;
+    font-weight:                normal;
+    speak:                      none;
+    display:                    inline-block;
+    text-decoration:            inherit;
+    line-height:                0px;
+    position:                   absolute;
+    top:                        45%;
+    right:                      4px;
+    text-align:                 center;
+    font-variant:               normal;
+    text-transform:             none;
+    vertical-align:             middle;
+    -webkit-animation:          spin 2s infinite linear;
+       -moz-animation:          spin 2s infinite;
+         -o-animation:          spin 2s infinite linear;
+            animation:          spin 2s infinite linear;
+    -moz-osx-font-smoothing:    grayscale;
+     -webkit-font-smoothing:    antialiased;
+}
+
+.suggestions {
+    background:     #FFFFFF;
+    border:         1px solid #999;
+    font-size:      12px;
+    padding:        0;
+    position:       absolute;
+    width:          100%;
+    z-index:        999;
+}
+
+.suggestion {
+    cursor:         pointer;
+    overflow:       hidden;
+    padding:        6px 10px 3px 10px;
+    white-space:    wrap;
+
+}
+
+.suggestion:hover, .suggestions div.focused {
+    background:     #B4D5FE;
+    outline:        none;
+}
+
+.suggestion.el:hover {
+    background: none;
+}
+
+input.published-date {
+    width: 100%;
+}
+
+input.published-time {
+    width: 100px;
+}
+
+input.salvation-error,
+select.salvation-error {
+    border: 1px solid #DE1212;
+    box-shadow: none;
+}
+
+input.salvation-error:focus {
+    outline: none;
+}

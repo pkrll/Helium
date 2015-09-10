@@ -11,6 +11,8 @@
  * @author	Ardalan Samimi
  * @since	Available since 0.9.6
  */
+use hyperion\core\Model;
+use saturn\image\Image;
 class UploadModel extends Model {
 
 	/**
@@ -28,12 +30,12 @@ class UploadModel extends Model {
 	public function uploadImage ($file = NULL, $option = "normal") {
 		// Check if the file is set
 		if ($file === NULL)
-			return $this->createErrorMessage (ERROR_UPLOAD_NO_FILE);
+			return $this->errorMessage (ERROR_UPLOAD_NO_FILE);
 		// Extract the variables from the $file array.
 		extract($file);
 		// Check if the image is too big.
 		if ($size > MAX_IMAGE_SIZE)
-			return $this->createErrorMessage (ERROR_UPLOAD_SIZE);
+			return $this->errorMessage (ERROR_UPLOAD_SIZE);
 		// Create a unique file name
 		$imageName = $this->generatePathFromName ($name);
 		// If the image is a cover then width and save
@@ -66,15 +68,15 @@ class UploadModel extends Model {
 		try {
 			$image = new Image ($tmp_name, $imageWidth, $imageHeight, $resizeOption);
 			if ($image->save ($imagePath) !== TRUE)
-				return $this->createErrorMessage($image->getErrorMessage());
+				return $this->errorMessage($image->getErrorMessage());
 		} catch (Exception $e) {
-			return $this->createErrorMessage($e->getMessage());
+			return $this->errorMessage($e->getMessage());
 		}
 		// Create a thumbnail if it is a normal image
 		if ($option === "normal") {
 			$image->resize (MAX_WIDTH_THUMBNAIL, MAX_WIDTH_THUMBNAIL, IM_SIZE_CROP);
 			if ($image->save (THUMBNAILS . $imageName) !== TRUE)
-				return $this->createErrorMessage($image->getErrorMessage());
+				return $this->errorMessage($image->getErrorMessage());
 		}
 		// Memory clean up
 		$image->cleanUp();
@@ -87,7 +89,7 @@ class UploadModel extends Model {
 			$sqlParam = array("image_name" => $imageName, "type" => $option);
 		}
 		// Run the query
-		$response = $this->writeToDatabase ($sqlQuery, $sqlParam);
+		$response = $this->write($sqlQuery, $sqlParam);
 		// Check for errors while writing to the database,
 		// otherwise return the id and path of the image.
 		if (isset($response["error"]))
@@ -105,7 +107,7 @@ class UploadModel extends Model {
 		if ($imageID === NULL)
 			return NULL;
 		$params = array("id" => $imageID);
-		$errorMessage = $this->writeToDatabase("DELETE FROM Articles_Images WHERE id = :id", $params);
+		$errorMessage = $this->write("DELETE FROM Articles_Images WHERE id = :id", $params);
 		return $errorMessage;
 	}
 
@@ -121,5 +123,3 @@ class UploadModel extends Model {
 		return uniqid($fileName["filename"] . "_") . "." . $fileName["extension"];
 	}
 }
-
-?>
