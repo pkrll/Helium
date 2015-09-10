@@ -12,11 +12,19 @@ use hyperion\core\Controller;
 
 class ContentController extends Controller {
 
+    private $authenticatedMethods = array(
+        "archive", "categories", "create", "edit", "remove"
+    );
+
     public function __construct ($method, $arguments = NULL) {
-        if (Permissions::checkUserPermissions($method, $arguments))
+        if (in_array($method, $this->authenticatedMethods)) {
+            if (Permissions::checkUserPermissions($method, $arguments))
+                parent::__construct($method, $arguments);
+            else
+                header("Location: /user");
+        } else {
             parent::__construct($method, $arguments);
-        else
-            header("Location: /user");
+        }
     }
 
     protected function main() {
@@ -207,10 +215,7 @@ class ContentController extends Controller {
      * @param   string
      */
     protected function remove () {
-        $articleID = (empty($this->arguments[0])) ? NULL : $this->arguments[0];
-        if ($articleID === NULL)
-            header("Location: /content/archive");
-        $response = $this->model()->removeArticle($articleID);
+        $response = $this->model()->removeArticles($_POST);
         if (isset($response['error'])) {
             // TODO: ADD ERROR
             echo '<pre>';

@@ -11,7 +11,19 @@
 use hyperion\core\Controller;
 class UploadController extends Controller {
 
-    public function main () { }
+    public function __construct ($method, $arguments = NULL) {
+        if (Permissions::checkUserPermissions($method, $arguments))
+            parent::__construct($method, $arguments);
+        else
+            if (Session::get("user_id"))
+                die("You have no access.");
+            else
+                header("Location: /user");
+    }
+
+    public function main () {
+        return NULL;
+    }
 
     /**
      * Upload image.

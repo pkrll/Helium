@@ -8,7 +8,7 @@ date_default_timezone_set("Europe/Stockholm");
 include dirname(__DIR__)."/vendor/autoload.php";
 // redefine constants
 define("APP_NAME", "Helium");
-define("APP_VERSION", "0.20.3");
+define("APP_VERSION", "0.20.4");
 define('HOSTNAME', "localhost");
 define('USERNAME', "helium");
 define('PASSWORD', "helium123");

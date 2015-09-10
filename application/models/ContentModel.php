@@ -447,17 +447,26 @@ class ContentModel extends Model {
      * @param   integer $articleID
      * @return  array   |   mixed
      */
-    public function removeArticle ($articleID = NULL) {
-        if ($articleID === NULL)
+    public function removeArticles ($formData = NULL) {
+        if ($formData === NULL)
             return $this->errorMessage("No article id specified");
         // The Articles_Metadata_* tables should have a foreign key with
         // cascading delete pointing to the id column in Articles, which
         // means that they will automatically be removed if the the key
         // is matched with the ID in Articles. So, only one DELETE query
         // is needed here.
-        $sqlQuery = "DELETE FROM Articles WHERE id = :id";
-        $sqlParam = array("id"  => $articleID);
-        $response = $this->write($sqlQuery, $sqlParam);
+        $preQuery = "DELETE FROM Articles WHERE id IN ";
+        // Using the SQL IN operator to remove multiple articles from the
+        // database. Create an array of with as many unnamed placeholders
+        // as article ids in the formData array and join it with the SQL-
+        // clause from above. Easy-schmeasy.
+        $PDOValue = array_fill(0, 1, $this->createMarkers(count($formData["article"])));
+        $sqlQuery = $preQuery . implode(",", $PDOValue);
+        $this->prepare($sqlQuery);
+        $count = 1;
+        foreach ($formData["article"] AS $value)
+            $this->bindValue($count++, $value);
+        $response = $this->write();
         return $response;
     }
 
