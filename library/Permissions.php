@@ -3,7 +3,7 @@
  * Permissions
  *
  * @author Ardalan Samimi
- * @version 1.0.0
+ * @version 1.0.1
  */
 use saturn\session\Session;
 use hyperion\library\Database;
@@ -42,8 +42,8 @@ class Permissions {
         $this->database   = new Database(HOSTNAME, DATABASE, USERNAME, PASSWORD);
     }
 
-    public function checkUserPermissions($method, $arguments = NULL) {
-        $Permissions = new Permissions(str_replace('Controller', '', get_class($this)), $method, $arguments);
+    public static function checkUserPermissions($controller, $method, $arguments = NULL) {
+        $Permissions = new Permissions(str_replace('Controller', '', $controller), $method, $arguments);
         // Get the permissions for the requested page.
         $nodePermission = $Permissions->getNodePermissions();
         // If the page has no permissions sets then it is

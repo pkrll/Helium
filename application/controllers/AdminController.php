@@ -4,7 +4,7 @@
  *
  * Handles everything related to content.
  *
- * @version 1.2.0
+ * @version 1.2.1
  * @author  Ardalan Samimi
  * @since   Available since 0.9.6
  */
@@ -13,7 +13,7 @@ use saturn\session\Session;
 class AdminController extends Controller {
 
     public function __construct ($method, $arguments = NULL) {
-        if (Permissions::checkUserPermissions($method, $arguments))
+        if (Permissions::checkUserPermissions(__CLASS__, $method, $arguments))
             parent::__construct($method, $arguments);
         else
             if (Session::get("user_id"))

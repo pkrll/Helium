@@ -4,7 +4,7 @@
  *
  * Handles the uploads of images.
  *
- * @version 1.0
+ * @version 1.1.0
  * @author  Ardalan Samimi
  * @since   Available since 0.9.6
  */
@@ -12,7 +12,7 @@ use hyperion\core\Controller;
 class UploadController extends Controller {
 
     public function __construct ($method, $arguments = NULL) {
-        if (Permissions::checkUserPermissions($method, $arguments))
+        if (Permissions::checkUserPermissions(__CLASS__, $method, $arguments))
             parent::__construct($method, $arguments);
         else
             if (Session::get("user_id"))
