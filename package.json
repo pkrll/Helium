@@ -3,7 +3,7 @@
   "version": "0.20.4",
   "dependencies": {
     "dropster": "^1.1.1",
-    "jquery": "^2.1.4",
+    "jquery": "^3.5.1",
     "salvation": "^1.0.0"
   }
 }
